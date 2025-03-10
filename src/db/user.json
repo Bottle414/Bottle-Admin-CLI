@@ -1,0 +1,26 @@
+{
+    "Users": [
+        {
+            "useId": 1,
+            "avatar": "https://xxx.com/default1.gif",
+            "username": "admin",
+            "password": "1",
+            "desc": "admin",
+            "roles": "admin",
+            "buttons": ["cuser.detail"],
+            "routes": ["home"],
+            "token": "adimin token"
+        },
+        {
+            "useId": 2,
+            "avatar": "https://xxx.com/default2.gif",
+            "username": "system",
+            "password": "2",
+            "desc": "admin",
+            "roles": "admin",
+            "buttons": ["cuser.detail","cuser.user"],
+            "routes": ["home"],
+            "token": "adimin token"
+        }
+    ]
+}

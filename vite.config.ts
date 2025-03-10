@@ -25,4 +25,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        javascriptEnabled: true,
+        additionalData: `@use "@/style/_color.scss" as myColor;`, // 注意路径 sass你妈死了
+      },
+    },
+  },  
 })

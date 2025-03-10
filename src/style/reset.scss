@@ -1,0 +1,22 @@
+@use './color.scss' as myColor;
+/* 使用use避免命名冲突，后续使用变量都需要加入命名空间。可以 import as *来直接使用、不带命名空间 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+ul {
+    list-style: none;
+}
+
+p {
+    font-size: 18px;
+    color: myColor.$myBlack;
+}

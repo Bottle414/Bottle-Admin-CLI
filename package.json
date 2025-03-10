@@ -14,8 +14,12 @@
   },
   "dependencies": {
     "@iconify/iconify": "^3.1.1",
+    "axios": "^1.8.2",
     "element-plus": "^2.9.6",
+    "gem": "^2.4.3",
+    "json-server": "^1.0.0-beta.3",
     "pinia": "^3.0.1",
+    "sass": "^1.85.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

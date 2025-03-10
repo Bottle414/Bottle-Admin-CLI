@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import AllComponents from './components'
+import '@/style/index.scss'
 
 const app = createApp(App)
 //install(app) // 注册我的全局组件 默认导出随便起个名字就行
