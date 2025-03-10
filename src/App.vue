@@ -3,6 +3,7 @@
     <Icon icon="ion" name="airplane"/>
     <Icon icon="mdi" name="home" font-size="60px"/>
     <h1>Hi</h1>
+    <router-view></router-view>
   </div>
 </template>
 
