@@ -15,7 +15,7 @@ defineProps({
     },
     style: {
         type: String,
-        default: 'font-size: 25px; color: #333;'
+        default: 'font-size: 30px; color: #333;'
     }
 })
 

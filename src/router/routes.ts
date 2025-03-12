@@ -20,6 +20,11 @@ export const basicRoutes = [
         component: () => import('@/views/Login.vue')
     },
     {
+        name: 'layout',
+        path: '/layout',
+        component: () => import('@/layout/index.vue')
+    },
+    {
         name: 'default',
         path: '/',
         redirect: '/home'

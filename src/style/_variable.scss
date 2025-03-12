@@ -1,1 +1,9 @@
-$layout-sidebar-width: 260px; /* layout左侧菜单栏的宽度 */
+@use './color' as myColor;
+
+$layout-sidebar-width: max(15%, 180px); /* layout左侧菜单栏的宽度 */
+$layout-sidebar-background: myColor.$myBlack;
+
+$layout-main-background: myColor.$myWhite;
+
+$layout-topbar-height: 70px; /* layout顶部导航的高度 */
+$layout-topbar-background: myColor.$myWhite; /* layout顶部导航的高度 */
