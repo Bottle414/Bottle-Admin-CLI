@@ -15,6 +15,11 @@ export const basicRoutes = [
         component: () => import('@/views/NotFound.vue')
     },
     {
+        name: 'login',
+        path: '/login',
+        component: () => import('@/views/Login.vue')
+    },
+    {
         name: 'default',
         path: '/',
         redirect: '/home'

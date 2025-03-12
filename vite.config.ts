@@ -29,7 +29,8 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         javascriptEnabled: true,
-        additionalData: `@use "@/style/_color.scss" as myColor;`, // 注意路径 sass你妈死了
+        additionalData: `@use "@/style/_color.scss" as myColor;
+                        @use "@/style/_variable.scss" as variable;`, // 注意路径 多个使用\n连接,模板字符串直接换行就好
       },
     },
   },  

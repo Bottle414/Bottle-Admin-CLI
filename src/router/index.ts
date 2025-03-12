@@ -1,4 +1,3 @@
-// 滚动行为这段代码的作用是无论何时发生路由跳转，页面都会自动滚动到最顶部，最左侧的位置。这是一种常见的用户体验（UX）设计，确保用户在进入新的页面或视图时，总是从屏幕的起始位置开始阅读内容。
 import { createRouter, createWebHistory } from "vue-router"
 import { basicRoutes } from "./routes" // 这样可以让路由结构更清晰
 

@@ -18,19 +18,20 @@ export async function getAllUsers(){
 
 export async function login(username:loginForm , password:loginForm){
     try {
-        const response = await fetch(`${API.LOGIN_BASE_URL}?username=${ username }`)
+        const response = await fetch(`${API.LOGIN_BASE_URL}?username=${ username }`)// 注意也会返回数组
         const user = await response.json()
-        if (user === '') {
-            return {code: 404, data: {message: 'user not find'}}
+        if (user[0] === '') {
+            return {code: 404, data: {message: 'user not found'}}
         }
-        const { pwd } = user
+        const pwd = user[0].password // 解构一定要同名
+        console.log(user[0], pwd);
         if (pwd === password){
-            const { token } = user
-            return <loginReturnForm>{code: 200, data:{token: token}}// data写成data导致类型错误……
+            return <loginReturnForm>{code: 200, data:{token: user[0].token}}// data写成data导致类型错误……
         }else {
             return {code: 400, data: {message: 'password is wrong'}}
         }
     } catch (error) {
         console.log('获取登录信息失败');
+        return {code: 404, data: {message: 'user not found'}}
     }
 }
