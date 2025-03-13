@@ -32,7 +32,7 @@ export const basicRoutes = [
         path: '/',
         component: () => import('@/layout/index.vue'),
         meta: {
-            title: '层叠',
+            title: '菜单',
             icon: 'Menu',
             hidden: false
         },

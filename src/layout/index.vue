@@ -1,7 +1,7 @@
 <template>
     <div class='layout-container'>
         <!-- element-plus自带滚动组件 -->
-        <el-menu class="layout-sidebar" background-color="#333" text-color="#fff" color="#fff">
+        <el-menu class="layout-sidebar" :default-active="route.path" background-color="#333" text-color="#fff" color="#fff">
             <!-- <img src="@/assets/images/mouse.gif" alt="logo"> -->
             <Logo />
             <el-scrollbar>
@@ -10,11 +10,7 @@
         </el-menu>
 
         <div class="layout-topbar">
-            <Icon icon="ion" name="menu"></Icon>
-            <div class="block">
-                <Icon icon="ion" name="home"></Icon>
-                <p>首页</p>
-            </div>
+            <TopBar/>
         </div>
 
         <div class="layout-main">
@@ -28,9 +24,13 @@
 import Logo from './Logo.vue'
 import SideMenu from './SideMenu.vue';
 import Main from './main/index.vue'
+import TopBar from './topbar/index.vue'
 import useUserStore from '@/store/modules/userStore.ts'
+import { useRoute } from 'vue-router'
 
 const userStore = useUserStore()
+
+const route = useRoute()    // 获取路由url，保存菜单打开信息
 
 </script>
 
