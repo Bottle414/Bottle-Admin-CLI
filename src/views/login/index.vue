@@ -67,7 +67,7 @@
                 // 成功
                 console.log(res);
                 router.push({
-                    path: '/home'
+                    path: '/layout'
                 })
                 ElNotification({
                     type: 'success',
@@ -95,7 +95,7 @@
     .login{
         width: 100%;
         height: 100vh;
-        background: url('../assets/icons/undraw_login_wqkt.svg') no-repeat;
+        background: url('@/assets/icons/undraw_login_wqkt.svg') no-repeat;  // 用@的好处：文件深度改变也不会报错
         background-position: 10% 50%;/* 左边、右边 */
         background-size: 40%;
     }
