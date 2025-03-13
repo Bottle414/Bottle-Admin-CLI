@@ -4,8 +4,12 @@
     </el-icon>
     
     <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="bread-item" v-for="item in route.matched" :to="{ path: item.path }" :key="item.name">
+            <el-icon>
+                <component :is="item.meta.icon"></component>
+            </el-icon>
+            {{ item.meta.title }}
+        </el-breadcrumb-item>
     </el-breadcrumb>
 
     <div class="topbar-right">
@@ -31,9 +35,12 @@
 
 <script lang='ts' setup>
     import useSettingStore from '@/store/settingStore.ts'
+    import { useRoute } from 'vue-router'
     import { ArrowRight, Expand, Fold, Refresh, FullScreen, Setting } from '@element-plus/icons-vue'
     // let fold = ref(true) 为了方便组件通信，直接存入仓库
     const settingStore = useSettingStore()
+    const route = useRoute()
+
     function changeIcon(){
         settingStore.fold = !settingStore.fold
     }

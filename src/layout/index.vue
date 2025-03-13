@@ -13,7 +13,7 @@
             <TopBar/>
         </div>
 
-        <div class="layout-main">
+        <div class="layout-main" :class="{open: settingStore.fold ? false : true }">
             <!-- 封装main，运用动效 -->
             <Main/>
         </div>
@@ -51,7 +51,7 @@ const route = useRoute()    // 获取路由url，保存菜单打开信息
     top: 0;
     height: 100vh;
     width: variable.$layout-sidebar-fold-width;
-    transition: all .3s;
+    transition: width .3s;
 
     &.open {
         width: variable.$layout-sidebar-width;
@@ -69,9 +69,14 @@ const route = useRoute()    // 获取路由url，保存菜单打开信息
     top: variable.$layout-topbar-height;
     overflow-x: hidden;
     padding: 20px;
-    width: calc(100% - variable.$layout-sidebar-width);
+    width: calc(100% - variable.$layout-sidebar-fold-width);
     height: 100vh;
     background: variable.$layout-main-background;
+    transition: width .3s;
+
+    &.open {
+        width: calc(100% - variable.$layout-sidebar-width);
+    }
 }
 
 .layout-topbar {
