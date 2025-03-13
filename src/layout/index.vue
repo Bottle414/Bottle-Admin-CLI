@@ -1,7 +1,7 @@
 <template>
     <div class='layout-container'>
         <!-- element-plus自带滚动组件 -->
-        <el-menu class="layout-sidebar" :default-active="route.path" background-color="#333" text-color="#fff" color="#fff">
+        <el-menu :collapse="settingStore.fold ? true : false" class="layout-sidebar" :class="{open: settingStore.fold ? false : true }" :default-active="route.path" background-color="#333" text-color="#fff" color="#fff">
             <!-- <img src="@/assets/images/mouse.gif" alt="logo"> -->
             <Logo />
             <el-scrollbar>
@@ -9,7 +9,7 @@
             </el-scrollbar>
         </el-menu>
 
-        <div class="layout-topbar">
+        <div class="layout-topbar" :class="{open: settingStore.fold ? false : true }">
             <TopBar/>
         </div>
 
@@ -26,9 +26,11 @@ import SideMenu from './SideMenu.vue';
 import Main from './main/index.vue'
 import TopBar from './topbar/index.vue'
 import useUserStore from '@/store/modules/userStore.ts'
+import useSettingStore from '@/store/settingStore'
 import { useRoute } from 'vue-router'
 
 const userStore = useUserStore()
+const settingStore = useSettingStore()
 
 const route = useRoute()    // 获取路由url，保存菜单打开信息
 
@@ -43,13 +45,17 @@ const route = useRoute()    // 获取路由url，保存菜单打开信息
 
 .layout-sidebar {
     display: flex;
-    min-width: 180px;
     flex-direction: column;
     position: fixed;
     left: 0;
     top: 0;
-    width: variable.$layout-sidebar-width;
     height: 100vh;
+    width: variable.$layout-sidebar-fold-width;
+    transition: all .3s;
+
+    &.open {
+        width: variable.$layout-sidebar-width;
+    }
 }
 
 .layout-sidebar .logo {
@@ -77,10 +83,15 @@ const route = useRoute()    // 获取路由url，保存菜单打开信息
     top: 0;
     right: 0;
     z-index: 999;
-    width: calc(100% - variable.$layout-sidebar-width);
+    width: calc(100% - variable.$layout-sidebar-fold-width);
     height: variable.$layout-topbar-height;
     background: variable.$layout-topbar-background;
     box-shadow: 1px 2px 2px rgba(100, 100, 100, .1), 1px 2px 2px rgba(100, 100, 100, .2);
+    transition: all .3s;
+
+    &.open {
+        width: calc(100% - variable.$layout-sidebar-width);
+    }
 }
 
 .block {

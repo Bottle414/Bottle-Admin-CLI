@@ -1,12 +1,14 @@
 <template>
     <div id="logo">
         <img :src="logoConfig.image" alt="logo-image">
-        <p>{{ logoConfig.title }}</p>
+        <p id="title" v-if="!settingStore.fold">{{ logoConfig.title }}</p>
     </div>
 </template>
 
 <script lang='ts' setup>
     import { logoConfig } from '@/setting'
+    import useSettingStore from '@/store/settingStore.ts'
+    const settingStore = useSettingStore()
 </script>
 
 <style scoped lang="scss">
@@ -15,11 +17,14 @@
         width: 100%;
         display: flex;
         align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+        transition: .5s;
 
         img {
-            width: 30%;
+            height: 40px;
         }
-        p {
+        #title {
             flex: 2fr;
             color: myColor.$myWhite;
         }
