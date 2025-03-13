@@ -5,7 +5,7 @@
             <!-- <img src="@/assets/images/mouse.gif" alt="logo"> -->
             <Logo />
             <el-scrollbar>
-                <SideMenu :menuList="menuList"/>
+                <SideMenu :menuList="userStore.menuRoutes"/>
             </el-scrollbar>
         </el-menu>
 
@@ -18,6 +18,8 @@
         </div>
 
         <div class="layout-main">
+            <!-- 封装main，运用动效 -->
+            <Main/>
         </div>
     </div>
 </template>
@@ -25,10 +27,11 @@
 <script lang='ts' setup>
 import Logo from './Logo.vue'
 import SideMenu from './SideMenu.vue';
+import Main from './main/index.vue'
 import useUserStore from '@/store/modules/userStore.ts'
 
 const userStore = useUserStore()
-const menuList = userStore.menuRoutes.filter(route => route.meta?.title)
+
 </script>
 
 <style scoped lang="scss">
@@ -57,6 +60,9 @@ const menuList = userStore.menuRoutes.filter(route => route.meta?.title)
 .layout-main {
     position: absolute;
     right: 0;
+    top: variable.$layout-topbar-height;
+    overflow-x: hidden;
+    padding: 20px;
     width: calc(100% - variable.$layout-sidebar-width);
     height: 100vh;
     background: variable.$layout-main-background;

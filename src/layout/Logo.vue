@@ -1,6 +1,6 @@
 <template>
     <div id="logo">
-        <img :src="logoConfig.image" :alt="logoConfig.image">
+        <img :src="logoConfig.image" alt="logo-image">
         <p>{{ logoConfig.title }}</p>
     </div>
 </template>
