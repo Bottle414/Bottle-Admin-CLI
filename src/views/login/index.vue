@@ -67,7 +67,7 @@
                 // 成功
                 console.log(res);
                 router.push({
-                    path: '/layout'
+                    path: '/'
                 })
                 ElNotification({
                     type: 'success',

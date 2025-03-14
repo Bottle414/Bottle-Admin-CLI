@@ -2,7 +2,7 @@
     "Users": [
         {
             "useId": 1,
-            "avatar": "https://xxx.com/default1.gif",
+            "avatar": "https://element-plus.org/images/element-plus-logo.svg",
             "username": "admin",
             "password": "1",
             "desc": "admin",

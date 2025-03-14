@@ -3,8 +3,13 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref } from 'vue'
-    
+    import useUserStore from '@/store/modules/userStore'
+    import { onMounted } from 'vue';
+    const userStore = useUserStore()
+
+    onMounted(() => {
+        userStore.getUserInfo() // 一进来就获取用户信息
+    })
 </script>
 
 <style scoped>

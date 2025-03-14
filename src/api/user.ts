@@ -16,6 +16,17 @@ export async function getAllUsers(){
     }
 }
 
+export async function getUser(){
+    try {
+        const response = await fetch(`${API.USERS_URL}?username=admin`)// 暂时空置
+        const users = await response.json()
+        return <usersReturnForm>users
+    } catch (error) {
+        console.log('获取用户信息失败')
+        return 'error'
+    }
+}
+
 export async function login(username:loginForm , password:loginForm){
     try {
         const response = await fetch(`${API.LOGIN_BASE_URL}?username=${ username }`)// 注意也会返回数组

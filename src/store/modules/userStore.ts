@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { login } from "@/api/user"
+import { getUser, login } from "@/api/user"
 import type { loginForm } from "@/api/type"
 import type { userState } from "../type"
 import { basicRoutes } from "@/router/routes.ts" // 菜单展示与权限有关或者是动态路由，那么就放进userStore
@@ -8,7 +8,9 @@ const useUserStore = defineStore('user',{
     state(): userState {
         return {
             token: localStorage.getItem('TOKEN'), // 在这里存储token 老师把获取、设置token的方法封装到一起了
-            menuRoutes: basicRoutes // 菜单路由
+            menuRoutes: basicRoutes, // 菜单路由
+            username: '',   // 用户名
+            avatar: ''  // 用户头像
         }
     },
     actions: {
@@ -24,6 +26,15 @@ const useUserStore = defineStore('user',{
             }else {
                 return Promise.reject(new Error((res.data as userState).message))
             }
+        },
+        async getUserInfo(){
+            // 获取成功，那么存储
+            const userInfo = await getUser()
+            if (userInfo != 'error'){
+                this.username = userInfo[0].username
+                this.avatar = userInfo[0].avatar
+            }
+            
         }
     },
     getters: {

@@ -16,10 +16,10 @@
         <el-button title="刷新" :icon="Refresh" @click="refresh" circle></el-button>
         <el-button title="全屏" :icon="FullScreen" @click="fullscreen" circle></el-button>
         <el-button title="设置" :icon="Setting" circle></el-button>
-        <img src="/public/mouse.gif" alt="head-icon">
+        <img :src="userStore.avatar" alt="head-icon">
         <el-dropdown>
             <span class="el-dropdown-link">
-              Admin
+              {{ userStore.username }}
               <el-icon class="el-icon--right">
                 <arrow-down />
               </el-icon>
@@ -35,10 +35,12 @@
 
 <script lang='ts' setup>
     import useSettingStore from '@/store/settingStore.ts'
+    import useUserStore from '@/store/modules/userStore.ts'
     import { useRoute } from 'vue-router'
     import { ArrowRight, Expand, Fold, Refresh, FullScreen, Setting } from '@element-plus/icons-vue'
     // let fold = ref(true) 为了方便组件通信，直接存入仓库
     const settingStore = useSettingStore()
+    const userStore = useUserStore()
     const route = useRoute()
 
     function changeIcon(){
