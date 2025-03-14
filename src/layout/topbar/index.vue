@@ -13,7 +13,7 @@
     </el-breadcrumb>
 
     <div class="topbar-right">
-        <el-button :icon="Refresh" circle></el-button>
+        <el-button :icon="Refresh" @click="refresh" circle></el-button>
         <el-button :icon="FullScreen" circle></el-button>
         <el-button :icon="Setting" circle></el-button>
         <img src="/public/mouse.gif" alt="head-icon">
@@ -43,6 +43,10 @@
 
     function changeIcon(){
         settingStore.fold = !settingStore.fold
+    }
+
+    function refresh(){ // 刷新事件回调
+        settingStore.refresh = !settingStore.refresh
     }
 </script>
 
