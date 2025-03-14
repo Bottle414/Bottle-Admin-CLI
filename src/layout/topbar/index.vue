@@ -13,9 +13,9 @@
     </el-breadcrumb>
 
     <div class="topbar-right">
-        <el-button :icon="Refresh" @click="refresh" circle></el-button>
-        <el-button :icon="FullScreen" circle></el-button>
-        <el-button :icon="Setting" circle></el-button>
+        <el-button title="刷新" :icon="Refresh" @click="refresh" circle></el-button>
+        <el-button title="全屏" :icon="FullScreen" @click="fullscreen" circle></el-button>
+        <el-button title="设置" :icon="Setting" circle></el-button>
         <img src="/public/mouse.gif" alt="head-icon">
         <el-dropdown>
             <span class="el-dropdown-link">
@@ -47,6 +47,16 @@
 
     function refresh(){ // 刷新事件回调
         settingStore.refresh = !settingStore.refresh
+    }
+
+    function fullscreen(){// 全屏事件回调 其实f11就可以 但f11的全屏检测不到
+        // console.log(document.fullscreenElement); 查看是否全屏
+        let isfull = document.fullscreenElement
+        if (!isfull) {
+            document.documentElement.requestFullscreen()    // 请求全屏
+        }else {
+            document.exitFullscreen()
+        }
     }
 </script>
 
