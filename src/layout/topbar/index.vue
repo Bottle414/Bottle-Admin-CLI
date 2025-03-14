@@ -26,7 +26,7 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>退出登录</el-dropdown-item>
+                <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -37,6 +37,7 @@
     import useSettingStore from '@/store/settingStore.ts'
     import useUserStore from '@/store/modules/userStore.ts'
     import { useRoute } from 'vue-router'
+    import router from '@/router'
     import { ArrowRight, Expand, Fold, Refresh, FullScreen, Setting } from '@element-plus/icons-vue'
     // let fold = ref(true) 为了方便组件通信，直接存入仓库
     const settingStore = useSettingStore()
@@ -59,6 +60,14 @@
         }else {
             document.exitFullscreen()
         }
+    }
+
+    function logout() {
+        userStore.logout()
+        router.push({
+            path: '/login',
+            query: { redirect: route.path } // 再次登陆时返回上次退出的页面
+        })
     }
 </script>
 

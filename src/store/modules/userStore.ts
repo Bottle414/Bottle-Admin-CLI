@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from "@/utils/token"
 import { getUser, login } from "@/api/user"
 import type { loginForm } from "@/api/type"
 import type { userState } from "../type"
@@ -7,7 +8,7 @@ import { basicRoutes } from "@/router/routes.ts" // 菜单展示与权限有关�
 const useUserStore = defineStore('user',{
     state(): userState {
         return {
-            token: localStorage.getItem('TOKEN'), // 在这里存储token 老师把获取、设置token的方法封装到一起了
+            token: GET_TOKEN(), // 在这里存储token 老师把获取、设置token的方法封装到一起了
             menuRoutes: basicRoutes, // 菜单路由
             username: '',   // 用户名
             avatar: ''  // 用户头像
@@ -21,7 +22,7 @@ const useUserStore = defineStore('user',{
             if (res.code === 200){
                 this.token = (res.data as userState).token // 存储token
                 // 由于页面刷新，pinia也会初始化，所以还需要持久化token
-                localStorage.setItem('TOKEN',res.data.token)
+                SET_TOKEN(res.data.token)
                 return 'ok' // 选择在这里发请求、在ui跳转页面，可以实现多个地方的登录、登录成功跳转不同的页面
             }else {
                 return Promise.reject(new Error((res.data as userState).message))
@@ -35,7 +36,15 @@ const useUserStore = defineStore('user',{
                 this.avatar = userInfo[0].avatar
             }
             
+        },
+        logout(){
+            // 回到登录界面，删除本地用户数据,token失效
+            this.token = '',
+            this.username = '',
+            this.avatar = ''
+            REMOVE_TOKEN()
         }
+
     },
     getters: {
 

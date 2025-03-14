@@ -26,11 +26,13 @@
     import { User, Lock, Check } from '@element-plus/icons-vue'
     import { ElNotification } from 'element-plus'
     import router from '@/router'
+    import { useRoute } from 'vue-router'
     import useUserStore from '@/store/modules/userStore.ts'// 引入用户相关小仓库
     import { getTimeText } from '@/utils/time.ts' // 引入时间计算文本
 
     let loadingBtn = ref(false)
     const userStore = useUserStore()
+    const route = useRoute()
     
     interface RuleForm {
         name: string,
@@ -67,7 +69,7 @@
                 // 成功
                 console.log(res);
                 router.push({
-                    path: '/'
+                    path: route.query.redirect || '/'
                 })
                 ElNotification({
                     type: 'success',
