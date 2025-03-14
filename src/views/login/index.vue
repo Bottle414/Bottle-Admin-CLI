@@ -75,7 +75,7 @@
                     type: 'success',
                     title: `Good ${getTimeText()}!`,
                     message: 'Welcome back',
-                    position: 'top-left'
+                    position: 'top-right'
                 })
             })
             .catch(err => {
@@ -84,7 +84,7 @@
                     type: 'error',
                     title: 'login failed',
                     message: err.message || 'login failed',
-                    position: 'top-left'
+                    position: 'top-right'
                 })
             })
             .finally (() =>{
