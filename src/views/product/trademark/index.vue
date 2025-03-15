@@ -12,7 +12,7 @@
             <el-table-column prop="operation" label="品牌操作">
                 <template #default>
                     <el-button title="修改" type="primary" icon="EditPen" @click="editItem"></el-button>
-                    <el-button title="删除" icon="Delete" @click="deleteItem"></el-button>
+                    <el-button title="删除" icon="Delete" color="#f8ae0d" @click="deleteItem"></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -32,7 +32,8 @@
 
 <script lang='ts' setup>
     import { ref, onMounted } from 'vue'
-    import { getProducts } from '@/api/product.ts'
+    import { getProducts } from '@/api/product/product.ts'
+    // 写了ts类型，但是没加
 
     let currentPage = ref<number>(1)
     let pageSize = ref(3)// 每页数据条数
@@ -48,7 +49,7 @@
     }
 
     function editItem(){
-
+        
     }
 
     function deleteItem(){

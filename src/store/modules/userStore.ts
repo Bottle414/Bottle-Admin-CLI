@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from "@/utils/token"
-import { getUser, login } from "@/api/user"
-import type { loginForm } from "@/api/type"
+import { getUser, login } from "@/api/user/user"
+import type { loginForm } from "@/api/user/type"
 import type { userState } from "../type"
 import { basicRoutes } from "@/router/routes.ts" // 菜单展示与权限有关或者是动态路由，那么就放进userStore
 
