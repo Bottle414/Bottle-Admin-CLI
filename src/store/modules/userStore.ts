@@ -34,8 +34,9 @@ const useUserStore = defineStore('user',{
             if (userInfo != 'error'){
                 this.username = userInfo[0].username
                 this.avatar = userInfo[0].avatar
+                return 'ok'
             }
-            
+            return Promise.reject('获取用户信息失败')
         },
         logout(){
             // 回到登录界面，删除本地用户数据,token失效
