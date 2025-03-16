@@ -10,8 +10,8 @@
                 </template>
             </el-table-column>
             <el-table-column prop="operation" label="品牌操作">
-                <template #default>
-                    <el-button title="修改" type="primary" icon="EditPen" @click="editItem"></el-button>
+                <template #default="{ row }">
+                    <el-button title="修改" type="primary" icon="EditPen" @click="editItem(row)"></el-button>
                     <el-button title="删除" icon="Delete" color="#f8ae0d" @click="deleteItem"></el-button>
                 </template>
             </el-table-column>
@@ -60,7 +60,7 @@
 
 <script lang='ts' setup>
     import { ref, onMounted, reactive } from 'vue'
-    import { getProducts, addProduct } from '@/api/product/product.ts'
+    import { getProducts, addProduct, editProduct } from '@/api/product/product.ts'
     import { ElMessage } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
     import type { UploadProps } from 'element-plus'
@@ -70,7 +70,8 @@
     const formLabelWidth = '20%'
     const form = reactive({
         name: '',
-        image: ''
+        image: '',
+        id: ''
     })
 
     const imageUrl = ref('')
@@ -100,8 +101,12 @@
         products.value = response.data
     }
 
-    function editItem(){
-        
+    function editItem(row : any){
+        dialogFormVisible.value = true
+        // 每次上传前先清空数据 因为取消和确定时写就要写两遍
+        form.name = row.name
+        form.image = row.logo
+        form.id = row.id // 由id判断操作是新增还是修改——离谱
     }
 
     function deleteItem(){
@@ -117,12 +122,12 @@
 
     async function confirmItem(){
         try {
-            await addProduct(form.name, form.image)// 其实图片路径应该是on-success服务器返回的那个
+            await addProduct(form.name, form.image, form.id)// 其实图片路径应该是on-success服务器返回的那个
             ElMessage({
                 type: 'success',
-                message: '添加成功'
+                message: '添加成功'// 这里报错信息也由id存在与否看是添加还是修改
             })
-            reqProducts()
+            reqProducts()// 刷新后如果是修改留在当前页，添加返回第一页
             dialogFormVisible.value = false
         } catch (error) {
             ElMessage({
