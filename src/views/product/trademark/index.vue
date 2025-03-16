@@ -1,6 +1,6 @@
 <template>
     <el-card style="max-width: 100%" shadow="hover">
-        <el-button type="primary" icon="Plus" @click="dialogFormVisible = true">添加品牌</el-button>
+        <el-button type="primary" icon="Plus" @click="addItem">添加品牌</el-button>
         <el-table :data="products" border style="margin:10px 0; width: 100%">
             <el-table-column prop="index" label="序号" width="100%" align="center"/>
             <el-table-column prop="name" label="品牌名称" align="center"/>
@@ -35,15 +35,16 @@
           <el-form-item label="品牌名" :label-width="formLabelWidth">
             <el-input placeholder="请输入品牌名称" v-model="form.name" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="logo" v-model="form.image" :label-width="formLabelWidth">
+          <el-form-item label="logo" v-model="form.image" :label-width="formLabelWidth" show-file-list="false">
+            <!-- action: 图片上传路径 -->
             <el-upload
                 class="avatar-uploader"
-                action="https://localhost:5173"
+                action="http://localhost:3001/Products"
                 :show-file-list="false"
-                :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
             >
-                <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                <!-- before-upload传失败应该还是加号，成功才显示 -->
+                <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="图片预览"/>
                 <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
             </el-upload>
           </el-form-item>
@@ -51,7 +52,7 @@
         <template #footer>
           <div class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
+            <el-button type="primary" @click="confirmItem">确认</el-button>
           </div>
         </template>
       </el-dialog>
@@ -59,7 +60,7 @@
 
 <script lang='ts' setup>
     import { ref, onMounted, reactive } from 'vue'
-    import { getProducts } from '@/api/product/product.ts'
+    import { getProducts, addProduct } from '@/api/product/product.ts'
     import { ElMessage } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
     import type { UploadProps } from 'element-plus'
@@ -74,21 +75,15 @@
 
     const imageUrl = ref('')
 
-    const handleAvatarSuccess: UploadProps['onSuccess'] = (
-        response,
-        uploadFile
-    ) => {
-        imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-    }
-
     const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-        if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
+        if (!['image/jpeg', 'image/png'].includes(rawFile.type)) {// 有多项，使用includes代替逻辑判断
             ElMessage.error('图片必须是jpg或png格式')
             return false
         } else if (rawFile.size / 1024 / 1024 > 10) {
             ElMessage.error('图片大小不要超过10MB')
             return false
         }
+        imageUrl.value = URL.createObjectURL(rawFile)
         return true
     }
 
@@ -111,6 +106,30 @@
 
     function deleteItem(){
 
+    }
+
+    function addItem(){
+        dialogFormVisible.value = true
+        // 每次上传前先清空数据 因为取消和确定时写就要写两遍
+        form.name = ''
+        form.image = ''
+    }
+
+    async function confirmItem(){
+        try {
+            await addProduct(form.name, form.image)// 其实图片路径应该是on-success服务器返回的那个
+            ElMessage({
+                type: 'success',
+                message: '添加成功'
+            })
+            reqProducts()
+            dialogFormVisible.value = false
+        } catch (error) {
+            ElMessage({
+                type: 'error',
+                message: '添加失败'
+            })
+        }
     }
 </script>
 
