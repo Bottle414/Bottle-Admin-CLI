@@ -24,7 +24,7 @@
             :disabled="false"
             :background="false"
             layout="prev, pager, next, -> ,jumper, total"
-            :total="20"
+            :total="total"
             @click="reqProducts"
         />
     </el-card>
@@ -60,7 +60,7 @@
 
 <script lang='ts' setup>
     import { ref, onMounted, reactive } from 'vue'
-    import { getProducts, addProduct, editProduct } from '@/api/product/product.ts'
+    import { getProducts, getTotal, addProduct, editProduct } from '@/api/product/product.ts'
     import { ElMessage } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
     import type { UploadProps } from 'element-plus'
@@ -74,6 +74,7 @@
         id: ''
     })
 
+    const dialogMode = ref<'add' | 'edit'>('add')// 判断当前是修改还是添加
     const imageUrl = ref('')
 
     const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
@@ -91,6 +92,7 @@
     let currentPage = ref<number>(1)
     let pageSize = ref(3)// 每页数据条数
     let products = ref('')
+    let total = ref('')
 
     onMounted(() => {// 一进来就有一次请求
         reqProducts()
@@ -98,10 +100,13 @@
 
     async function reqProducts(){
         const response = await getProducts(currentPage.value, pageSize.value)
+        const res = await getTotal()
         products.value = response.data
+        total.value = res.data.total
     }
 
     function editItem(row : any){
+        dialogMode.value = 'edit'
         dialogFormVisible.value = true
         // 每次上传前先清空数据 因为取消和确定时写就要写两遍
         form.name = row.name
@@ -114,6 +119,7 @@
     }
 
     function addItem(){
+        dialogMode.value = 'add'
         dialogFormVisible.value = true
         // 每次上传前先清空数据 因为取消和确定时写就要写两遍
         form.name = ''
@@ -122,17 +128,21 @@
 
     async function confirmItem(){
         try {
-            await addProduct(form.name, form.image, form.id)// 其实图片路径应该是on-success服务器返回的那个
+            if (dialogMode.value == 'add'){
+                await addProduct(form.name, form.image, total.value)// 其实图片路径应该是on-success服务器返回的那个
+            }else {
+                await editProduct(form.name, form.image, form.id)
+            }
             ElMessage({
                 type: 'success',
-                message: form.id ? '修改成功' : '添加成功'// 这里报错信息也由id存在与否看是添加还是修改
+                message: dialogMode.value == 'edit' ? '修改成功' : '添加成功'
             })
-            reqProducts()// 刷新后如果是修改留在当前页，添加返回第一页
+            reqProducts()
             dialogFormVisible.value = false
         } catch (error) {
             ElMessage({
                 type: 'error',
-                message: form.id ? '修改失败' : '添加失败'
+                message: dialogMode.value == 'edit' ? '修改失败' : '添加失败'
             })
         }
     }
