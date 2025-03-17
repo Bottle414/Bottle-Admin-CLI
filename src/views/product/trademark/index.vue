@@ -125,14 +125,14 @@
             await addProduct(form.name, form.image, form.id)// 其实图片路径应该是on-success服务器返回的那个
             ElMessage({
                 type: 'success',
-                message: '添加成功'// 这里报错信息也由id存在与否看是添加还是修改
+                message: form.id ? '修改成功' : '添加成功'// 这里报错信息也由id存在与否看是添加还是修改
             })
             reqProducts()// 刷新后如果是修改留在当前页，添加返回第一页
             dialogFormVisible.value = false
         } catch (error) {
             ElMessage({
                 type: 'error',
-                message: '添加失败'
+                message: form.id ? '修改失败' : '添加失败'
             })
         }
     }

@@ -25,6 +25,6 @@ export async function addProduct(name : string, logo : string, id : string){
         }
         return 'ok'
     } catch (error) {
-        return Promise.reject('添加或修改品牌失败')// 这里报错信息也由id存在与否看是添加还是修改
-    }   
+        return Promise.reject(id ? '修改品牌失败' : '添加品牌失败')// 这里报错信息也由id存在与否看是添加还是修改
+    }
 }
