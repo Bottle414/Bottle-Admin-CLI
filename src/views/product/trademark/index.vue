@@ -31,8 +31,8 @@
 
     <!-- 修改对话框 -->
       <el-dialog v-model="dialogFormVisible" title="添加品牌" width="500px">
-        <el-form :model="form" style="display: flex; flex-direction: column;">
-          <el-form-item label="品牌名" :label-width="formLabelWidth">
+        <el-form  ref="formRef" :rules="rules" :model="form" style="display: flex; flex-direction: column;">
+          <el-form-item label="品牌名" :label-width="formLabelWidth" prop="name">
             <el-input placeholder="请输入品牌名称" v-model="form.name" autocomplete="off" />
           </el-form-item>
           <el-form-item label="logo" v-model="form.image" :label-width="formLabelWidth" show-file-list="false">
@@ -59,7 +59,7 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref, onMounted, reactive } from 'vue'
+    import { ref, onMounted, reactive, nextTick } from 'vue'
     import { getProducts, getTotal, addProduct, editProduct } from '@/api/product/product.ts'
     import { ElMessage } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
@@ -73,9 +73,16 @@
         image: '',
         id: ''
     })
+    const formRef = ref()
 
     const dialogMode = ref<'add' | 'edit'>('add')// 判断当前是修改还是添加
     const imageUrl = ref('')
+    const rules = {
+        name: [
+            {required: true, message: '请填写品牌名', trigger: 'blur'},
+            { min: 1, max: 20, message: '品牌名长度请在1到20之间', trigger: 'blur' }
+        ]
+    }
 
     const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
         if (!['image/jpeg', 'image/png'].includes(rawFile.type)) {// 有多项，使用includes代替逻辑判断
@@ -105,7 +112,9 @@
         total.value = res.data.total
     }
 
-    function editItem(row : any){
+    async function editItem(row : any){
+        formRef.value?.clearValidate('name')// 这里也要加，因为add那里的校验可能会影响
+        await nextTick()
         dialogMode.value = 'edit'
         dialogFormVisible.value = true
         // 每次上传前先清空数据 因为取消和确定时写就要写两遍
@@ -118,12 +127,14 @@
 
     }
 
-    function addItem(){
+    async function addItem(){
         dialogMode.value = 'add'
         dialogFormVisible.value = true
         // 每次上传前先清空数据 因为取消和确定时写就要写两遍
         form.name = ''
         form.image = ''
+        formRef.value?.clearValidate('name')
+        await nextTick()
     }
 
     async function confirmItem(){
