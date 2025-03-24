@@ -1,8 +1,9 @@
 import type { App } from 'vue'
 import Icon from './Icon.vue'
+import Category from './Category.vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-const allComponents = { Icon }
+const allComponents = { Icon, Category }
 
 const install = (app: App) => {
     // Object.keys(allComponents).forEach(key => {

@@ -67,7 +67,6 @@
         userStore.userLogin(formData.value.name, formData.value.password)
             .then(res => {
                 // 成功
-                console.log(res);
                 router.push({
                     path: route.query.redirect || '/'
                 })

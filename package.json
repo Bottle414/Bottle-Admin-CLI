@@ -18,7 +18,6 @@
     "axios": "^1.8.2",
     "element-plus": "^2.9.6",
     "gem": "^2.4.3",
-    "json-server": "^1.0.0-beta.3",
     "nanoid": "^5.1.4",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.1",

@@ -1,66 +1,69 @@
 <template>
-    <el-card style="max-width: 100%" shadow="hover">
-        <el-button type="primary" icon="Plus" @click="addItem">添加品牌</el-button>
-        <el-table :data="products" border style="margin:10px 0; width: 100%">
-            <el-table-column prop="index" label="序号" width="100%" align="center"/>
-            <el-table-column prop="name" label="品牌名称" align="center"/>
-            <el-table-column prop="logo" label="品牌logo" align="center">
-                <template #default="{ row }">
-                    <img :src="row.logo" alt="品牌logo" style="width: 50px; height: 50px; object-fit: cover;">
-                </template>
-            </el-table-column>
-            <el-table-column prop="operation" label="品牌操作">
-                <template #default="{ row }">
-                    <el-button title="修改" type="primary" icon="EditPen" @click="editItem(row)"></el-button>
-                    <el-button title="删除" icon="Delete" color="#f8ae0d" @click="deleteItem"></el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination
-            v-model:current-page="currentPage"
-            v-model:page-size="pageSize"
-            style="margin-top: 20px"
-            size="default"
-            :disabled="false"
-            :background="false"
-            layout="prev, pager, next, -> ,jumper, total"
-            :total="total"
-            @click="reqProducts"
-        />
-    </el-card>
+    <div class="trademark">
+        <el-card style="max-width: 100%" shadow="hover">
+            <el-button type="primary" icon="Plus" @click="addItem">添加品牌</el-button>
+            <el-table :data="products" border style="margin:10px 0; width: 100%">
+                <el-table-column prop="index" label="序号" width="100%" align="center"/>
+                <el-table-column prop="name" label="品牌名称" align="center"/>
+                <el-table-column prop="logo" label="品牌logo" align="center">
+                    <template #default="{ row }">
+                        <img :src="row.logo" alt="品牌logo" style="width: 50px; height: 50px; object-fit: cover;">
+                    </template>
+                </el-table-column>
+                <el-table-column prop="operation" label="品牌操作">
+                    <template #default="{ row }">
+                        <el-button title="修改" type="primary" icon="EditPen" @click="editItem(row)"></el-button>
+                        <el-button title="删除" icon="Delete" color="#f8ae0d" @click="deleteItem(row)"></el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                v-model:current-page="currentPage"
+                v-model:page-size="pageSize"
+                style="margin-top: 20px"
+                size="default"
+                :disabled="false"
+                :background="false"
+                layout="prev, pager, next, -> ,jumper, total"
+                :total="total"
+                @click="reqProducts"
+            />
+        </el-card>
 
-    <!-- 修改对话框 -->
-      <el-dialog v-model="dialogFormVisible" title="添加品牌" width="500px">
-        <el-form  ref="formRef" :rules="rules" :model="form" style="display: flex; flex-direction: column;">
-          <el-form-item label="品牌名" :label-width="formLabelWidth" prop="name">
-            <el-input placeholder="请输入品牌名称" v-model="form.name" autocomplete="off" />
-          </el-form-item>
-          <el-form-item label="logo" v-model="form.image" :label-width="formLabelWidth" show-file-list="false">
-            <!-- action: 图片上传路径 -->
-            <el-upload
-                class="avatar-uploader"
-                action="http://localhost:3001/Products"
-                :show-file-list="false"
-                :before-upload="beforeAvatarUpload"
-            >
-                <!-- before-upload传失败应该还是加号，成功才显示 -->
-                <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="图片预览"/>
-                <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-            </el-upload>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <div class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取消</el-button>
-            <el-button type="primary" @click="confirmItem">确认</el-button>
-          </div>
-        </template>
-      </el-dialog>
+        <!-- 修改对话框 -->
+        <el-dialog v-model="dialogFormVisible" title="添加品牌" width="500px">
+            <el-form  ref="formRef" :rules="rules" :model="form" style="display: flex; flex-direction: column;">
+            <el-form-item label="品牌名" :label-width="formLabelWidth" prop="name">
+                <el-input placeholder="请输入品牌名称" v-model="form.name" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="logo" v-model="form.image" :label-width="formLabelWidth" show-file-list="false">
+                <!-- action: 图片上传路径 -->
+                <el-upload
+                    class="avatar-uploader"
+                    action="http://localhost:3001/Products"
+                    :show-file-list="false"
+                    :before-upload="beforeAvatarUpload"
+                >
+                    <!-- before-upload传失败应该还是加号，成功才显示 -->
+                    <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="图片预览"/>
+                    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                </el-upload>
+            </el-form-item>
+            </el-form>
+            <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="confirmItem">确认</el-button>
+            </div>
+            </template>
+        </el-dialog>
+    </div>
+    <!-- 不在一个根组件导致过渡动画消失了 -->
 </template>
 
 <script lang='ts' setup>
     import { ref, onMounted, reactive, nextTick } from 'vue'
-    import { getProducts, getTotal, addProduct, editProduct } from '@/api/product/product.ts'
+    import { getProducts, getTotal, addProduct, editProduct, deleteProduct } from '@/api/product/product.ts'
     import { ElMessage } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
     import type { UploadProps } from 'element-plus'
@@ -123,8 +126,20 @@
         form.id = row.id // 由id判断操作是新增还是修改——离谱
     }
 
-    function deleteItem(){
-
+    async function deleteItem(row : any){
+        try {
+            await deleteProduct(row.id, total.value)
+            ElMessage({
+                type: 'success',
+                message: '删除成功'
+            })
+            reqProducts()
+        } catch (error) {
+            ElMessage({
+                type: 'error',
+                message: '删除失败'
+            })
+        }
     }
 
     async function addItem(){

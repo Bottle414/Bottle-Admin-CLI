@@ -6,7 +6,7 @@ export interface loginForm{
 
 export interface dataReturnType {
     token?: string, // 有无token，有就是string
-    message?:string,
+    message:string,
 }
 
 // 登录返回的数据类型
