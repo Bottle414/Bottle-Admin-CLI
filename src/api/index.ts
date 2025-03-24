@@ -16,7 +16,7 @@ request.interceptors.request.use(
         // 给请求头添加token
         const token = useUserStore().token
         if (token) {
-            config.headers['Authorization'] = token
+            config.headers.Authorization = token
         }
         return config;
     }, 

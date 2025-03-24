@@ -2,7 +2,7 @@ import request from "@/api"
 import type { BrandInfo, BrandId } from './type.ts'
 
 const BRAND_BASE = '/brand'
-enum API{
+enum API {
     ALL_URL = '/allInfo',
     GET_URL = '/brandInfo',
     ADD_URL = '/addInfo',

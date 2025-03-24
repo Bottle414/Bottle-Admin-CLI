@@ -1,35 +1,46 @@
-import request from "@/utils/request"
-import type { loginForm, loginReturnForm, usersReturnForm } from "./type"
+import request from "@/api"
+import type { UserInfo } from "./type"
 
-const USER_BASE_URL = import.meta.env.VITE_SERVE + '/user'
+const USER_BASE = '/user'
 enum API {
-    LOGIN_BASE_URL = '/login',
-    UPDATE_BASE_URL = '/update',
-    REGISTER_BASE_URL = '/register',
-    GETINFO_BASE_URL = '/userInfo'
+    REGISTER_URL = '/register',
+    LOGIN_URL = '/login',
+    GET_URL = '/userInfo',
+    UPDATE_URL = '/updateInfo'
+    // TODO: 注销
 }
 
-export async function getUser(token : string){
-    const response = await fetch(`${USER_BASE_URL}${API.GETINFO_BASE_URL}`,{
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token // 发送 Token
-        }
-    })
-    const user = await response.json()
-    return user
-}
-
-export async function login(username:loginForm , password:loginForm){
-    const response = await fetch(`${USER_BASE_URL}${API.LOGIN_BASE_URL}`,{
+// 用户注册
+export function register(userInfo : UserInfo){
+    return request({
+        url: USER_BASE + API.REGISTER_URL,
         method: 'POST',
-        headers:{ 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            username,
-            password
-        })
+        data: userInfo
     })
-    const user = await response.json()
-    return user
+}
+
+// 用户登录
+export function login(userInfo : UserInfo){
+    return request({
+        url: USER_BASE + API.LOGIN_URL,
+        method: 'POST',
+        data: userInfo
+    })
+}
+
+// 获取用户信息 不带数据，后端去token拿
+export function getUser(){
+    return request({
+        url: USER_BASE + API.REGISTER_URL,
+        method: 'GET'
+    })
+}
+
+// 更新用户信息 带新数据，后端去token拿id识别
+export function updateInfo(userInfo : UserInfo){
+    return request({
+        url: USER_BASE + API.UPDATE_URL,
+        method: 'POST',
+        data: userInfo
+    })
 }

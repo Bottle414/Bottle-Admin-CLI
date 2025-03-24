@@ -1,7 +1,8 @@
 export interface BrandInfo{
     name: string,
     logo: string,
-    id?: number
+    id?: number,
+    status: boolean
 }
 
 export type BrandId = number
