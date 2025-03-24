@@ -27,7 +27,7 @@ request.interceptors.request.use(
 // 响应拦截器 后端消息在response.data里
 request.interceptors.response.use(
     (response) => {
-        console.log(response)
+        console.log(response.data)
         return response.data;// 只返回数据,避免每次都写data
   },
   (error) => {

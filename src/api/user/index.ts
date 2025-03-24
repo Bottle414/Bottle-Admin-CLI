@@ -1,5 +1,5 @@
 import request from "@/api"
-import type { UserInfo } from "./type"
+import type { LoginInfo, ReciveFrom, UserInfo } from "./type"
 
 const USER_BASE = '/user'
 enum API {
@@ -20,7 +20,7 @@ export function register(userInfo : UserInfo){
 }
 
 // 用户登录
-export function login(userInfo : UserInfo){
+export function login(userInfo : LoginInfo) : Promise<ReciveFrom>{
     return request({
         url: USER_BASE + API.LOGIN_URL,
         method: 'POST',
@@ -29,9 +29,9 @@ export function login(userInfo : UserInfo){
 }
 
 // 获取用户信息 不带数据，后端去token拿
-export function getUser(){
+export function getUser() : Promise<ReciveFrom>{
     return request({
-        url: USER_BASE + API.REGISTER_URL,
+        url: USER_BASE + API.GET_URL,
         method: 'GET'
     })
 }

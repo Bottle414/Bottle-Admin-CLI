@@ -1,45 +1,43 @@
 import { defineStore } from "pinia"
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from "@/utils/token"
-import { getUser, login } from "@/api/user/user"
-import type { loginForm } from "@/api/user/type"
+import { getUser, login } from "@/api/user/index"
+import type { UserInfo, LoginInfo } from "@/api/user/type"
+import { basicRoutes } from "@/router/routes.ts"
 import type { userState } from "../type"
-import { basicRoutes } from "@/router/routes.ts" // 菜单展示与权限有关或者是动态路由，那么就放进userStore
 
 const useUserStore = defineStore('user',{
     state(): userState {
         return {
-            token: GET_TOKEN(), // 在这里存储token 老师把获取、设置token的方法封装到一起了
+            token: GET_TOKEN(),
             menuRoutes: basicRoutes, // 菜单路由
-            username: '',   // 用户名
-            avatar: '',  // 用户头像
-            id: NaN // 用户id
+            username: '',
+            avatar: '',
+            id: NaN
         }
     },
     actions: {
 
-        async userLogin(username: loginForm, password: loginForm){// 用户登录的方法 如果报没有这个可能是因为先用在定义，要刷新一下页面
-            const res = await login(username, password)
-            console.log(res);
-            if (res.status === 200){
-                this.token = res.token // 存储token
-                // 由于页面刷新，pinia也会初始化，所以还需要持久化token
-                SET_TOKEN(res.token)
+        async userLogin(userInfo : LoginInfo){
+            const response = await login(userInfo)
+            if (response.status === 200){
+                const token = response.token
+                this.token = token
+                SET_TOKEN(token)
                 return 'ok' // 选择在这里发请求、在ui跳转页面，可以实现多个地方的登录、登录成功跳转不同的页面
             }else {
-                return Promise.reject(new Error(res.message))
+                return Promise.reject(new Error(response.message))
             }
         },
         async getUserInfo(){
-            // 获取成功，那么存储
-            const userInfo = await getUser(this.token as string)
-            if (userInfo.status === 200){
+            const response = await getUser()
+            if (response.status === 200){
+                const userInfo = response.data
                 this.id = userInfo.id
                 this.username = userInfo.username
                 this.avatar = userInfo.avatar
-                console.log(userInfo)
-                return 'ok'
+                return 'ok';
             }else {
-                return Promise.reject('获取用户信息失败')
+                return Promise.reject('获取用户信息失败');
             }
         },
         logout(){
@@ -49,7 +47,6 @@ const useUserStore = defineStore('user',{
             this.avatar = ''
             REMOVE_TOKEN()
         }
-
     },
     getters: {
 

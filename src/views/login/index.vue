@@ -3,7 +3,7 @@
         <el-form class="login-form" :rules="rules">
             <h1>Welcome</h1>
             <el-form-item label="username">
-                <el-input v-model="formData.name" :prefix-icon="User"></el-input>
+                <el-input v-model="formData.username" :prefix-icon="User"></el-input>
             </el-form-item>
             <el-form-item label="password">
                 <el-input type="password" v-model="formData.password" :prefix-icon="Lock" show-password></el-input>
@@ -35,16 +35,14 @@
     const route = useRoute()
     
     interface RuleForm {
-        name: string,
+        username: string,
         password: string,
-        check: string,
-        count: string
+        check: string
     }
     const formData = ref<RuleForm>({
-        name: '',
+        username: '',
         password: '',
-        check: '',
-        count: ''
+        check: ''
     })
 
     const rules = ref({
@@ -64,7 +62,7 @@
     async function onSubmit(){
         // 叫用户仓库发请求
         loadingBtn.value = true // 旋转图标甚至达成了防抖
-        userStore.userLogin(formData.value.name, formData.value.password)
+        userStore.userLogin(formData.value)
             .then(res => {
                 // 成功
                 router.push({

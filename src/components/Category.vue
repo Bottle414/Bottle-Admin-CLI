@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-    import request from '@/utils/request'
+    import request from '@/api'
     import { ref, onMounted } from 'vue'
     // 要在一级分类选中以后才能选择二级分类
     let c1Arr = ref<any>([

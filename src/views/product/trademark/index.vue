@@ -2,7 +2,7 @@
     <div class="trademark">
         <el-card style="max-width: 100%" shadow="hover">
             <el-button type="primary" icon="Plus" @click="addItem">添加品牌</el-button>
-            <el-table :data="products" border style="margin:10px 0; width: 100%">
+            <el-table :data="brands" border style="margin:10px 0; width: 100%">
                 <el-table-column prop="index" label="序号" width="100%" align="center"/>
                 <el-table-column prop="name" label="品牌名称" align="center"/>
                 <el-table-column prop="logo" label="品牌logo" align="center">
@@ -26,7 +26,7 @@
                 :background="false"
                 layout="prev, pager, next, -> ,jumper, total"
                 :total="total"
-                @click="reqProducts"
+                @click="reqBrands"
             />
         </el-card>
 
@@ -36,17 +36,16 @@
             <el-form-item label="品牌名" :label-width="formLabelWidth" prop="name">
                 <el-input placeholder="请输入品牌名称" v-model="form.name" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="logo" v-model="form.image" :label-width="formLabelWidth" show-file-list="false">
-                <!-- action: 图片上传路径 -->
+            <el-form-item label="logo" v-model="form.logo" :label-width="formLabelWidth" show-file-list="false">
+                <!-- TODO: 上传图片 -->
                 <el-upload
                     class="avatar-uploader"
                     action="http://localhost:3001/Products"
                     :show-file-list="false"
                     :before-upload="beforeAvatarUpload"
                 >
-                    <!-- before-upload传失败应该还是加号，成功才显示 -->
                     <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="图片预览"/>
-                    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                    <el-icon v-else class="avatar-uploader-icon"><Plus/></el-icon>
                 </el-upload>
             </el-form-item>
             </el-form>
@@ -58,12 +57,11 @@
             </template>
         </el-dialog>
     </div>
-    <!-- 不在一个根组件导致过渡动画消失了 -->
 </template>
 
 <script lang='ts' setup>
     import { ref, onMounted, reactive, nextTick } from 'vue'
-    import { getProducts, getTotal, addProduct, editProduct, deleteProduct } from '@/api/product/product.ts'
+    import { getAllBrands, addBrand, updateBrand, deleteBrand } from '@/api/product/trademark'
     import { ElMessage } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
     import type { UploadProps } from 'element-plus'
@@ -73,8 +71,8 @@
     const formLabelWidth = '20%'
     const form = reactive({
         name: '',
-        image: '',
-        id: ''
+        logo: '',
+        id: NaN
     })
     const formRef = ref()
 
@@ -101,39 +99,39 @@
 
     let currentPage = ref<number>(1)
     let pageSize = ref(3)// 每页数据条数
-    let products = ref('')
+    let brands = ref('')
     let total = ref('')
 
-    onMounted(() => {// 一进来就有一次请求
-        reqProducts()
+    // 获取初次数据
+    onMounted(() => {
+        reqBrands()
     })
 
-    async function reqProducts(){
-        const response = await getProducts(currentPage.value, pageSize.value)
-        const res = await getTotal()
-        products.value = response.data
-        total.value = res.data.total
+    async function reqBrands(){
+        const response = await getAllBrands()
+        console.log(response)// 如果是后端返回的，那么它有两部分数据
+        brands.value = response.data.brands
+        total.value = response.data.total
     }
 
     async function editItem(row : any){
-        formRef.value?.clearValidate('name')// 这里也要加，因为add那里的校验可能会影响
+        formRef.value?.clearValidate('name')
         await nextTick()
         dialogMode.value = 'edit'
         dialogFormVisible.value = true
-        // 每次上传前先清空数据 因为取消和确定时写就要写两遍
         form.name = row.name
-        form.image = row.logo
-        form.id = row.id // 由id判断操作是新增还是修改——离谱
+        form.logo = row.logo
+        form.id = row.id
     }
 
     async function deleteItem(row : any){
         try {
-            await deleteProduct(row.id, total.value)
+            await deleteBrand(row.id)
             ElMessage({
                 type: 'success',
                 message: '删除成功'
             })
-            reqProducts()
+            reqBrands()
         } catch (error) {
             ElMessage({
                 type: 'error',
@@ -145,9 +143,8 @@
     async function addItem(){
         dialogMode.value = 'add'
         dialogFormVisible.value = true
-        // 每次上传前先清空数据 因为取消和确定时写就要写两遍
         form.name = ''
-        form.image = ''
+        form.logo = ''
         formRef.value?.clearValidate('name')
         await nextTick()
     }
@@ -155,15 +152,17 @@
     async function confirmItem(){
         try {
             if (dialogMode.value == 'add'){
-                await addProduct(form.name, form.image, total.value)// 其实图片路径应该是on-success服务器返回的那个
+                console.log(form);
+                const res = await addBrand(form)// TODO: 图片路径改为on-success服务器返回的那个
+                console.log(res);
             }else {
-                await editProduct(form.name, form.image, form.id)
+                await updateBrand(form)
             }
             ElMessage({
                 type: 'success',
                 message: dialogMode.value == 'edit' ? '修改成功' : '添加成功'
             })
-            reqProducts()
+            reqBrands()
             dialogFormVisible.value = false
         } catch (error) {
             ElMessage({

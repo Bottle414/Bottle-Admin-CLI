@@ -12,6 +12,7 @@ enum API {
 
 // 获取所有品牌
 export function getAllBrands(){
+    // TODO: 根据页面数获取对应数量的品牌
     return request({
         url: BRAND_BASE + API.ALL_URL,
         method: 'GET'
