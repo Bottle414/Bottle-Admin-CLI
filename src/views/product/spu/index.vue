@@ -22,7 +22,7 @@
 </template>
 
 <script lang='ts' setup>
-    import { getSPU } from '@/api/product/spu.ts'
+    
     import { ref, onMounted } from 'vue'
     import { ElMessage } from 'element-plus';
     let spus = ref('')
@@ -32,8 +32,8 @@
 
     async function reqSPU(){
         try {
-            const res = await getSPU()
-            spus.value = res.data
+            // const res = await getSPU()
+            // spus.value = res.data
         } catch (error) {
             ElMessage({
                 message: '获取spu数据失败'

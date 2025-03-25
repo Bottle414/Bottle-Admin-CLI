@@ -66,7 +66,7 @@
             .then(res => {
                 // 成功
                 router.push({
-                    path: route.query.redirect || '/'
+                    path: (route.query.redirect || '/').toString()
                 })
                 ElNotification({
                     type: 'success',

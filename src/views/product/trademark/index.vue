@@ -3,14 +3,14 @@
         <el-card style="max-width: 100%" shadow="hover">
             <el-button type="primary" icon="Plus" @click="addItem">添加品牌</el-button>
             <el-table :data="brands" border style="margin:10px 0; width: 100%">
-                <el-table-column prop="index" label="序号" width="100%" align="center"/>
+                <el-table-column prop="id" label="ID" width="100%" align="center"/>
                 <el-table-column prop="name" label="品牌名称" align="center"/>
                 <el-table-column prop="logo" label="品牌logo" align="center">
                     <template #default="{ row }">
                         <img :src="row.logo" alt="品牌logo" style="width: 50px; height: 50px; object-fit: cover;">
                     </template>
                 </el-table-column>
-                <el-table-column prop="operation" label="品牌操作">
+                <el-table-column prop="operation" label="操作">
                     <template #default="{ row }">
                         <el-button title="修改" type="primary" icon="EditPen" @click="editItem(row)"></el-button>
                         <el-button title="删除" icon="Delete" color="#f8ae0d" @click="deleteItem(row)"></el-button>
@@ -40,11 +40,14 @@
                 <!-- TODO: 上传图片 -->
                 <el-upload
                     class="avatar-uploader"
-                    action="http://localhost:3001/Products"
+                    :action="UPLOAD_IMAGE_URL"
                     :show-file-list="false"
                     :before-upload="beforeAvatarUpload"
+                    :on-success="handleUploadSuccess"
+                    name="logo"
                 >
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="图片预览"/>
+                 <!-- name字段与后端.single(filed)一致 -->
+                    <img v-if="form.logo" :src="imageSrc" class="avatar" alt="图片预览"/>
                     <el-icon v-else class="avatar-uploader-icon"><Plus/></el-icon>
                 </el-upload>
             </el-form-item>
@@ -65,8 +68,10 @@
     import { ElMessage } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
     import type { UploadProps } from 'element-plus'
-    // 写了ts类型，但是没加
+    import type { BrandInfo, Total } from '@/api/product/trademark/type'
+    import { getImage } from '@/api/image/index.ts'
 
+    const UPLOAD_IMAGE_URL = import.meta.env.VITE_SERVE + '/image/uploadLogo'
     const dialogFormVisible = ref(false)
     const formLabelWidth = '20%'
     const form = reactive({
@@ -75,9 +80,9 @@
         id: NaN
     })
     const formRef = ref()
+    const imageSrc = ref()
 
     const dialogMode = ref<'add' | 'edit'>('add')// 判断当前是修改还是添加
-    const imageUrl = ref('')
     const rules = {
         name: [
             {required: true, message: '请填写品牌名', trigger: 'blur'},
@@ -93,14 +98,44 @@
             ElMessage.error('图片大小不要超过10MB')
             return false
         }
-        imageUrl.value = URL.createObjectURL(rawFile)
+        form.logo  = URL.createObjectURL(rawFile)
+        console.log('frontend logo: ' + form.logo);
         return true
+    }
+
+    const handleUploadSuccess = async(response : any) => {
+        if (response.status === 200){
+            try {
+                const res = await getImage(response.data.url)
+                if (res.status === 200){
+                    const data = res.data
+                    // TODO: 编码抽离为工具
+                    // const base64 = data.imageData.toString('base64')
+                    // 将 Buffer 转换为 Base64 字符串
+                    const base64 = btoa(String.fromCharCode(...new Uint8Array(data.imageData)));
+                    let imageType = data.imageId[0].file_path
+                    if (imageType.endsWith('jpg')){
+                        imageType = 'jpg'
+                    }else if (imageType.endsWith('png')){
+                        imageType = 'png'
+                    }
+                    imageSrc.value = `data:image/${imageType};base64,${base64}`
+                }else {
+                    ElMessage('图片获取失败')
+                }
+            } catch (error) {
+                ElMessage('图片获取失败 : ' + error)
+            }
+            imageSrc.value = response.data.url
+        }else {
+            ElMessage.error('图片上传失败 : ' + response.message)
+        }     
     }
 
     let currentPage = ref<number>(1)
     let pageSize = ref(3)// 每页数据条数
-    let brands = ref('')
-    let total = ref('')
+    let brands = ref([] as BrandInfo[])
+    let total = ref(NaN as Total)
 
     // 获取初次数据
     onMounted(() => {
@@ -109,7 +144,6 @@
 
     async function reqBrands(){
         const response = await getAllBrands()
-        console.log(response)// 如果是后端返回的，那么它有两部分数据
         brands.value = response.data.brands
         total.value = response.data.total
     }
@@ -149,26 +183,29 @@
         await nextTick()
     }
 
-    async function confirmItem(){
+    async function confirmItem() {
         try {
-            if (dialogMode.value == 'add'){
-                console.log(form);
-                const res = await addBrand(form)// TODO: 图片路径改为on-success服务器返回的那个
-                console.log(res);
-            }else {
-                await updateBrand(form)
+            const action = dialogMode.value === 'add' ? addBrand : updateBrand;
+            const successMessage = dialogMode.value === 'add' ? '添加成功' : '修改成功';
+            const errorMessage = dialogMode.value === 'add' ? '添加失败' : '修改失败';
+
+            const res = await action(form); // 根据模式选择调用的函数
+            
+            if (res.status === 200) {
+                ElMessage({
+                    type: 'success',
+                    message: successMessage
+                });
+                reqBrands(); // 更新品牌列表
+                dialogFormVisible.value = false; // 关闭对话框
+            } else {
+                throw new Error(errorMessage); // 调用失败时抛出错误
             }
-            ElMessage({
-                type: 'success',
-                message: dialogMode.value == 'edit' ? '修改成功' : '添加成功'
-            })
-            reqBrands()
-            dialogFormVisible.value = false
         } catch (error) {
             ElMessage({
                 type: 'error',
-                message: dialogMode.value == 'edit' ? '修改失败' : '添加失败'
-            })
+                message: '操作失败 : ' + error // 使用抛出的错误消息
+            });
         }
     }
 </script>
