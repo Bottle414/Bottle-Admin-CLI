@@ -1,60 +1,69 @@
-const ranks1 = [// fake data
-    {
-        id: 1,
-        name: '北京'
-    },
-    {
-        id: 2,
-        name: '上海'
-    }
-]
+import request from "@/api";
+import type { AttrId, AttrRecive, Attribute, RankId, ReciveFrom } from "./type"
 
-const ranks2 = [// fake data
-    {
-        id: 1,
-        name: '手机'
-    },
-    {
-        id: 2,
-        name: '电视'
-    }
-]
+const BASE_URL = import.meta.env.VITE_SERVE + '/ranks'
+const TAGS_BASE_URL = import.meta.env.VITE_SERVE + '/attrs'
+enum API {
+    GET_RANK1 = '/rank1',
+    GET_RANK2 = '/rank2',
+    GET_RANK3 = '/rank3',
+    GET_TAGS = '/getTags',
+    EDIT_TAGS = '/editTags',
+    DELETE_ATTR = 'deleteAttr'
+}
 
-const ranks3 = [// fake data
-    {
-        id: 1,
-        name: '苹果'
-    },
-    {
-        id: 2,
-        name: '李子'
-    }
-]
-
-import type { RankId, ReciveFrom } from "./type"
+console.log('url ' + BASE_URL + API.GET_RANK1);
 
 export function getCategory1() : Promise<ReciveFrom>{
-    // TODO: 设计数据库，完成接口
-    return Promise.resolve({
-        status: 200,
-        data: ranks1
+    return request({
+        url: BASE_URL + API.GET_RANK1,
+        method: 'GET'
     })
 }
 
 export function getCategory2(rank1Id : RankId | string) : Promise<ReciveFrom>{
-    // TODO: 设计数据库，完成接口
-    console.log('rank1Id : ' + rank1Id);
-    return Promise.resolve({
-        status: 200,
-        data: ranks2
+    console.log('rank1' + rank1Id);
+    return request({
+        url: BASE_URL + API.GET_RANK2,
+        method: 'GET',
+        params: {
+            rank1Id
+        }
     })
 }
 
 export function getCategory3(rank2Id : RankId | string) : Promise<ReciveFrom>{
-    // TODO: 设计数据库，完成接口
-    console.log('rank2Id : ' + rank2Id);
-    return Promise.resolve({
-        status: 200,
-        data: ranks3
+    return request({
+        url: BASE_URL + API.GET_RANK3,
+        method: 'GET',
+        params: {
+            rank2Id
+        }
+    })
+}
+
+export function getTags(rankId : RankId) : Promise<AttrRecive>{
+    return request({
+        url: TAGS_BASE_URL + API.GET_TAGS,
+        method: 'GET',
+        params: {
+            rankId
+        }
+    })
+}
+
+export function editTags(newInfo : Attribute) : Promise<AttrRecive>{
+    return request({
+        url: TAGS_BASE_URL + API.EDIT_TAGS,
+        method: 'POST',
+        data: newInfo
+    })
+}
+
+export function deleteAttr(attrId : AttrId) : Promise<AttrRecive>{
+    return request({
+        url: TAGS_BASE_URL + API.DELETE_ATTR,
+        method: 'POST',
+        data: attrId
     })
 }

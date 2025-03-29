@@ -18,25 +18,41 @@ const useCategoryStore = defineStore('category',{
     actions: {
         // 在此处获取数据
         async getRank1(){
-            const result = await getCategory1()
-            if (result.status === 200){
-                this.ranks1 = result.data
+            try {
+                const result = await getCategory1()
+                if (result.status === 200){
+                    this.ranks1 = result.data
+                    console.log(result.message);
+                }
+            } catch (error) {
+                console.log('getRank1 error : ' + error)
             }
+            
         },
 
         async getRank2(){
-            const result = await getCategory2(this.rank1Id)
-            if (result.status === 200){
-                this.ranks2 = result.data
+            try {
+                const result = await getCategory2(this.rank1Id)
+                if (result.status === 200){
+                    this.ranks2 = result.data
+                    console.log(result.message);
+                }
+            } catch (error) {
+                console.log('getRank2 error : ' + error);   
             }
         },
 
         async getRank3(){
-            console.log('rank2Id : ' + this.rank2Id);
-            const result = await getCategory3(this.rank2Id)
-            if (result.status === 200){
-                this.ranks3 = result.data
+            try {
+                const result = await getCategory3(this.rank2Id)
+                if (result.status === 200){
+                    this.ranks3 = result.data
+                    console.log(result.message);
+                }
+            } catch (error) {
+                console.log('getRank3 errror : ' + error);
             }
+            
         }
     },
     getters: {
