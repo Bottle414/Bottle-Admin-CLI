@@ -1,5 +1,13 @@
 <template>
-    <h1>Home</h1>
+    <el-card>
+        <div class="card">
+            <img class="headImage" :src="userStore.avatar" alt="user-headImage">
+            <div class="welcomeText">
+                <h2>Hi, {{ userStore.username }} {{ getTimeTextZh() }}!</h2>
+                <h3 class="title">{{ logoConfig.title }}</h3>
+            </div>
+        </div>
+    </el-card>
 </template>
 
 <script lang='ts' setup>
@@ -11,8 +19,27 @@
     // onMounted(() => {
     //     userStore.getUserInfo() // 一进来就获取用户信息
     // })
+    import useUserStore from '@/store/modules/userStore'
+    import { getTimeTextZh } from '@/utils/time'
+    import { logoConfig } from '@/setting'
+    const userStore = useUserStore()
 </script>
 
 <style scoped>
-    
+    .card {
+        display: flex;
+        align-items: center;
+        gap: 10%;
+    }
+    .headImage {
+        width: 30%;
+        aspect-ratio: 1 / 1;
+        border: 1px solid #bbb;
+        border-radius: 100%;
+    }
+
+    .title {
+        color: #bbb;
+        padding-top: 10px;
+    }
 </style>
