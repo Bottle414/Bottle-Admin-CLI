@@ -19,7 +19,7 @@
 <script lang='ts' setup>
     import Sex from './components/Sex.vue'
     import Age from './components/Age.vue'
-    import Tourist from './components/tourist.vue'
+    import Tourist from './components/Tourist.vue'
     // 获取dom
     // const screen = ref()
 
