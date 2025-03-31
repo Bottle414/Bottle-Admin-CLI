@@ -21,22 +21,23 @@
 </template>
 
 <script lang='ts' setup>
-import Logo from './Logo.vue'
-import SideMenu from './SideMenu.vue';
-import Main from './main/index.vue'
-import TopBar from './topbar/index.vue'
-import useUserStore from '@/store/modules/userStore.ts'
-import useSettingStore from '@/store/settingStore'
-import { useRoute } from 'vue-router'
+    import Logo from './Logo.vue'
+    import SideMenu from './SideMenu.vue';
+    import Main from './main/index.vue'
+    import TopBar from './topbar/index.vue'
+    import useUserStore from '@/store/modules/userStore.ts'
+    import useSettingStore from '@/store/settingStore'
+    import { useRoute } from 'vue-router'
 
-const userStore = useUserStore()
-const settingStore = useSettingStore()
+    const userStore = useUserStore()
+    const settingStore = useSettingStore()
 
-const route = useRoute()    // 获取路由url，保存菜单打开信息
+    const route = useRoute()    // 获取路由url，保存菜单打开信息
 
 </script>
 
 <style scoped lang="scss">
+
 * {
     user-select: none;
 }
@@ -70,8 +71,8 @@ const route = useRoute()    // 获取路由url，保存菜单打开信息
     overflow-x: hidden;
     padding: 20px;
     width: calc(100% - variable.$layout-sidebar-fold-width);
-    height: 100vh;
-    background: variable.$layout-main-background;
+    height: 90vh;
+    // background: variable.$layout-main-background;
     transition: width .3s;
 
     &.open {
@@ -97,6 +98,10 @@ const route = useRoute()    // 获取路由url，保存菜单打开信息
     &.open {
         width: calc(100% - variable.$layout-sidebar-width);
     }
+}
+
+.dark .layout-topbar{
+    background: var(--el-color-black);
 }
 
 .block {

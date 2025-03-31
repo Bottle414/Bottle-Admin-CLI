@@ -8,6 +8,7 @@ import 'element-plus/dist/index.css'    // msg不显示，因为还要导入css
 // import "element-plus/theme-chalk/el-message-box.css";
 // import "element-plus/theme-chalk/el-message.css";
 import '@/router/permission.ts'
+import 'element-plus/theme-chalk/dark/css-vars.css'// 暗黑模式
 
 const app = createApp(App)
 //install(app) // 注册我的全局组件 默认导出随便起个名字就行

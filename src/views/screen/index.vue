@@ -1,16 +1,80 @@
 <template>
-    <div class='screen'>
-        <h1>Screen</h1>
+    <div class='screen' ref="screen">
+        <h2 class="top">数据展示</h2>
+        <div class="main">
+            <div class="left">
+                <Tourist/>
+                <Sex/>
+                <Age/>
+            </div>
+            <div class="center">
+                <div class="top"></div>
+                <div class="bottom"></div>
+            </div>
+            <div class="right"></div>
+        </div>
     </div>
 </template>
 
 <script lang='ts' setup>
-    import { ref } from 'vue'
+    import Sex from './components/Sex.vue'
+    import Age from './components/Age.vue'
+    import Tourist from './components/tourist.vue'
+    // 获取dom
+    // const screen = ref()
+
+    // onMounted(() => {
+    //     screen.value.style.transform = `scale(${ getScale() }) translate(-50%, -50%)`
+    // })
     
+    // function getScale(w = 1920, h = 1980){
+    //     const ww = window.innerWidth / w
+    //     const wh = window.innerHeight / h
+    //     return ww < wh ? ww : wh
+    // }
+
+    // window.onresize = () => {
+    //     screen.value.style.transform = `scale(${ getScale() }) translate(-50%, -50%)`
+    // }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
     .screen {
-        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        aspect-ratio: 1.8;
+    }
+
+    .main {
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+
+    .center {
+        flex: 2;
+        background: #555;
+
+        .top {
+            height: 60%;
+            background: #923;
+        }
+    }
+
+    .left, .right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
     }
 </style>
