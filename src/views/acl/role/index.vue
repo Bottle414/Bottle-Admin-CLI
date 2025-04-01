@@ -55,6 +55,7 @@
 
 <script lang='ts' setup>
     import { ref, onMounted } from 'vue'
+    import { getAllPermissions } from '@/api/permission/index'
     let currentPage = ref(1)
     let totalData = ref(10)
     let drawer = ref(false)
@@ -63,16 +64,23 @@
     const pageSize = ref(5)
     // TODO: 实现列表懒加载
     // TODO: 设计数据库，采用基于角色的权限控制
-
-    onMounted(() => {
-        // TODO: 一挂载就获取所有权限 每个职位的权限在点击权限编辑时再获取
-    })
-
+    
     const defaultProps = {// 展示字段
         children: 'children',
         label: 'label',
     }
-    const data = ref([])// TODO: 错误的，自关联表 + 处理
+    const data = ref()// TODO: 错误的，自关联表 + 处理
+
+    onMounted(async() => {
+        const allPermissions = await getAllPermissions()
+        if (allPermissions.status === 200){
+            console.log(allPermissions);
+            // 存储
+            data.value = allPermissions.message
+        }
+    })
+
+
     
     let users = ref([
         {
