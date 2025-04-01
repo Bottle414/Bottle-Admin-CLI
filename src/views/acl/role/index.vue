@@ -23,7 +23,7 @@
                 <el-table-column label="操作">
                     <template #default="{ row }">
                         <el-button title="分配权限" type="primary" icon="User" @click="editRole(row)">权限分配</el-button>
-                        <el-button title="编辑" type="primary" icon="Edit" @click="editUser">编辑</el-button>
+                        <el-button title="编辑" type="primary" icon="Edit" @click="">编辑</el-button>
                         <el-button title="删除" type="primary" icon="Delete" @click="">删除</el-button>
                     </template>
                 </el-table-column>
@@ -41,42 +41,49 @@
                 show-checkbox
                 node-key="id"
                 :default-expand-all="true"
-                :default-checked-keys="[5]"
+                :default-checked-keys="permissionIds"
                 :props="defaultProps"
               />
             </template>
             <template #footer>
                 <el-button type="success">保存</el-button>
-                <el-button>取消</el-button>
+                <el-button @click="notSave">取消</el-button>
             </template>
           </el-drawer>
     </div>
 </template>
 
 <script lang='ts' setup>
-    import { ref, onMounted } from 'vue'
-    import { getAllPermissions } from '@/api/permission/index'
+    import { ref, onMounted, nextTick } from 'vue'
+    import { getAllPermissions, getPermission } from '@/api/permission/index'
+    import type { PermissionList } from './type'
+
     let currentPage = ref(1)
     let totalData = ref(10)
     let drawer = ref(false)
-    let roles = ref(['用户', '经理', '前台'])
-    let checkedList = ref([])
+    
     const pageSize = ref(5)
     // TODO: 实现列表懒加载
-    // TODO: 设计数据库，采用基于角色的权限控制
-    
+
     const defaultProps = {// 展示字段
         children: 'children',
         label: 'label',
     }
-    const data = ref()// TODO: 错误的，自关联表 + 处理
+    const data = ref<any>([])// TODO: 错误的，自关联表 + 处理 TODO: 约束类型
+    const permissionIds = ref<number[]>([])// TODO: 修复数据成功获取但不显示的问题
 
     onMounted(async() => {
         const allPermissions = await getAllPermissions()
         if (allPermissions.status === 200){
             console.log(allPermissions);
             // 存储
-            data.value = allPermissions.message
+            allPermissions.data.map(permission => {
+                data.value.push({
+                    id: permission.id,
+                    label: permission.name,
+                    children: permission.children
+                })
+            })
         }
     })
 
@@ -87,7 +94,7 @@
             id: 123,
             name: 'pig',
             role: '吉祥物',
-            role_id: '12',
+            role_id: 1,
             createTime: '2025-3-30',
             updateTime: '2025-3-30'
         },
@@ -95,26 +102,33 @@
             id: 456,
             name: 'cat',
             role: '吉祥物',
-            role_id: '12',
+            role_id: 2,
             createTime: '2025-3-30',
             updateTime: '2025-3-30'
         }
     ])
 
-    function editUser(){
-
-    }
-
     // TODO: 限制类型
-    function editRole(row : any){
+    async function editRole(row : any){
         drawer.value = true
-        // TODO: 由职位id拿到权限，根据select展示
+        const result = await getPermission(row.role_id)
+        if (result.status === 200){
+            result.data.forEach(item => {
+                permissionIds.value.push(item.id)
+            })
+        }
+        nextTick()
     }
     // TODO: 前端把后端返回的数据解析成树状结构
+    function turnToTree(){
+
+    }
+
+    function notSave(){
+        drawer.value = false
+    }
 </script>
 
 <style scoped>
-    .role {
-        
-    }
+
 </style>

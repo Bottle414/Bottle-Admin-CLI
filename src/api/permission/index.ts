@@ -15,9 +15,12 @@ export function getAllPermissions() : Promise<PermissionRecive>{
     })
 }
 
-export function getPermission() : Promise<PermissionRecive>{
+export function getPermission(roleId : number) : Promise<PermissionRecive>{
     return request({
         url: BASE_URL + API.GET_PERMISSION,
+        params: {
+            roleId
+        },
         method: 'GET'
     })
 }
