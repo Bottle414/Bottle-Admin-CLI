@@ -10,7 +10,7 @@
     import { ref, onMounted } from 'vue'
     const root = ref()
     onMounted(() => {
-        let agePie = echarts.init(root.value)
+        const agePie = echarts.init(root.value)
     
         agePie.setOption({
             tooltip: {

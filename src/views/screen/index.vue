@@ -1,6 +1,5 @@
 <template>
     <div class='screen' ref="screen">
-        <h2 class="top">数据展示</h2>
         <div class="main">
             <div class="left">
                 <Tourist/>
@@ -8,7 +7,9 @@
                 <Age/>
             </div>
             <div class="center">
-                <div class="top"></div>
+                <div class="top">
+                    <Map/>
+                </div>
                 <div class="bottom"></div>
             </div>
             <div class="right"></div>
@@ -20,6 +21,7 @@
     import Sex from './components/Sex.vue'
     import Age from './components/Age.vue'
     import Tourist from './components/Tourist.vue'
+    import Map from './components/Map.vue'
     // 获取dom
     // const screen = ref()
 
@@ -61,11 +63,12 @@
 
     .center {
         flex: 2;
-        background: #555;
+        display: flex;
+        justify-content: center;
+        text-align: center;
 
         .top {
             height: 60%;
-            background: #923;
         }
     }
 
