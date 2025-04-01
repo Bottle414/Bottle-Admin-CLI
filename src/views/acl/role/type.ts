@@ -8,10 +8,3 @@ export interface PermissionData {
 }// TODO: 改成类似三级联动的形式，实现懒加载
 
 export type PermissionList = PermissionData[]
-
-// TODO: 下面这个塞到api里
-export interface PermissionRecive{
-    status: number,
-    message: string,
-    data: PermissionList
-}
