@@ -9,7 +9,7 @@ const useUserStore = defineStore('user',{
     state(): userState {
         return {
             token: GET_TOKEN(),
-            menuRoutes: basicRoutes, // 菜单路由
+            menuRoutes: basicRoutes, // 常量路由 TODO: 抽离异步路由，完成菜单鉴权
             username: '',
             avatar: '',
             id: NaN

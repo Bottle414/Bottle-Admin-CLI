@@ -33,6 +33,9 @@
     const categoryStore = useCategoryStore()
 
     onMounted(async() => {
+        // 清除数据
+        categoryStore.rank1Id = ''
+        categoryStore.rank2Id = ''
         // 获取一级分类
         await categoryStore.getRank1()  // 返回了promise
     })
