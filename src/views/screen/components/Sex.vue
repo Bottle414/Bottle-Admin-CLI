@@ -80,6 +80,7 @@
         box-sizing: border-box;
     }
    .sex {
+        padding: 0 2%;
         width: 100%;
         height: 100%;
     }

@@ -57,12 +57,15 @@
         box-sizing: border-box;
     }
     .map {
+        padding: 0 2%;
         width: 100%;
         height: 100%;
     }
 
     .root {
         width: 100%;
-        height: 100%;
+        height: 90%;
+        border: 1px solid #eee;
+        box-shadow: 1px 1px 1px rgba(100, 100, 100, .2), 1px 2px 2px rgba(100, 100, 100, .1);
     }
 </style>

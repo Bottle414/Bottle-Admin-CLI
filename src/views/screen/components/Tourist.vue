@@ -39,6 +39,7 @@
         box-sizing: border-box;
     }
     .tourist {
+        padding: 0 2%;
         position: relative;
         display: flex;
         flex-direction: column;

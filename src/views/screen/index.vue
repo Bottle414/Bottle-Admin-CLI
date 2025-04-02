@@ -10,9 +10,15 @@
                 <div class="top">
                     <Map/>
                 </div>
-                <div class="bottom"></div>
+                <div class="bottom">
+                    <Future/>
+                </div>
             </div>
-            <div class="right"></div>
+            <div class="right">
+                <Popular/>
+                <Comparison/>
+                <Channel/>
+            </div>
         </div>
     </div>
 </template>
@@ -22,6 +28,10 @@
     import Age from './components/Age.vue'
     import Tourist from './components/Tourist.vue'
     import Map from './components/Map.vue'
+    import Future from './components/Future.vue'
+    import Popular from './components/Popular.vue'
+    import Comparison from './components/Comparison.vue'
+    import Channel from './components/Channel.vue'
     // 获取dom
     // const screen = ref()
 
@@ -63,6 +73,7 @@
     .center {
         flex: 2;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         text-align: center;
         height: 100vh;
@@ -70,6 +81,11 @@
         .top {
             width: 100%;
             height: 60%;
+        }
+
+        .bottom {
+            width: 100%;
+            height: 40%;
         }
     }
 
