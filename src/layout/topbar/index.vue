@@ -74,6 +74,7 @@
     let customize = ref(false)
     let theme = ref(false)
     let defaultTheme = ref(true)
+    // TODO: 修复窗口过小时右边栏遮盖左边的问题
 
     function changeIcon(){
         settingStore.fold = !settingStore.fold

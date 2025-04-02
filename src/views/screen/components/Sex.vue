@@ -70,9 +70,15 @@
             }
         })
     })
+    // TODO: 可以考虑到将公共部分抽离到sass
 </script>
 
 <style scoped lang="scss">
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
    .sex {
         width: 100%;
         height: 100%;

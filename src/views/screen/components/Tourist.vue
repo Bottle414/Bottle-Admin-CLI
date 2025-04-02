@@ -23,20 +23,31 @@
                 data: [0.6]
             }],
             grid:{// 布局
+                top: 0,
                 left: 0,
-                top: 0
+                bottom: 0,
+                right: 0
             }
         })
     })
 </script>
 
 <style scoped>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
     .tourist {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
     }
     .root {
-        width: 70%;
-        height: 300px;
+        position: relative;
+        width: 100%;
+        height: 90%;
     }
 </style>

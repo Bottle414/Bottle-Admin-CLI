@@ -66,8 +66,10 @@
         display: flex;
         justify-content: center;
         text-align: center;
+        height: 100vh;
 
         .top {
+            width: 100%;
             height: 60%;
         }
     }
