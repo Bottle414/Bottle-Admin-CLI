@@ -39,15 +39,15 @@
         box-sizing: border-box;
     }
     .tourist {
+        position: relative;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
         width: 100%;
         height: 100%;
     }
     .root {
         position: relative;
         width: 100%;
-        height: 90%;
+        aspect-ratio: 1 / 1;
     }
 </style>
