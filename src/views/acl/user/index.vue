@@ -1,21 +1,23 @@
 <template>
     <div class='user'>
         <el-card>
-            <el-form class="form" :inline="true">
+            <el-form class="form" :inline="true" style="min-width: 600px;">
                 <el-form-item label="用户名">
                     <el-input placeholder="请输入搜索用户名"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" icon="Search">搜索</el-button>
                     <el-button icon="CloseBold">重置</el-button>
+                    <!-- 加括号传入空值，避免被点击事件替代 -->
+                    <ExcelButton :data="users" sheetType="成员名单"/>
                 </el-form-item>
             </el-form>
         </el-card>
         <el-card style="margin-top: 20px;">
             <el-button type="primary" icon="Plus" @click="addUser">添加</el-button>
-            <el-button type="warning" icon="Delete">批量删除</el-button>
-            <el-table :data="users" border>
-                <el-table-column type="selection"></el-table-column>
+            <el-button type="warning" icon="Delete" @click="bulkDelete">批量删除</el-button>
+            <el-table :data="users" border @selection-change="handleSectionChange">
+                <el-table-column type="selection" prop="deleteList"></el-table-column>
                 <el-table-column prop="index" width="100%" type="index" align="center" label="序号"></el-table-column>
                 <el-table-column prop="id" width="100%" align="center" label="ID"></el-table-column>
                 <el-table-column prop="name" width="150%" label="用户名"></el-table-column>
@@ -53,7 +55,7 @@
                 </el-form-item>
               </el-form>
             </template>
-            <template #footer="{ row }">
+            <template #footer>
                 <el-button type="success" @click="saveChanges()">保存</el-button>
                 <el-button @click="cancel">取消</el-button>
             </template>
@@ -62,32 +64,37 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref } from 'vue'
+    import { ref, onMounted } from 'vue'
     import { register } from '@/api/user'
     import { ElMessage } from 'element-plus';
+    import { deleteInfo, allUsers } from '@/api/user/index'
+    import type { ShowForm, AllUsers } from '@/api/user/type'
+    import exportExcel from '@/utils/excel'
+
     let currentPage = ref(1)
     let pageSize = ref(5)
     let totalData = ref(10)
     let drawer = ref(false)
     let newRole = ref([])
+    let deleteList = ref([])
     let roles = ref(['用户', '经理', '前台'])//TODO: 改为去后端拿，动态展示数据
     // TODO: 写获取所有用户的接口, 动态展示数据
     // TODO: 完成添加人员界面 并提交到后端
-    let users = ref([
-        {
-            id: 123,
-            name: 'pig',
-            role: '吉祥物',
-            createTime: '2025-3-30',
-            updateTime: '2025-3-30'
-        },
-        {
-            id: 456,
-            name: 'cat',
-            role: '吉祥物',
-            createTime: '2025-3-30',
-            updateTime: '2025-3-30'
-        }
+    let users = ref<ShowForm>([
+        // {
+        //     id: 123,
+        //     name: 'pig',
+        //     role: '吉祥物',
+        //     createTime: '2025-3-30',
+        //     updateTime: '2025-3-30'
+        // },
+        // {
+        //     id: 456,
+        //     name: 'cat',
+        //     role: '吉祥物',
+        //     createTime: '2025-3-30',
+        //     updateTime: '2025-3-30'
+        // }
     ])
 
     // TODO: 绑定输入
@@ -96,6 +103,29 @@
         role: '',
         password: ''
     })
+
+    onMounted(async() => {
+        await getAllUsers()
+    })
+
+    async function getAllUsers(){
+        const result = await allUsers()
+        if (result.status === 200){
+            result.data.map(user => {
+                users.value.push({
+                    id: user.id,
+                    name: user.username,
+                    role: user.role,
+                    createTime: new Date().getTime().toString(),
+                    updateTime: new Date().getTime().toString()
+                })
+            })
+        }
+    }
+
+    function handleSectionChange(selectRows : any){
+        deleteList.value = selectRows.map((row : any) => row?.id)
+    }
 
     function editUser(){// 清空表单数据 OBject.assign
         drawer.value = true
@@ -111,6 +141,7 @@
     function addUser(){
         drawer.value = true
     }
+
     // TODO: 限制类型
     async function saveChanges(){// 提交到后端
         newUser.value.role = newRole.value[0]
@@ -122,10 +153,36 @@
                 message: '添加成功'
             })
             drawer.value = false
+        }else {
+            ElMessage({
+                type: "error",
+                message: '添加失败'
+            })
         }
+        await getAllUsers()
     }
+
     function cancel(){
         drawer.value = false
+    }
+
+    async function bulkDelete(){
+        console.log(deleteList.value);
+        const result = await deleteInfo(deleteList.value)
+        if (result.status === 200){
+            ElMessage({
+                type: 'success',
+                message: '删除成功'
+            })
+            // 调用最新数据
+        }else {
+            ElMessage({
+                type: 'success',
+                message: '删除失败'
+            })
+        }
+
+        await allUsers()
     }
 </script>
 

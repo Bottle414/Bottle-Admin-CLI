@@ -2,6 +2,7 @@
     <div class="trademark">
         <el-card style="max-width: 100%" shadow="hover">
             <el-button type="primary" icon="Plus" @click="addItem">添加品牌</el-button>
+            <ExcelButton :data="brands" sheetType="品牌一览"/>
             <el-table :data="brands" border style="margin:10px 0; width: 100%">
                 <el-table-column prop="id" label="ID" width="100%" align="center"/>
                 <el-table-column prop="name" label="品牌名称" align="center"/>
@@ -90,6 +91,17 @@
         ]
     }
 
+    
+    let currentPage = ref<number>(1)
+    let pageSize = ref(3)// 每页数据条数
+    let brands = ref([] as BrandInfo[])
+    let total = ref(NaN as Total)
+
+    // 获取初次数据
+    onMounted(() => {
+        reqBrands()
+    })
+
     const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
         if (!['image/jpeg', 'image/png'].includes(rawFile.type)) {// 有多项，使用includes代替逻辑判断
             ElMessage.error('图片必须是jpg或png格式')
@@ -98,8 +110,7 @@
             ElMessage.error('图片大小不要超过10MB')
             return false
         }
-        form.logo  = URL.createObjectURL(rawFile)
-        console.log('frontend logo: ' + form.logo);
+        form.logo = URL.createObjectURL(rawFile)
         return true
     }
 
@@ -131,16 +142,6 @@
             ElMessage.error('图片上传失败 : ' + response.message)
         }     
     }
-
-    let currentPage = ref<number>(1)
-    let pageSize = ref(3)// 每页数据条数
-    let brands = ref([] as BrandInfo[])
-    let total = ref(NaN as Total)
-
-    // 获取初次数据
-    onMounted(() => {
-        reqBrands()
-    })
 
     async function reqBrands(){
         const response = await getAllBrands()

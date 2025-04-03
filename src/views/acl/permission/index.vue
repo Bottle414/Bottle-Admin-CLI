@@ -1,6 +1,6 @@
 <template>
     <div class='permission'>
-        <h1>permission</h1>
+        <h1>可以偷懒吗 我累了</h1>
     </div>
 </template>
 

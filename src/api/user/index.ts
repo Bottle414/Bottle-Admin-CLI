@@ -1,13 +1,14 @@
 import request from "@/api"
-import type { LoginInfo, ReciveFrom, RegisterInfo, UserInfo, RegisterFrom } from "./type"
+import type { LoginInfo, ReciveFrom, RegisterInfo, UserInfo, RegisterFrom, AllUsers, AllUsersRecive } from "./type"
 
 const USER_BASE = '/user'
 enum API {
     REGISTER_URL = '/register',
     LOGIN_URL = '/login',
     GET_URL = '/userInfo',
-    UPDATE_URL = '/updateInfo'
-    // TODO: 注销
+    UPDATE_URL = '/updateInfo',
+    DELETE_URL = '/deleteInfo',
+    ALL_URL = '/allUsers'
 }
 
 // 用户注册
@@ -36,11 +37,28 @@ export function getUser() : Promise<ReciveFrom>{
     })
 }
 
+// 获取所有成员信息
+export function allUsers() : Promise<AllUsersRecive>{
+    return request({
+        url: USER_BASE + API.ALL_URL,
+        method: 'GET'
+    })
+}
+
 // 更新用户信息 带新数据，后端去token拿id识别
 export function updateInfo(userInfo : UserInfo){
     return request({
         url: USER_BASE + API.UPDATE_URL,
         method: 'POST',
         data: userInfo
+    })
+}
+
+// 删除用户信息
+export function deleteInfo(userIds : string[]) : Promise<ReciveFrom>{
+    return request({
+        url: USER_BASE + API.DELETE_URL,
+        method: 'POST',
+        data: userIds
     })
 }

@@ -1,13 +1,14 @@
 <template>
     <div class='role'>
         <el-card>
-            <el-form class="form" :inline="true">
+            <el-form class="form" :inline="true" style="min-width: 650px;">
                 <el-form-item label="职位搜索">
                     <el-input placeholder="请输入搜索职位名"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" icon="Search">搜索</el-button>
                     <el-button icon="CloseBold">重置</el-button>
+                    <ExcelButton :data="users" sheetType="职位表"/>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -56,7 +57,7 @@
 <script lang='ts' setup>
     import { ref, onMounted, nextTick } from 'vue'
     import { getAllPermissions, getPermission } from '@/api/permission/index'
-    import type { PermissionList } from './type'
+    import exportExcel from '@/utils/excel'
 
     let currentPage = ref(1)
     let totalData = ref(10)
@@ -130,5 +131,10 @@
 </script>
 
 <style scoped>
-
+    .form {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-width: 500px;
+    }
 </style>
