@@ -14,9 +14,18 @@ export interface LoginInfo{
     check: string
 }
 
+export type RegisterInfo = LoginInfo
+
 export interface ReciveFrom{
-    token: string,
+    token: string,// 注册无token
     status: number,
     message: string,
     data: UserInfo
 }
+
+export interface RegisterFrom{
+    status: number,
+    message: string,
+    data: UserInfo
+}
+// TODO: 接口继承，优化结构

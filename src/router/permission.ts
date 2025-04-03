@@ -15,8 +15,8 @@ router.beforeEach(async(to, from, next) => {
     const username = userStore.username
     if (token){// 登录了
         document.title = `${ logoConfig.title } - ${ to.meta.title }` 
-        if (to.path === '/login'){
-            next({path: '/'})// 登录页面不能去
+        if (to.path === '/login' || to.path === '/register'){
+            next({path: '/'})// 登录注册页面不能去
         }else { // 确保有用户信息再去
             if (username){
                 next()
@@ -32,7 +32,7 @@ router.beforeEach(async(to, from, next) => {
             }
         }
     }else {// 未登录
-        to.path === '/login' ? next() : next({path:'/login',query:{redirect: to.path}})// 其他的不能去，只能去login
+        to.path === '/login' || '/register' ? next() : next({path:'/login',query:{redirect: to.path}})// 其他的不能去，只能去login
     }
 })
 

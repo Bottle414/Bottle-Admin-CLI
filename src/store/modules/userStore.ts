@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from "@/utils/token"
-import { getUser, login } from "@/api/user/index"
-import type { UserInfo, LoginInfo } from "@/api/user/type"
+import { getUser, login, register } from "@/api/user/index"
+import type { RegisterInfo, LoginInfo } from "@/api/user/type"
 // import { basicRoutes } from "@/router/routes.ts"
 import { asyncRoutes } from "@/router/asyncRoutes"
 import { basicRoutes } from "@/router/basicRoutes"
@@ -31,6 +31,15 @@ const useUserStore = defineStore('user',{
         }
     },
     actions: {
+        // TODO: LoginInfo改名
+        async userRegister(userInfo : RegisterInfo){
+            const response = await register(userInfo)
+            if (response.status === 200){
+                return 'ok'
+            }else {
+                return Promise.reject(new Error(response.message))
+            }
+        },
 
         async userLogin(userInfo : LoginInfo){
             const response = await login(userInfo)
@@ -43,6 +52,7 @@ const useUserStore = defineStore('user',{
                 return Promise.reject(new Error(response.message))
             }
         },
+
         async getUserInfo(){
             const response = await getUser()
             if (response.status === 200){

@@ -1,7 +1,7 @@
 <template>
-    <div class="login">
-        <el-form class="login-form" :rules="rules">
-            <h1>Welcome</h1>
+    <div class="register">
+        <el-form class="register-form" :rules="rules">
+            <h1>Register</h1>
             <el-form-item label="username">
                 <el-input v-model="formData.username" :prefix-icon="User"></el-input>
             </el-form-item>
@@ -12,9 +12,9 @@
                 <el-input type="password"  v-model="formData.check" :prefix-icon="Check"></el-input>
             </el-form-item>
             <el-form-item>
-                <div class="login-btn">
-                    <el-button class="btn" type="primary" :loading="loadingBtn" @click="onSubmit">Login</el-button>
-                    <el-button class="btn">Cancel</el-button>
+                <div class="register-btn">
+                    <el-button class="btn" type="primary" :loading="loadingBtn" @click="onSubmit">register</el-button>
+                    <el-button class="btn" @click="toLogin">Cancel</el-button>
                 </div>
             </el-form-item>
         </el-form>
@@ -24,7 +24,7 @@
 <script lang='ts' setup>
     import { ref } from 'vue'
     import { User, Lock, Check } from '@element-plus/icons-vue'
-    import { ElNotification,  ElMessage, ElMessageBox } from 'element-plus'
+    import { ElNotification } from 'element-plus'
     import router from '@/router'
     import { useRoute } from 'vue-router'
     import useUserStore from '@/store/modules/userStore.ts'// 引入用户相关小仓库
@@ -63,16 +63,15 @@
     async function onSubmit(){
         // 叫用户仓库发请求
         loadingBtn.value = true // 旋转图标甚至达成了防抖
-        userStore.userLogin(formData.value)
+        userStore.userRegister(formData.value)
             .then(res => {
                 // 成功
                 router.push({
-                    path: (route.query.redirect || '/').toString()
+                    path: ('/login')
                 })
                 ElNotification({
                     type: 'success',
-                    title: `Good ${getTimeText()}!`,
-                    message: 'Welcome back',
+                    message: 'Register success',
                     position: 'top-right'
                 })
             })
@@ -80,50 +79,38 @@
                 // 失败
                 ElNotification({
                     type: 'error',
-                    title: 'login failed',
-                    message: err.message || 'login failed',
+                    title: 'register failed',
+                    message: err.message || 'register failed',
                     position: 'top-right'
                 })
-                
-                if (err.message === 'Error find username : user not exist'){
-                    ElMessageBox.confirm(
-                        '用户未注册，是否前往注册页面?',
-                        'Warning',
-                        {
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
-                        type: 'info',
-                        }
-                    ).then(() => {
-                        router.push({
-                            path: ('/register')
-                        })
-                    }).catch(() => {})
-                }
             })
             .finally (() =>{
                 loadingBtn.value = false
             })
     }
+
+    function toLogin(){
+        router.push('/login')
+    }
 </script>
 
 <style scoped lang="scss">
-    .login{
+    .register{
         width: 100%;
         height: 100vh;
-        background: url('@/assets/icons/undraw_login_wqkt.svg') no-repeat;  // 用@的好处：文件深度改变也不会报错
+        background: url('@/assets/icons/undraw_register.svg') no-repeat;  // 用@的好处：文件深度改变也不会报错
         background-position: 10% 50%;/* 左边、右边 */
         background-size: 40%;
     }
 
-    .login-form {
+    .register-form {
         h1 {
             padding: 0 35%;
             padding-bottom: 10px;
             color: #333;
         }
 
-        .login-btn {
+        .register-btn {
             display: flex;
             width: 100%;
             justify-content: center;

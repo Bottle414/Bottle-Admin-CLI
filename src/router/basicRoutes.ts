@@ -10,6 +10,16 @@ export const basicRoutes = [
 		}
 	},
 	{
+		name: "register",
+		path: "/register",
+		component: () => import("@/views/register/index.vue"),
+		meta: {
+			title: "注册",
+			icon: "Promotion",
+			hidden: true
+		}
+	},
+	{
 		name: "login",
 		path: "/login",
 		component: () => import("@/views/login/index.vue"),

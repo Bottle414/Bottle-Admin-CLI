@@ -1,5 +1,5 @@
 import request from "@/api"
-import type { LoginInfo, ReciveFrom, UserInfo } from "./type"
+import type { LoginInfo, ReciveFrom, RegisterInfo, UserInfo, RegisterFrom } from "./type"
 
 const USER_BASE = '/user'
 enum API {
@@ -11,7 +11,7 @@ enum API {
 }
 
 // 用户注册
-export function register(userInfo : UserInfo){
+export function register(userInfo : RegisterInfo) : Promise<RegisterFrom>{
     return request({
         url: USER_BASE + API.REGISTER_URL,
         method: 'POST',
