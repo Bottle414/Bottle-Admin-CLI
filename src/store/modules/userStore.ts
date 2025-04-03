@@ -31,10 +31,9 @@ const useUserStore = defineStore('user',{
         }
     },
     actions: {
-        // TODO: LoginInfo改名
         async userRegister(userInfo : RegisterInfo){
             const response = await register(userInfo)
-            if (response.status === 200){
+            if (response.status === 201){
                 return 'ok'
             }else {
                 return Promise.reject(new Error(response.message))

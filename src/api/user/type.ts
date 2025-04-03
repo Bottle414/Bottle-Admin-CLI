@@ -11,7 +11,7 @@ export interface UserInfo{
 export interface LoginInfo{
     username: string,
     password: string,
-    check: string
+    check?: string
 }
 
 export type RegisterInfo = LoginInfo

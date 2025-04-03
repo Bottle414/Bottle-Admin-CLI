@@ -12,7 +12,7 @@
             </el-form>
         </el-card>
         <el-card style="margin-top: 20px;">
-            <el-button type="primary" icon="Plus">添加</el-button>
+            <el-button type="primary" icon="Plus" @click="addUser">添加</el-button>
             <el-button type="warning" icon="Delete">批量删除</el-button>
             <el-table :data="users" border>
                 <el-table-column type="selection"></el-table-column>
@@ -39,23 +39,23 @@
             <template #default>
               <el-form>
                 <el-form-item label="用户姓名">
-                    <el-input placeholder="请填写用户名"></el-input>
+                    <el-input placeholder="请填写用户名" v-model="newUser.username"></el-input>
                 </el-form-item>
                 <el-form-item label="用户角色">
-                    <el-checkbox-group v-model="checkedList" :max="1">
+                    <el-checkbox-group v-model="newRole" :max="1">
                         <el-checkbox v-for="role in roles" :key="role" :label="role" :value="role">
                             {{ role }}
                           </el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="用户密码">
-                    <el-input placeholder="请填写用户密码"></el-input>
+                    <el-input placeholder="请填写用户密码" v-model="newUser.password"></el-input>
                 </el-form-item>
               </el-form>
             </template>
-            <template #footer>
-                <el-button type="success">保存</el-button>
-                <el-button>取消</el-button>
+            <template #footer="{ row }">
+                <el-button type="success" @click="saveChanges()">保存</el-button>
+                <el-button @click="cancel">取消</el-button>
             </template>
         </el-drawer>
     </div>
@@ -63,12 +63,16 @@
 
 <script lang='ts' setup>
     import { ref } from 'vue'
+    import { register } from '@/api/user'
+    import { ElMessage } from 'element-plus';
     let currentPage = ref(1)
     let pageSize = ref(5)
     let totalData = ref(10)
     let drawer = ref(false)
-    let roles = ref(['用户', '经理', '前台'])
-    let checkedList = ref([])
+    let newRole = ref([])
+    let roles = ref(['用户', '经理', '前台'])//TODO: 改为去后端拿，动态展示数据
+    // TODO: 写获取所有用户的接口, 动态展示数据
+    // TODO: 完成添加人员界面 并提交到后端
     let users = ref([
         {
             id: 123,
@@ -86,8 +90,42 @@
         }
     ])
 
-    function editUser(){
+    // TODO: 绑定输入
+    let newUser = ref({
+        username: '',
+        role: '',
+        password: ''
+    })
+
+    function editUser(){// 清空表单数据 OBject.assign
         drawer.value = true
+        newRole.value = []
+        Object.assign(newUser.value,
+        {
+            username: '',
+            role: '',
+            password: ''
+        })
+    }
+
+    function addUser(){
+        drawer.value = true
+    }
+    // TODO: 限制类型
+    async function saveChanges(){// 提交到后端
+        newUser.value.role = newRole.value[0]
+        // TODO: 写添加用户的接口
+        const result = await register(newUser.value)
+        if (result.status === 201){
+            ElMessage({
+                type: 'success',
+                message: '添加成功'
+            })
+            drawer.value = false
+        }
+    }
+    function cancel(){
+        drawer.value = false
     }
 </script>
 

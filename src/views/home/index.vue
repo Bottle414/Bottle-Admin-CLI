@@ -32,7 +32,7 @@
         gap: 10%;
     }
     .headImage {
-        width: 30%;
+        width: 15%;
         aspect-ratio: 1 / 1;
         border: 1px solid #bbb;
         border-radius: 100%;

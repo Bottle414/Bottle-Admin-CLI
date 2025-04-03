@@ -5,6 +5,7 @@
                 <Tourist/>
                 <Sex/>
                 <Age/>
+                <!-- TODO: 优化界面 -->
             </div>
             <div class="center">
                 <div class="top">
