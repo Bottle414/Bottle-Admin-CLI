@@ -14,7 +14,7 @@
             <el-form-item>
                 <div class="register-btn">
                     <el-button class="btn" type="primary" :loading="loadingBtn" @click="onSubmit">register</el-button>
-                    <el-button class="btn" @click="toLogin">Cancel</el-button>
+                    <el-button class="btn" @click="toLogin">Login</el-button>
                 </div>
             </el-form-item>
         </el-form>

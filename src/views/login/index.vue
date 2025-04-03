@@ -17,6 +17,9 @@
                     <el-button class="btn">Cancel</el-button>
                 </div>
             </el-form-item>
+            <el-form-item style="padding: 0;">
+                没有账号?<router-link :to="'/register'">注册一个！</router-link>
+            </el-form-item>
         </el-form>
     </div>
 </template>
