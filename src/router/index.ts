@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router"
-import { basicRoutes } from "./routes" // 这样可以让路由结构更清晰
-
-const routes = [
+import { basicRoutes } from "./basicRoutes.ts" // 这样可以让路由结构更清晰
+import { asyncRoutes } from "./asyncRoutes.ts"
+export const routes = [
 	...basicRoutes, // ... 是 展开运算符（Spread Operator）的缩写。它用于将一个数组或对象的元素/属性 "展开" 到另一个数组或对象中。这个操作可以将多个数组或对象合并在一起，或者将数组/对象的元素传递给函数。
+    ...asyncRoutes,
 	// 不写展开: 在这种情况下，routes 数组中的每个元素都会是一个数组，不是单独的路由配置对象。这意味着你会把整个 authRoutes, userRoutes 和 settingsRoutes 数组当作单一元素放入 routes 中。最终，routes 变成了一个包含三个数组的二维数组，而不是一个简单的一维数组。
 	{
 		name: "any",

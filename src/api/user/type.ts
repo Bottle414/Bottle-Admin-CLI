@@ -4,6 +4,7 @@ export interface UserInfo{
     password: string,
     avatar: string,
     role: string,
+    routes: string[],
     status: boolean
 }
 

@@ -2,14 +2,29 @@ import { defineStore } from "pinia"
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from "@/utils/token"
 import { getUser, login } from "@/api/user/index"
 import type { UserInfo, LoginInfo } from "@/api/user/type"
-import { basicRoutes } from "@/router/routes.ts"
+// import { basicRoutes } from "@/router/routes.ts"
+import { asyncRoutes } from "@/router/asyncRoutes"
+import { basicRoutes } from "@/router/basicRoutes"
 import type { userState } from "../type"
+
+// 此处进行路由过滤 兼容性较差 TODO: 限制类型 
+function filterRoutes(asyncRoutes: any, userRoutes: any){
+    return asyncRoutes.filter((item:any) => {
+        if (userRoutes.includes(item.name)){
+            if (item.children && item.children.length){
+                item.children = filterRoutes(item.children, userRoutes)
+            }
+            return true
+        }
+    })
+}
+// structuredClone(asyncRoutes)
 
 const useUserStore = defineStore('user',{
     state(): userState {
         return {
             token: GET_TOKEN(),
-            menuRoutes: basicRoutes, // 常量路由 TODO: 抽离异步路由，完成菜单鉴权
+            menuRoutes: [], // 常量路由 TODO: 抽离异步路由，完成菜单鉴权
             username: '',
             avatar: '',
             id: NaN
@@ -35,6 +50,10 @@ const useUserStore = defineStore('user',{
                 this.id = userInfo.id
                 this.username = userInfo.username
                 this.avatar = userInfo.avatar
+                console.log(this.menuRoutes);
+                // 这里调用过滤 structuredClone 不能克隆 component: () => import(...),所以去掉以后就好了 改用 JSON.parse(JSON.stringify(...)) 处理
+                this.menuRoutes = [...filterRoutes(JSON.parse(JSON.stringify(asyncRoutes)), userInfo.routes), ...basicRoutes]// 改用深拷贝
+                console.log(this.menuRoutes);
                 return 'ok';
             }else {
                 return Promise.reject('获取用户信息失败');
