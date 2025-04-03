@@ -9,7 +9,7 @@ enum API {
     GET_RANK3 = '/rank3',
     GET_TAGS = '/getTags',
     EDIT_TAGS = '/editTags',
-    DELETE_ATTR = 'deleteAttr'
+    DELETE_ATTR = '/deleteAttr'
 }
 
 console.log('url ' + BASE_URL + API.GET_RANK1);

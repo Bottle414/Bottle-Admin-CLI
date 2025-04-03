@@ -32,6 +32,7 @@
             path: vc.index  // 以path作为唯一标识符使得这里以index可以跳转路由
         })
     }
+    // TODO: 优化折叠动画
 
     defineProps(['menuList']) // 获取layout传来的菜单项
     defineOptions({
