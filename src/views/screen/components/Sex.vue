@@ -11,8 +11,11 @@
 
 <script lang='ts' setup>
     import * as echarts from 'echarts'
-    import { ref, onMounted } from 'vue'
-    let root = ref()
+    import { ref, onMounted, onBeforeUnmount } from 'vue'
+    import useChartResize from '@/utils/chartsResize'
+    const root = ref()
+
+    let removeResizeListener: () => void
 
     onMounted(() => {
         // 初始化echarts
@@ -69,8 +72,13 @@
                 right: 0
             }
         })
+
+        removeResizeListener = useChartResize(sexbar)
     })
     // TODO: 可以考虑到将公共部分抽离到sass
+    onBeforeUnmount(() => {
+        removeResizeListener()
+    })
 </script>
 
 <style scoped lang="scss">

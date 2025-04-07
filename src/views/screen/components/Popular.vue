@@ -6,9 +6,12 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, onBeforeUnmount } from 'vue'
     import * as echarts from 'echarts'
+    import useChartResize from '@/utils/chartsResize'
     const root = ref()
+
+    let removeResizeListener: () => void
     const data = <any>[]
     for (let i = 0; i < 5; ++i) {
         data.push(Math.round(Math.random() * 200))
@@ -53,7 +56,10 @@
             animationDurationUpdate: 3000,
             animationEasing: 'linear',
             animationEasingUpdate: 'linear'
-    })})
+        })
+
+        removeResizeListener = useChartResize(activeRanks)
+    })
     setTimeout(() => {
         run()
     }, 0)
@@ -70,6 +76,10 @@
             }
         }
     }
+
+    onBeforeUnmount(() => {
+        removeResizeListener()
+    })
     
 </script>
 

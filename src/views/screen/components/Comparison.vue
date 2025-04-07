@@ -6,10 +6,12 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, onBeforeUnmount } from 'vue'
     import * as echarts from 'echarts'
+    import useChartResize from '@/utils/chartsResize'
     const root = ref()
 
+    let removeResizeListener: () => void
     onMounted(() => {
         const comparisionBar = echarts.init(root.value)
         comparisionBar.setOption({
@@ -59,6 +61,12 @@
                 }
             ]
         })
+
+        removeResizeListener = useChartResize(comparisionBar)
+    })
+
+    onBeforeUnmount(() => {
+        removeResizeListener()
     })
     
 </script>

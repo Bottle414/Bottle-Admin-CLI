@@ -7,10 +7,14 @@
 
 <script lang='ts' setup>
     import * as echarts from 'echarts'
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, onBeforeUnmount } from 'vue'
+    import useChartResize from '@/utils/chartsResize'
+
     const root = ref()
+    let agePie: any = {}
+    let removeResizeListener: () => void
     onMounted(() => {
-        const agePie = echarts.init(root.value)
+        agePie = echarts.init(root.value)
     
         agePie.setOption({
             tooltip: {
@@ -46,6 +50,12 @@
                 bottom: 0
             }
         })
+         // 注册 resize 监听器
+        removeResizeListener = useChartResize(agePie)
+    })
+
+    onBeforeUnmount(() => {
+        removeResizeListener()
     })
 </script>
 

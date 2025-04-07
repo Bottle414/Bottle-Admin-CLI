@@ -6,9 +6,11 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, onBeforeUnmount } from 'vue'
     import * as echarts from 'echarts'
+    import useChartResize from '@/utils/chartsResize'
     const root = ref()
+    let removeResizeListener: () => void
 
     onMounted(() => {
         const channel = echarts.init(root.value)
@@ -56,6 +58,12 @@
                 }
             ]
         })
+
+        removeResizeListener = useChartResize(channel)
+    })
+
+    onBeforeUnmount(() => {
+        removeResizeListener()
     })
     
 </script>

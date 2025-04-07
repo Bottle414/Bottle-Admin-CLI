@@ -6,10 +6,13 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, onBeforeUnmount } from 'vue'
     import * as echarts from 'echarts'
     import chinaData from './map.json'
+    import useChartResize from '@/utils/chartsResize'
     const root = ref()
+
+    let removeResizeListener: () => void
     echarts.registerMap('china', chinaData as any)
 
     onMounted(() => {
@@ -47,6 +50,10 @@
                 bottom: 0
             }
         })
+    })
+
+    onBeforeUnmount(() => {
+        removeResizeListener()
     })
 </script>
 

@@ -69,7 +69,7 @@
     import { ElMessage } from 'element-plus';
     import { deleteInfo, allUsers } from '@/api/user/index'
     import type { ShowForm, AllUsers } from '@/api/user/type'
-    import exportExcel from '@/utils/excel'
+    // import draggable from "vuedraggable";
 
     let currentPage = ref(1)
     let pageSize = ref(5)

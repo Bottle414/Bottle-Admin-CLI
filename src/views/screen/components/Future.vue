@@ -6,9 +6,12 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, onBeforeUnmount } from 'vue'
     import * as echarts from 'echarts'
+    import useChartResize from '@/utils/chartsResize'
     const root = ref()
+
+    let removeResizeListener: () => void
     let fakeData = [820, 932, 901, 934, 1290, 1330, 1320]// TODO: 改成真实数据
 
     onMounted(() => {
@@ -29,6 +32,12 @@
                 }
             ]
         })
+
+        removeResizeListener = useChartResize(futureLine)
+    })
+
+    onBeforeUnmount(() => {
+        removeResizeListener()
     })
     
 </script>

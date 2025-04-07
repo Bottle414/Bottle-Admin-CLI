@@ -7,10 +7,13 @@
 </template>
 
 <script lang='ts' setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, onBeforeUnmount } from 'vue'
     import * as echarts from 'echarts'
     import 'echarts-liquidfill'
-    const root = ref()// echart展示的DOM结点
+    import useChartResize from '@/utils/chartsResize'
+    const root = ref()
+
+    let removeResizeListener: () => void// echart展示的DOM结点
     onMounted(() => {
         const ballChart = echarts.init(root.value)// 获取echart实例
         // 配置echart实例
@@ -29,6 +32,12 @@
                 right: 0
             }
         })
+
+        removeResizeListener = useChartResize(ballChart)
+    })
+
+    onBeforeUnmount(() => {
+        removeResizeListener()
     })
 </script>
 
