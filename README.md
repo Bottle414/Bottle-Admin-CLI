@@ -1,6 +1,8 @@
 # tourism-project
 
-This template should help get you started developing with Vue 3 in Vite.
+后台管理系统的前端
+## 前三次提交是英文的解释
+一开始想遵守git提交规范，但是发现每写一句话都要问问ai怎么翻译，于是后续全部改成中文了。git提交有不及时的地方。请老师包涵！
 
 ## Recommended IDE Setup
 
