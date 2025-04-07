@@ -1,0 +1,12 @@
+{
+    "name": "后台管理系统",
+    "short_name": "管理系统",
+    "description": "一个后台管理系统",
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "theme_color": "#42b983",
+    "display": "standalone",
+    "icons": [
+        "herta.jpg"
+    ]
+}  
