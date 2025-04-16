@@ -12,10 +12,10 @@ import 'element-plus/theme-chalk/dark/css-vars.css'// 暗黑模式
 
 if ('serviceWorker' in navigator) {// 注册service worker
     navigator.serviceWorker.register('/service-worker.js').then((registration) => {
-      console.log('Service Worker registered with scope:', registration.scope);
+      console.log('Service Worker registered with scope:', registration.scope)
     }).catch((error) => {
-      console.log('Service Worker registration failed:', error);
-    });
+      console.log('Service Worker registration failed:', error)
+    })
 }  
 
 const app = createApp(App)

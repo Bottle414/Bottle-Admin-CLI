@@ -10,7 +10,7 @@
     import * as echarts from 'echarts'
     import useChartResize from '@/utils/chartsResize'
     const root = ref()
-    let removeResizeListener: () => void
+    let removeResizeListener = () => {} // 默认为空函数
 
     onMounted(() => {
         const channel = echarts.init(root.value)

@@ -10,8 +10,8 @@
     import * as echarts from 'echarts'
     import useChartResize from '@/utils/chartsResize'
     const root = ref()
+    let removeResizeListener = () => {} // 默认为空函数
 
-    let removeResizeListener: () => void
     const data = <any>[]
     for (let i = 0; i < 5; ++i) {
         data.push(Math.round(Math.random() * 200))

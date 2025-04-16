@@ -10,8 +10,8 @@
     import * as echarts from 'echarts'
     import useChartResize from '@/utils/chartsResize'
     const root = ref()
+    let removeResizeListener = () => {} // 默认为空函数
 
-    let removeResizeListener: () => void
     let fakeData = [820, 932, 901, 934, 1290, 1330, 1320]// TODO: 改成真实数据
 
     onMounted(() => {

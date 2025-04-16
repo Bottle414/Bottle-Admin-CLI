@@ -10,8 +10,8 @@
     import * as echarts from 'echarts'
     import useChartResize from '@/utils/chartsResize'
     const root = ref()
+    let removeResizeListener = () => {} // 默认为空函数
 
-    let removeResizeListener: () => void
     onMounted(() => {
         const comparisionBar = echarts.init(root.value)
         comparisionBar.setOption({

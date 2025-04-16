@@ -14,8 +14,7 @@
     import { ref, onMounted, onBeforeUnmount } from 'vue'
     import useChartResize from '@/utils/chartsResize'
     const root = ref()
-
-    let removeResizeListener: () => void
+    let removeResizeListener = () => {} // 默认为空函数
 
     onMounted(() => {
         // 初始化echarts

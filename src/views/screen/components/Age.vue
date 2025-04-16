@@ -12,7 +12,8 @@
 
     const root = ref()
     let agePie: any = {}
-    let removeResizeListener: () => void
+    let removeResizeListener = () => {} // 默认为空函数
+
     onMounted(() => {
         agePie = echarts.init(root.value)
     

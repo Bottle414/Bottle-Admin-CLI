@@ -11,8 +11,8 @@
     import chinaData from './map.json'
     import useChartResize from '@/utils/chartsResize'
     const root = ref()
+    let removeResizeListener = () => {} // 默认为空函数
 
-    let removeResizeListener: () => void
     echarts.registerMap('china', chinaData as any)
 
     onMounted(() => {

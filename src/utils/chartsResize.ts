@@ -1,8 +1,7 @@
-import type echarts from "echarts"
 import { debounce } from "./debounce"
 
 // utils/chartsResize.ts
-export default function useChartResize(chart: echarts.ECharts) {
+export default function useChartResize(chart: any) {
     const resizeHandler = debounce(() => {
         chart.resize()
     }, 1200)// 防抖

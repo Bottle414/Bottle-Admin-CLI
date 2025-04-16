@@ -1,0 +1,20 @@
+# 使用官方 Node 镜像
+FROM node:22.13.0
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制 package.json 和 package-lock.json（如果有的话）
+COPY package*.json ./
+
+# 安装依赖
+RUN npm install
+
+# 复制所有前端源代码到容器内
+COPY . .
+
+# 构建前端应用
+RUN npm run build  # 如果你使用 Vite，确保 `npm run build` 会生成 dist/ 文件夹
+
+# 启动应用（如果你使用静态文件服务器，可能是这样）
+CMD ["npm", "run", "serve"]

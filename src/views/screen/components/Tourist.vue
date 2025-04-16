@@ -12,8 +12,8 @@
     import 'echarts-liquidfill'
     import useChartResize from '@/utils/chartsResize'
     const root = ref()
-
-    let removeResizeListener: () => void// echart展示的DOM结点
+    let removeResizeListener = () => {} // 默认为空函数
+    // echart展示的DOM结点
     onMounted(() => {
         const ballChart = echarts.init(root.value)// 获取echart实例
         // 配置echart实例
