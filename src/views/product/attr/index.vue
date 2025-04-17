@@ -32,12 +32,12 @@
                     </el-form-item>
                     <el-table border :data=" attrs || form.tags"><!-- 据此动态添加标签 -->
                         <el-table-column type="index" label="序号" width="100%"></el-table-column>
-                        <el-table-column props="tags" label="标签名">
+                        <el-table-column prop="tags" label="标签名">
                             <!-- row 是form.tags -->
                             <template #default="{ row, index }">
                                 <el-tag v-for="tag in row.tags" :key="tag.tag_id" :type="tag.tag_id % 2 ? 'success' : 'warning'">{{ tag.tag_name }}</el-tag>
                                 <el-input :ref="(vc : any) => inputs[index] = vc" v-if="row.editing" @blur="toLook(row, index)" v-model="row.tag_name" placeholder="新的标签名"></el-input>
-                                <div v-else @click="toSet(row, index)">{{ row.tag_name }}</div>
+                                <div v-else @click="toSet(row, index)" style="width: 300px; height: 50px; background: #eee;">{{ row.tag_name }}</div>
                             </template>
                         </el-table-column>
                         <el-table-column label="操作" width="250%">
@@ -77,7 +77,6 @@
 
     watch(() => categoryStore.rank3Id, async() => {
         const { rank1Id, rank2Id, rank3Id } = categoryStore
-        console.log(rank1Id, rank2Id, rank3Id);
         // 变化要清空之前的查询结果
         attrs.value = []
         if (rank3Id !== ''){// 避免清空也发请求
@@ -106,6 +105,8 @@
                 type: 'success',
                 message: '属性删除成功'
             })
+            // 再次获取请求
+            getAttrs(categoryStore.rank3Id as number)
         }else {
             ElMessage({
                 type: 'error',
@@ -147,11 +148,13 @@
         row.editing = true
         // console.log(inputs[index]); 直接打印显示undefined，是因为组件还没渲染完毕就被拿过来了
         nextTick(() => {
+            console.log(inputs.value);
             inputs.value[index].focus()
         })// ref可以获得组件实例 延时器虽然可以定时，但不确定代码什么时候会被执行
     }
 
     function toLook(row : Tag, index : number){// 注意不要直接传属性，不会改变到row上
+        console.log(row);
         // 如果属性为空 移开以后点不到 上传也是空，要删除
         if (row.tag_name.trim() == ''){
             ElMessage({
@@ -173,6 +176,9 @@
                 return
             }
         })
+        // 保存
+        save(row.attr_id, row.tag_id, categoryStore.rank3Id as number, row.tag_name)
+        console.log(row.attr_id, row.tag_id, categoryStore.rank3Id as number, row.tag_name);
         row.editing = false
     }
 
@@ -180,9 +186,9 @@
         form.value.tags.splice(index, 1)// filter会返回新数组，所以需要赋值
     }
 
-    async function save(){
+    async function save(attr_id: number | null, tag_id: number | null, rank3Id: number, tag_name: string){
         try {
-            const result = await editTags(form.value)
+            const result = await editTags(attr_id, tag_id, rank3Id, tag_name)
             if (result.status === 200){
                 ElMessage({
                     type: 'success',

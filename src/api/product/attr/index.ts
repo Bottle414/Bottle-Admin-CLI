@@ -52,11 +52,16 @@ export function getTags(rankId : RankId) : Promise<AttrRecive>{
     })
 }
 
-export function editTags(newInfo : Attribute) : Promise<AttrRecive>{
+export function editTags(attr_id: number | null, tag_id: number | null, rank_id: number, tag_name: string) : Promise<AttrRecive>{
     return request({
         url: TAGS_BASE_URL + API.EDIT_TAGS,
         method: 'POST',
-        data: newInfo
+        data: {
+            attr_id,
+            tag_id,
+            rank_id,
+            tag_name
+        }
     })
 }
 
@@ -64,6 +69,8 @@ export function deleteAttr(attrId : AttrId) : Promise<AttrRecive>{
     return request({
         url: TAGS_BASE_URL + API.DELETE_ATTR,
         method: 'POST',
-        data: attrId
+        data: {
+            attrId
+        }
     })
 }

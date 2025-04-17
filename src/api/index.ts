@@ -5,10 +5,8 @@ import { ElMessage } from 'element-plus';
 import useUserStore from '@/store/modules/userStore'
 
 const request = axios.create({
-    baseURL: import.meta.env.MODE === 'development'
-    ? import.meta.env.VITE_APP_BASE_API
-    : import.meta.env.VITE_SERVE, // 基础路径
-    timeout: 5000 // 超时时间
+    baseURL: '/api', // 基础路径
+    timeout: 8000 // 超时时间
 })
 
 // 请求拦截器
