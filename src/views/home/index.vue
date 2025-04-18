@@ -22,7 +22,14 @@
     import useUserStore from '@/store/modules/userStore'
     import { getTimeTextZh } from '@/utils/time'
     import { logoConfig } from '@/setting'
+    import router from '@/router'
     const userStore = useUserStore()
+
+    if (!userStore.token){
+        router.replace({
+            path: ('/login')
+        })
+    }
 </script>
 
 <style scoped>
