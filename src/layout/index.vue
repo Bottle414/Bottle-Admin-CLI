@@ -74,10 +74,16 @@
     height: 90vh;
     // background: variable.$layout-main-background;
     transition: width .3s;
+    z-index: 100;
+    background: #fff;
 
     &.open {
         width: calc(100% - variable.$layout-sidebar-width);
     }
+}
+
+.dark .layout-main{
+    background: var(--el-color-black);
 }
 
 .layout-topbar {
