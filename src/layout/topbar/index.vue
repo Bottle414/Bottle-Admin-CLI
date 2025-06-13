@@ -8,36 +8,36 @@
             <el-icon>
                 <component :is="item.meta.icon"></component>
             </el-icon>
-            {{ item.meta.title }}
+            {{ $t(item.name as string) }}
         </el-breadcrumb-item>
     </el-breadcrumb>
 
     <div class="topbar-right">
-        <el-button title="刷新" :icon="Refresh" @click="refresh" circle></el-button>
-        <el-button title="全屏" :icon="FullScreen" @click="fullscreen" circle></el-button>
+        <el-button :title="$t('refresh')" :icon="Refresh" @click="refresh" circle></el-button>
+        <el-button :title="$t('fullscreen')" :icon="FullScreen" @click="fullscreen" circle></el-button>
         <el-popover
             class="box-item"
-            title="设置"
+            :title="$t('setting.title')"
             placement="bottom"
         >
             <template #reference>
-                <el-button title="设置" :icon="Setting" circle></el-button>
+                <el-button :title="$t('setting.title')" :icon="Setting" circle></el-button>
             </template>
             <template #default>
                 <div class="setting">
-                    <span>自定义主题</span>
+                    <span>{{ $t('setting.customTheme') }}</span>
                     <el-switch v-model="customize" style="--el-switch-on-color: #13ce66;" />
                 </div>
                 <div class="setting">
-                    <span>自定义主题色</span>
+                    <span>{{ $t('setting.customThemeColor') }}</span>
                     <el-color-picker @change="changeColor" :teleported="false" v-model="color" />
                 </div>
                 <div class="setting">
                     <div style="width: 100%; display: flex; justify-content: space-between;">
-                        <span>夜间模式</span>
+                        <span>{{ $t('setting.night') }}</span>
                         <el-switch @change="changeTheme" v-model="theme"/>
                     </div>
-                    <el-checkbox v-model="defaultTheme">跟随系统</el-checkbox>
+                    <el-checkbox v-model="defaultTheme">{{ $t('setting.follow') }}</el-checkbox>
                 </div>
             </template>
         </el-popover>
@@ -52,7 +52,7 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
+                <el-dropdown-item @click="logout">{{ $t('exitLogin') }}</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

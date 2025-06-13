@@ -3,8 +3,8 @@
         <div class="card">
             <img class="headImage" :src="userStore.avatar" alt="user-headImage">
             <div class="welcomeText">
-                <h2>Hi, {{ userStore.username }} {{ getTimeTextZh() }}!</h2>
-                <h3 class="title">{{ logoConfig.title }}</h3>
+                <h2>{{ $t('hi') }} {{ userStore.username }} {{ lang == 'zh' ? getTimeTextZh() : getTimeText() }} </h2>
+                <h3 class="title">{{ $t('title') }}</h3>
             </div>
         </div>
     </el-card>
@@ -20,10 +20,11 @@
     //     userStore.getUserInfo() // 一进来就获取用户信息
     // })
     import useUserStore from '@/store/modules/userStore'
-    import { getTimeTextZh } from '@/utils/time'
+    import { getTimeTextZh, getTimeText } from '@/utils/time'
     import { logoConfig } from '@/setting'
     import router from '@/router'
     const userStore = useUserStore()
+    const lang = localStorage.getItem('lang')
 
     if (!userStore.token){
         router.replace({

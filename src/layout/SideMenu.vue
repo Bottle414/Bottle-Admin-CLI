@@ -7,7 +7,7 @@
                     <el-icon>
                         <component :is="item.meta.icon"></component>
                     </el-icon>
-                    <span>{{ item.meta.title }}</span>
+                    <span>{{ $t(item.name) }}</span>
                 </template>
             </el-menu-item>
             <!-- 至少一个子路由 -->
@@ -16,7 +16,7 @@
                     <el-icon>
                         <component :is="item.meta.icon"></component>
                     </el-icon>
-                    <span>{{ item.meta.title }}</span>
+                    <span>{{ $t(item.name) }}</span>
                 </template>
                 <SideMenu :menuList="item.children"/>
             </el-sub-menu>

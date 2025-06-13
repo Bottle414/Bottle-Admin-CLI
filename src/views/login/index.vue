@@ -1,24 +1,24 @@
 <template>
     <div class="login">
         <el-form class="login-form" :rules="rules">
-            <h1>Welcome</h1>
-            <el-form-item label="username">
+            <h1>{{ $t('welcome') }}</h1>
+            <el-form-item :label="$t('username')">
                 <el-input v-model="formData.username" :prefix-icon="User"></el-input>
             </el-form-item>
-            <el-form-item label="password">
+            <el-form-item :label="$t('password')">
                 <el-input type="password" v-model="formData.password" :prefix-icon="Lock" show-password></el-input>
             </el-form-item>
-            <el-form-item label="check">
+            <el-form-item :label="$t('check')">
                 <el-input type="password"  v-model="formData.check" :prefix-icon="Check"></el-input>
             </el-form-item>
             <el-form-item>
                 <div class="login-btn">
-                    <el-button class="btn" type="primary" :loading="loadingBtn" @click="onSubmit">Login</el-button>
-                    <el-button class="btn">Cancel</el-button>
+                    <el-button class="btn" type="primary" :loading="loadingBtn" @click="onSubmit">{{ $t('login') }}</el-button>
+                    <el-button class="btn">{{ $t('cancel') }}</el-button>
                 </div>
             </el-form-item>
             <el-form-item style="padding: 0;">
-                没有账号?<router-link :to="'/register'">注册一个！</router-link>
+                {{ $t('noAccount[0]') }}<router-link :to="'/register'">{{ $t('noAccount[1]') }}</router-link>
             </el-form-item>
         </el-form>
     </div>

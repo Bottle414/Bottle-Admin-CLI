@@ -1,20 +1,20 @@
 <template>
     <div class="register">
         <el-form class="register-form" :rules="rules">
-            <h1>Register</h1>
-            <el-form-item label="username">
+            <h1>{{ $t('register') }}</h1>
+            <el-form-item :label="$t('username')">
                 <el-input v-model="formData.username" :prefix-icon="User"></el-input>
             </el-form-item>
-            <el-form-item label="password">
+            <el-form-item :label="$t('password')">
                 <el-input type="password" v-model="formData.password" :prefix-icon="Lock" show-password></el-input>
             </el-form-item>
-            <el-form-item label="check">
+            <el-form-item :label="$t('check')">
                 <el-input type="password"  v-model="formData.check" :prefix-icon="Check"></el-input>
             </el-form-item>
             <el-form-item>
                 <div class="register-btn">
-                    <el-button class="btn" type="primary" :loading="loadingBtn" @click="onSubmit">register</el-button>
-                    <el-button class="btn" @click="toLogin">Login</el-button>
+                    <el-button class="btn" type="primary" :loading="loadingBtn" @click="onSubmit">{{ $t('register') }}</el-button>
+                    <el-button class="btn" @click="toLogin">{{ $t('login') }}</el-button>
                 </div>
             </el-form-item>
         </el-form>
