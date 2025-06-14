@@ -1,7 +1,7 @@
 <template>
     <BaseTable
         :data="userList"
-        :columns="columns"
+        :columns="userTableSchema"
         :loading="loading"
         :row-selection="true"
         :current-page="currentPage"
@@ -47,7 +47,7 @@
     </BaseTable>
 
     <ExcelButton
-        :data="columns"
+        :data="userTableSchema"
         :columns="[
             { prop: 'username', label: 'username' },
             { prop: 'role', label: 'role' },
@@ -59,19 +59,12 @@
 <script setup lang="ts">
     import { ref } from 'vue'
     import BaseTable from '@/template/basetable/BaseTable.vue'
-    import type { TableColumn } from '@/template/basetable/baseTable'
     import ExcelButton from '@/components/ExcelButton.vue'
+    import { userTableSchema } from '@/template/schemas/tables'
 
     const userList = [
         { id: 1, name: '张三', role: '管理员' },
         { id: 2, name: '李四', role: '用户' }
-    ]
-
-    const columns: TableColumn[] = [
-        { prop: 'id', label: 'ID', sortable: true },
-        { prop: 'name', label: '用户名' },
-        { prop: 'role', label: '用户角色' },
-        { prop: 'action', label: '操作', align: 'center' }
     ]
 
     const username = ref('12')
