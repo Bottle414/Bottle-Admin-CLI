@@ -2,33 +2,33 @@
     <div class='user'>
         <el-card>
             <el-form class="form" :inline="true" style="min-width: 600px;">
-                <el-form-item label="用户名">
-                    <el-input placeholder="请输入搜索用户名"></el-input>
+                <el-form-item :label="$t('username')">
+                    <el-input :placeholder="$t('placeholder.search')"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="Search">搜索</el-button>
-                    <el-button icon="CloseBold">重置</el-button>
+                    <el-button type="primary" icon="Search">{{ $t('search') }}</el-button>
+                    <el-button icon="CloseBold">{{ $t('reset') }}</el-button>
                     <!-- 加括号传入空值，避免被点击事件替代 -->
                     <ExcelButton :data="users" sheetType="成员名单"/>
                 </el-form-item>
             </el-form>
         </el-card>
         <el-card style="margin-top: 20px;">
-            <el-button type="primary" icon="Plus" @click="addUser">添加</el-button>
-            <el-button type="warning" icon="Delete" @click="bulkDelete">批量删除</el-button>
+            <el-button type="primary" icon="Plus" @click="addUser">{{ $t('add') }}</el-button>
+            <el-button type="warning" icon="Delete" @click="bulkDelete">{{ $t('delete') }}</el-button>
             <el-table :data="users" border @selection-change="handleSectionChange">
                 <el-table-column type="selection" prop="deleteList"></el-table-column>
                 <el-table-column prop="index" width="100%" type="index" align="center" label="序号"></el-table-column>
                 <el-table-column prop="id" width="100%" align="center" label="ID"></el-table-column>
-                <el-table-column prop="name" width="150%" label="用户名"></el-table-column>
-                <el-table-column prop="role" label="用户角色"></el-table-column>
-                <el-table-column prop="createTime" label="创建时间"></el-table-column>
-                <el-table-column prop="updateTime" label="更新时间"></el-table-column>
-                <el-table-column width="200%" label="操作">
+                <el-table-column prop="name" width="150%" :label="$t('username')"></el-table-column>
+                <el-table-column prop="role" :label="$t('role')"></el-table-column>
+                <el-table-column prop="createTime" :label="$t('createTime')"></el-table-column>
+                <el-table-column prop="updateTime" :label="$t('updateTime')"></el-table-column>
+                <el-table-column width="200%" :label="$t('option')">
                     <template #default="{ row }">
                         <el-button title="分配角色" type="primary" icon="User" @click=""></el-button>
-                        <el-button title="编辑" icon="Edit" @click="editUser"></el-button>
-                        <el-button title="删除" icon="Delete" color="#f8ae0d" @click=""></el-button>
+                        <el-button :title="$t('edit')" icon="Edit" @click="editUser"></el-button>
+                        <el-button :title="$t('delete')" icon="Delete" color="#f8ae0d" @click=""></el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -40,24 +40,24 @@
             </template>
             <template #default>
               <el-form>
-                <el-form-item label="用户姓名">
+                <el-form-item :label="$t('username')">
                     <el-input placeholder="请填写用户名" v-model="newUser.username"></el-input>
                 </el-form-item>
-                <el-form-item label="用户角色">
+                <el-form-item :label="$t('role')">
                     <el-checkbox-group v-model="newRole" :max="1">
                         <el-checkbox v-for="role in roles" :key="role" :label="role" :value="role">
                             {{ role }}
                           </el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-form-item label="用户密码">
-                    <el-input placeholder="请填写用户密码" v-model="newUser.password"></el-input>
+                <el-form-item :label="$t('password')">
+                    <el-input :placeholder="$t('placeholder.password')" v-model="newUser.password"></el-input>
                 </el-form-item>
               </el-form>
             </template>
             <template #footer>
-                <el-button type="success" @click="saveChanges()">保存</el-button>
-                <el-button @click="cancel">取消</el-button>
+                <el-button type="success" @click="saveChanges()">{{ $t('save') }}</el-button>
+                <el-button @click="cancel">{{ $t('cancle') }}</el-button>
             </template>
         </el-drawer>
     </div>

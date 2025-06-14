@@ -2,18 +2,18 @@
     <div class="card">
         <el-card>
             <e-form class="select-form">
-                <el-form-item style="width: 30%; min-width: 200px;" label="一级分类">
+                <el-form-item style="width: 30%; min-width: 200px;" :label="$t('ranks[0]')">
                     <!-- handler改变的值是前面那个model -->
                     <el-select :disabled="disable" v-model="categoryStore.rank1Id" @change="handler1()">
                         <el-option v-for="(rank1, index) in categoryStore.ranks1" :key="rank1.id" :label="rank1.name" :value="rank1.id"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item style="width: 30%; min-width: 200px;" label="二级分类">
+                <el-form-item style="width: 30%; min-width: 200px;" :label="$t('ranks[1]')">
                     <el-select :disabled="disable" v-model="categoryStore.rank2Id" @change="handler2()">
                         <el-option v-for="(rank2, index) in categoryStore.ranks2" :key="rank2.id" :label="rank2.name" :value="rank2.id"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item style="width: 30%; min-width: 200px;" label="三级分类">
+                <el-form-item style="width: 30%; min-width: 200px;" :label="$t('ranks[2]')">
                     <el-select :disabled="disable" v-model="categoryStore.rank3Id" @change="handler3()">
                         <el-option v-for="(rank3, index) in categoryStore.ranks3" :key="rank3.id" :label="rank3.name" :value="rank3.id"></el-option>
                     </el-select>

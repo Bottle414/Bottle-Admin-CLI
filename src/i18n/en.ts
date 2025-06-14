@@ -1,35 +1,64 @@
 export default {
+    // Global
     title: 'Garbage System',
-    login: 'Login',
-    exitLogin: 'Login out',
-    register: 'Register',
     welcome: 'Welcome',
-    username: 'Username',
-    password: 'Password',
-    check: 'Check',
-    cancel: 'Cancel',
-    noAccount: ["Don't have an account?", 'Register one!'],
     hi: 'Hi,',
     layout: 'Menu',
+    refresh: 'Refresh',
+    fullscreen: 'Fullscreen',
+  
+    // Auth
+    login: 'Login',
+    exitLogin: 'Logout',
+    register: 'Register',
+    username: 'Username',
+    password: 'Password',
+    check: 'Confirm',
+    cancel: 'Cancel',
+    noAccount: ["Don't have an account?", 'Register one!'],
+  
+    // Navigation
     home: 'Home',
     acl: 'Access Control',
-    permission: 'Permission',
-    role: 'Roles',
-    user: 'Users',
-    product: 'Products',
-    attr: 'Attributes',
-    trademark: 'Brands',
-    sku: 'SKUs',
-    spu: 'SPUs',
-    screen: 'Data Dashboard',
+    permission: 'Permissions',
+    role: 'Role',
+    user: 'User',
+    product: 'Product',
+    attr: 'Attribute',
+    trademark: 'Brand',
+    sku: 'SKU',
+    spu: 'SPU',
+    screen: 'Data Screen',
+  
+    // Settings
     setting: {
-        title: 'Setting',
-        lang: 'Language',
-        night: 'Night Theme',
-        customThemeColor: 'Custom theme color',
-        customTheme: 'Custom theme',
-        follow: 'Follow system'
+      title: 'Settings',
+      lang: 'Language',
+      night: 'Dark Mode',
+      customThemeColor: 'Custom Theme Color',
+      customTheme: 'Custom Theme',
+      follow: 'Follow System'
     },
-    refresh: 'Refresh',
-    fullscreen: 'Fullscreen'
-}  
+  
+    // Common Table/Actions
+    index: 'Index',
+    add: 'Add',
+    delete: 'Delete',
+    createTime: 'Created At',
+    updateTime: 'Updated At',
+    option: 'Actions',
+    edit: 'Edit',
+    save: 'Save',
+    search: 'Search',
+    reset: 'Reset',
+    exportExcel: 'Export to Excel',
+  
+    // Placeholders
+    placeholder: {
+      search: 'Please enter a username',
+      password: 'Please enter a password'
+    },
+  
+    // Category Levels
+    ranks: ['Primary Category', 'Secondary Category', 'Tertiary Category']
+  }  
