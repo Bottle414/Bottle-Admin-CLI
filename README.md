@@ -38,6 +38,24 @@ backend: [ManagementBackend](https://github.com/Bottle414/BackendManagement-back
 npm run dev
 ```
 
+## TODO
+
+- [x] Template table
+
+- [x] Add Excel Button
+
+- [ ] Add i18n option for whole project
+
+- [ ] Schema tables
+
+- [ ] Add router custom support
+
+- [ ] Consider: divide into moudules
+
+- [ ] Consider: Optional moudule support
+
+- [ ] Consider: CLI
+
 ## 📂 Directory Structure
 
 <pre>
