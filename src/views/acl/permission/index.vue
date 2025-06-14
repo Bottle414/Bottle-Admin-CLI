@@ -46,7 +46,7 @@
         </template>
     </BaseTable>
 
-    <ExportExcelButton
+    <ExcelButton
         :data="columns"
         :columns="[
             { prop: 'username', label: 'username' },
@@ -60,6 +60,7 @@
     import { ref } from 'vue'
     import BaseTable from '@/template/basetable/BaseTable.vue'
     import type { TableColumn } from '@/template/basetable/baseTable'
+    import ExcelButton from '@/components/ExcelButton.vue'
 
     const userList = [
         { id: 1, name: '张三', role: '管理员' },
