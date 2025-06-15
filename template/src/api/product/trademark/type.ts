@@ -1,20 +1,20 @@
-export interface BrandInfo{
-    id?: number,
-    name: string,
+export interface BrandInfo {
+    id?: number
+    name: string
     logo: string
 }
 
-export interface ReciveFrom{
-    status: number,
-    message: string,
+export interface ReciveFrom {
+    status: number
+    message: string
     data: BrandInfo
 }
 
-export interface ReciveAllFrom{
-    status: number,
-    message: string,
+export interface ReciveAllFrom {
+    status: number
+    message: string
     data: {
-        total: Total,
+        total: Total
         brands: BrandInfo[]
     }
 }

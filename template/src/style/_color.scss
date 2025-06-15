@@ -1,13 +1,4 @@
-/* _开头的文件不会被sass转义 */
 $myBlack: #333;
 $myWhite: #fff;
 $mainColor: #fa6515;
 $subColor: #f1934f;
-
-// @forward 'element-plus/theme-chalk/src/dark/var.scss' with (
-//   $bg-color: (
-//     'myWhite': #0a0a0a,
-//     '': #626aef,
-//     'overlay': #1d1e1f,
-//   )
-// );

@@ -1,14 +1,14 @@
 import { debounce } from "./debounce"
 
-// utils/chartsResize.ts
 export default function useChartResize(chart: any) {
+    // 防抖
     const resizeHandler = debounce(() => {
         chart.resize()
-    }, 1200)// 防抖
+    }, 1200)
 
     window.addEventListener('resize', resizeHandler)
 
-    // 返回销毁方法（可在组件卸载时移除监听器）
+    // 返回销毁方法
     return () => {
         window.removeEventListener('resize', resizeHandler)
     }

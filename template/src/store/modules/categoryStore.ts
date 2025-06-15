@@ -1,8 +1,6 @@
 import { getCategory1, getCategory2, getCategory3 } from "@/api/product/attr"
 import type { RanksState } from "../type"
 import { defineStore } from "pinia"
-import type { RanksForm, RankId } from "@/api/product/attr/type"
-// 分类数据全组件共享，免得涉及组件通信
 
 const useCategoryStore = defineStore('category',{
     state() : RanksState {
@@ -16,7 +14,7 @@ const useCategoryStore = defineStore('category',{
         }
     },
     actions: {
-        // 在此处获取数据
+
         async getRank1(){
             try {
                 const result = await getCategory1()

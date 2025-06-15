@@ -1,6 +1,5 @@
 <template>
     <iconify-icon :icon="`${icon}:${name}`" :style="style"></iconify-icon>
-    <!-- style会覆盖:font-size之类的属性 -->
 </template>
 
 <script lang='ts' setup>

@@ -11,17 +11,8 @@
 </template>
 
 <script lang='ts' setup>
-    // 改为在守卫获取信息
-    // import useUserStore from '@/store/modules/userStore'
-    // import { onMounted } from 'vue';
-    // const userStore = useUserStore()
-
-    // onMounted(() => {
-    //     userStore.getUserInfo() // 一进来就获取用户信息
-    // })
     import useUserStore from '@/store/modules/userStore'
     import { getTimeTextZh, getTimeText } from '@/utils/time'
-    import { logoConfig } from '@/setting'
     import router from '@/router'
     const userStore = useUserStore()
     const lang = localStorage.getItem('lang')

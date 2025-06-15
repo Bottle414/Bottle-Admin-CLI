@@ -1,5 +1,5 @@
 <template>
-    <BaseTable
+    <CurdTable
         :data="userList"
         :columns="userTableSchema"
         :loading="loading"
@@ -44,7 +44,7 @@
                 删除
             </el-button>
         </template>
-    </BaseTable>
+    </CurdTable>
 
     <ExcelButton
         :data="userTableSchema"
@@ -58,9 +58,9 @@
 
 <script setup lang="ts">
     import { ref } from 'vue'
-    import BaseTable from '@/components/basetable/BaseTable.vue'
+    import CurdTable from '@/components/curdtable/CurdTable.vue'
     import ExcelButton from '@/components/ExcelButton.vue'
-    import { userTableSchema } from '@schemas/tables'
+    import { userTableSchema } from '@/schemas/tables'
 
     const userList = [
         { id: 1, name: '张三', role: '管理员' },

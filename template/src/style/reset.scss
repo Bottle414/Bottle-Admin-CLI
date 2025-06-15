@@ -1,5 +1,4 @@
 @use './color.scss' as myColor;
-/* 使用use避免命名冲突，后续使用变量都需要加入命名空间。可以 import as *来直接使用、不带命名空间 */
 
 * {
     margin: 0;

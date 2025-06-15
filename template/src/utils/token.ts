@@ -1,4 +1,6 @@
-export const SET_TOKEN = (token : string) => {
+// TOKEN 管理相关
+
+export const SET_TOKEN = (token: string) => {
     localStorage.setItem('TOKEN', token)
 }
 

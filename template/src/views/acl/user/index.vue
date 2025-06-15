@@ -8,7 +8,6 @@
                 <el-form-item>
                     <el-button type="primary" icon="Search">{{ $t('search') }}</el-button>
                     <el-button icon="CloseBold">{{ $t('reset') }}</el-button>
-                    <!-- 加括号传入空值，避免被点击事件替代 -->
                     <ExcelButton :data="users" sheetType="成员名单"/>
                 </el-form-item>
             </el-form>
@@ -68,8 +67,7 @@
     import { register } from '@/api/user'
     import { ElMessage } from 'element-plus';
     import { deleteInfo, allUsers } from '@/api/user/index'
-    import type { ShowForm, AllUsers } from '@/api/user/type'
-    // import draggable from "vuedraggable";
+    import type { ShowForm } from '@/api/user/type'
 
     let currentPage = ref(1)
     let pageSize = ref(5)
@@ -77,27 +75,11 @@
     let drawer = ref(false)
     let newRole = ref([])
     let deleteList = ref([])
-    let roles = ref(['用户', '经理', '前台'])//TODO: 改为去后端拿，动态展示数据
-    // TODO: 写获取所有用户的接口, 动态展示数据
-    // TODO: 完成添加人员界面 并提交到后端
+    let roles = ref(['用户', '经理', '前台'])
     let users = ref<ShowForm>([
-        // {
-        //     id: 123,
-        //     name: 'pig',
-        //     role: '吉祥物',
-        //     createTime: '2025-3-30',
-        //     updateTime: '2025-3-30'
-        // },
-        // {
-        //     id: 456,
-        //     name: 'cat',
-        //     role: '吉祥物',
-        //     createTime: '2025-3-30',
-        //     updateTime: '2025-3-30'
-        // }
+       
     ])
 
-    // TODO: 绑定输入
     let newUser = ref({
         username: '',
         role: '',
@@ -127,7 +109,7 @@
         deleteList.value = selectRows.map((row : any) => row?.id)
     }
 
-    function editUser(){// 清空表单数据 OBject.assign
+    function editUser(){
         drawer.value = true
         newRole.value = []
         Object.assign(newUser.value,
@@ -142,10 +124,8 @@
         drawer.value = true
     }
 
-    // TODO: 限制类型
-    async function saveChanges(){// 提交到后端
+    async function saveChanges(){
         newUser.value.role = newRole.value[0]
-        // TODO: 写添加用户的接口
         const result = await register(newUser.value)
         if (result.status === 201){
             ElMessage({
@@ -174,7 +154,6 @@
                 type: 'success',
                 message: '删除成功'
             })
-            // 调用最新数据
         }else {
             ElMessage({
                 type: 'success',

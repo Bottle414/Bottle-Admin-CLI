@@ -57,7 +57,6 @@
 <script lang='ts' setup>
     import { ref, onMounted, nextTick } from 'vue'
     import { getAllPermissions, getPermission } from '@/api/permission/index'
-    import exportExcel from '@/utils/excel'
 
     let currentPage = ref(1)
     let totalData = ref(10)
@@ -70,8 +69,8 @@
         children: 'children',
         label: 'label',
     }
-    const data = ref<any>([])// TODO: 错误的，自关联表 + 处理 TODO: 约束类型
-    const permissionIds = ref<number[]>([])// TODO: 修复数据成功获取但不显示的问题
+    const data = ref<any>([])
+    const permissionIds = ref<number[]>([])
 
     onMounted(async() => {
         const allPermissions = await getAllPermissions()
@@ -109,7 +108,6 @@
         }
     ])
 
-    // TODO: 限制类型
     async function editRole(row : any){
         drawer.value = true
         const result = await getPermission(row.role_id)
@@ -119,10 +117,6 @@
             })
         }
         nextTick()
-    }
-    // TODO: 前端把后端返回的数据解析成树状结构
-    function turnToTree(){
-
     }
 
     function notSave(){

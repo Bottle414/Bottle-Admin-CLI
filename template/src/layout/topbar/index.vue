@@ -66,7 +66,7 @@
     import router from '@/router'
     import { ArrowRight, Refresh, FullScreen, Setting } from '@element-plus/icons-vue'
     import { ref } from 'vue'
-    // let fold = ref(true) 为了方便组件通信，直接存入仓库
+
     const settingStore = useSettingStore()
     const userStore = useUserStore()
     const route = useRoute()
@@ -74,7 +74,6 @@
     let customize = ref(false)
     let theme = ref(false)
     let defaultTheme = ref(true)
-    // TODO: 修复窗口过小时右边栏遮盖左边的问题
 
     function changeIcon(){
         settingStore.fold = !settingStore.fold
@@ -84,11 +83,10 @@
         settingStore.refresh = !settingStore.refresh
     }
 
-    function fullscreen(){// 全屏事件回调 其实f11就可以 但f11的全屏检测不到
-        // console.log(document.fullscreenElement); 查看是否全屏
+    function fullscreen(){// 全屏事件回调
         let isfull = document.fullscreenElement
         if (!isfull) {
-            document.documentElement.requestFullscreen()    // 请求全屏
+            document.documentElement.requestFullscreen()
         }else {
             document.exitFullscreen()
         }
@@ -98,12 +96,11 @@
         userStore.logout()
         router.push({
             path: '/login',
-            query: { redirect: route.path } // 再次登陆时返回上次退出的页面
+            query: { redirect: route.path }
         })
     }
 
-    function changeTheme(){
-        // 给html添加dark标签
+    function changeTheme(){// 夜间模式回调
         const html = document.documentElement
         theme.value ? html.className = 'dark' : html.className = ''
     }

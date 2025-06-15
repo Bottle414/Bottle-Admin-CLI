@@ -1,5 +1,5 @@
-import request from "..";
-import type { PermissionRecive } from "./type"
+import request from '..'
+import type { PermissionRecive } from './type'
 
 const BASE_URL = import.meta.env.VITE_SERVE + '/permission'
 enum API {
@@ -8,14 +8,14 @@ enum API {
     UPDATE_PERMISSION = '/updatePermission'
 }
 
-export function getAllPermissions() : Promise<PermissionRecive>{
+export function getAllPermissions(): Promise<PermissionRecive> {
     return request({
         url: BASE_URL + API.GET_ALL,
         method: 'GET'
     })
 }
 
-export function getPermission(roleId : number) : Promise<PermissionRecive>{
+export function getPermission(roleId: number): Promise<PermissionRecive> {
     return request({
         url: BASE_URL + API.GET_PERMISSION,
         params: {

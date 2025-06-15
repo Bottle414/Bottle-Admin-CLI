@@ -13,8 +13,8 @@ RUN npm install
 # 复制所有前端源代码到容器内
 COPY . .
 
-# 构建前端应用
-RUN npm run build  # 如果你使用 Vite，确保 `npm run build` 会生成 dist/ 文件夹
+# 构建前端应用，如果你使用 Vite，确保 `npm run build` 会生成 dist/ 文件夹
+RUN npm run build
 
 # 启动应用（如果你使用静态文件服务器，可能是这样）
 CMD ["npm", "run", "serve"]

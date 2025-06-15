@@ -1,7 +1,7 @@
 <template>
     <template v-for="item in menuList" :key="item.path">
         <!-- 无子路由 -->
-        <template v-if="!item.meta.hidden"> <!-- 不要用v-show，会先渲染，影响性能 -->
+        <template v-if="!item.meta.hidden">
             <el-menu-item v-if="!item.children" :index="item.path" @click="goRoute">
                 <template #title>
                     <el-icon>
@@ -29,15 +29,14 @@
 
     function goRoute(vc : any){
         router.push({
-            path: vc.index  // 以path作为唯一标识符使得这里以index可以跳转路由
+            path: vc.index
         })
     }
-    // TODO: 优化折叠动画
 
-    defineProps(['menuList']) // 获取layout传来的菜单项
+    defineProps(['menuList'])
     defineOptions({
         name: 'SideMenu'
-    })  // 给组件起名
+    })
 </script>
 
 <style scoped lang="scss">

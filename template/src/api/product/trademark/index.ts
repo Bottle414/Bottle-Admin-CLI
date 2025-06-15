@@ -1,4 +1,4 @@
-import request from "@/api"
+import request from '@/api'
 import type { BrandInfo, BrandId, ReciveAllFrom, ReciveFrom } from './type.ts'
 
 const BRAND_BASE = '/brand'
@@ -11,8 +11,7 @@ enum API {
 }
 
 // 获取所有品牌
-export function getAllBrands(): Promise<ReciveAllFrom>{
-    // TODO: 根据页面数获取对应数量的品牌
+export function getAllBrands(): Promise<ReciveAllFrom> {
     return request({
         url: BRAND_BASE + API.ALL_URL,
         method: 'GET'
@@ -20,7 +19,7 @@ export function getAllBrands(): Promise<ReciveAllFrom>{
 }
 
 // 获取某个品牌
-export function getBrand(brandId : BrandId): Promise<ReciveFrom>{
+export function getBrand(brandId: BrandId): Promise<ReciveFrom> {
     return request({
         url: BRAND_BASE + API.GET_URL,
         method: 'POST',
@@ -29,7 +28,7 @@ export function getBrand(brandId : BrandId): Promise<ReciveFrom>{
 }
 
 // 添加品牌
-export function addBrand(brandInfo : BrandInfo): Promise<ReciveFrom>{
+export function addBrand(brandInfo: BrandInfo): Promise<ReciveFrom> {
     console.log('add brand recive : ' + brandInfo)
     return request({
         url: BRAND_BASE + API.ADD_URL,
@@ -39,7 +38,7 @@ export function addBrand(brandInfo : BrandInfo): Promise<ReciveFrom>{
 }
 
 // 更新品牌
-export function updateBrand(brandInfo : BrandInfo): Promise<ReciveFrom>{
+export function updateBrand(brandInfo: BrandInfo): Promise<ReciveFrom> {
     return request({
         url: BRAND_BASE + API.UPDATE_URL,
         method: 'POST',
@@ -48,7 +47,7 @@ export function updateBrand(brandInfo : BrandInfo): Promise<ReciveFrom>{
 }
 
 // 删除品牌
-export function deleteBrand(brandId : BrandId): Promise<ReciveFrom>{
+export function deleteBrand(brandId: BrandId): Promise<ReciveFrom> {
     return request({
         url: BRAND_BASE + API.DELETE_URL,
         method: 'POST',

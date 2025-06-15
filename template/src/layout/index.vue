@@ -1,8 +1,6 @@
 <template>
     <div class='layout-container'>
-        <!-- element-plus自带滚动组件 -->
         <el-menu :collapse="settingStore.fold ? true : false" class="layout-sidebar" :class="{open: settingStore.fold ? false : true }" :default-active="route.path" background-color="#333" text-color="#fff" color="#fff">
-            <!-- <img src="@/assets/images/mouse.gif" alt="logo"> -->
             <Logo />
             <el-scrollbar>
                 <SideMenu :menuList="userStore.menuRoutes"/>
@@ -14,7 +12,6 @@
         </div>
 
         <div class="layout-main" :class="{open: settingStore.fold ? false : true }">
-            <!-- 封装main，运用动效 -->
             <Main/>
         </div>
     </div>
@@ -32,7 +29,7 @@
     const userStore = useUserStore()
     const settingStore = useSettingStore()
 
-    const route = useRoute()    // 获取路由url，保存菜单打开信息
+    const route = useRoute()
 
 </script>
 

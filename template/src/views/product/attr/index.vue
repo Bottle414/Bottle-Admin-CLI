@@ -3,7 +3,7 @@
         <Category :disable="!view"/>
 
         <el-card style="margin-top: 20px;">
-            <div class="watch-view" v-if="view"><!-- TODO: 改回view -->
+            <div class="watch-view" v-if="view">
                 <el-button type="primary" icon="Plus" :disabled="!categoryStore.rank3Id" @click="addAttrs">添加属性</el-button>
                 <el-table :data="attrs" border>
                     <el-table-column prop="attr_id" width="100%" align="center" type="index" label="序号"></el-table-column>
@@ -22,7 +22,7 @@
                     </el-table-column>
                 </el-table>
             </div>
-            <div class="add-view" v-if="!view"><!-- TODO: 改回!view -->
+            <div class="add-view" v-if="!view">
                 <el-form>
                     <el-form-item label="属性编辑">
                         <el-input placeholder="请输入属性名……" v-model="form.attr_name" style="width: 200px;" clearable></el-input>
@@ -30,7 +30,7 @@
                     <el-form-item>
                         <el-button icon="Plus" type="primary" :disabled="!form.attr_name" @click="addTag">添加标签</el-button>
                     </el-form-item>
-                    <el-table border :data=" attrs || form.tags"><!-- 据此动态添加标签 -->
+                    <el-table border :data=" attrs || form.tags">
                         <el-table-column type="index" label="序号" width="100%"></el-table-column>
                         <el-table-column prop="tags" label="标签名">
                             <!-- row 是form.tags -->
@@ -66,7 +66,6 @@
     let attrs = ref<Attributes>([])
     let view = ref<boolean>(true)
     let inputs = ref<any>([])
-    // let setName = ref(true) 只用一个通用值决定展示是不行的
     
     let form = ref<Attribute>({
         attr_id: null,
@@ -77,9 +76,8 @@
 
     watch(() => categoryStore.rank3Id, async() => {
         const { rank1Id, rank2Id, rank3Id } = categoryStore
-        // 变化要清空之前的查询结果
         attrs.value = []
-        if (rank3Id !== ''){// 避免清空也发请求
+        if (rank3Id !== ''){
             form.value.rank_id = rank3Id as number
             await getAttrs(rank3Id as number)
         }
@@ -105,7 +103,6 @@
                 type: 'success',
                 message: '属性删除成功'
             })
-            // 再次获取请求
             getAttrs(categoryStore.rank3Id as number)
         }else {
             ElMessage({
@@ -116,7 +113,6 @@
     }
 
     function addAttrs(){
-        // 每次点击先清空上次数据
         Object.assign(form.value, {
             attr_id: null,
             rank_id: null,
@@ -135,10 +131,8 @@
             attr_id: null,
             tag_id: null,
             tag_name: '',
-            editing: true// 后端不接收，并不影响数据传输
+            editing: true
         })
-        // tag_name也有响应性，太爽了
-        // 获取最后的组件聚焦 也是响应式数据不会立马改变，需要nextTick
         nextTick(() => {
             inputs.value[form.value.tags.length - 1]?.focus()
         })
@@ -146,33 +140,30 @@
 
     function toSet(row : Tag, index : number){
         row.editing = true
-        // console.log(inputs[index]); 直接打印显示undefined，是因为组件还没渲染完毕就被拿过来了
         nextTick(() => {
             console.log(inputs.value);
             inputs.value[index].focus()
-        })// ref可以获得组件实例 延时器虽然可以定时，但不确定代码什么时候会被执行
+        })
     }
 
-    function toLook(row : Tag, index : number){// 注意不要直接传属性，不会改变到row上
+    function toLook(row : Tag, index : number){
         console.log(row);
-        // 如果属性为空 移开以后点不到 上传也是空，要删除
         if (row.tag_name.trim() == ''){
             ElMessage({
                 type: 'error',
                 message: '标签名不能为空'
             })
-            // 删除
             form.value.tags.splice(index, 1)
             return
         }
-        // 去重
+
         form.value.tags.find(tag => {
-            if (row !== tag && row.tag_name === tag.tag_name){// 一定要记得除去自己
+            if (row !== tag && row.tag_name === tag.tag_name){
                 ElMessage({
                     type: 'error',
                     message: '标签名已存在'
                 })
-                form.value.tags.splice(index, 1)// 删除
+                form.value.tags.splice(index, 1)
                 return
             }
         })
@@ -183,7 +174,7 @@
     }
 
     function deleteTag(index : number){
-        form.value.tags.splice(index, 1)// filter会返回新数组，所以需要赋值
+        form.value.tags.splice(index, 1)
     }
 
     async function save(attr_id: number | null, tag_id: number | null, rank3Id: number, tag_name: string){

@@ -1,5 +1,5 @@
 // 表格字段配置
-import type { TableColumn } from '../basetable/baseTable'
+import type { TableColumn } from '@/components/curdtable/curdTable'
 
 export const userTableSchema: TableColumn[] = [
     { prop: 'id', label: 'ID', sortable: true },

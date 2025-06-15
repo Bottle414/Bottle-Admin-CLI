@@ -26,13 +26,11 @@
     import { User, Lock, Check } from '@element-plus/icons-vue'
     import { ElNotification } from 'element-plus'
     import router from '@/router'
-    import { useRoute } from 'vue-router'
     import useUserStore from '@/store/modules/userStore.ts'// 引入用户相关小仓库
-    import { getTimeText } from '@/utils/time.ts' // 引入时间计算文本
 
     let loadingBtn = ref(false)
     const userStore = useUserStore()
-    const route = useRoute()
+
     // TODO: 表单验证
     
     interface RuleForm {
@@ -48,7 +46,7 @@
 
     const rules = ref({
         name: [
-            { required: true, message: 'Please input your username', trigger: 'blur' }, // trigger是触发时机，失去焦点时触发
+            { required: true, message: 'Please input your username', trigger: 'blur' },
             { min: 1, max: 15, message: 'Length should be 1 to 15', trigger: 'blur' }
         ],
         password: [
@@ -61,11 +59,9 @@
     })
     
     async function onSubmit(){
-        // 叫用户仓库发请求
-        loadingBtn.value = true // 旋转图标甚至达成了防抖
+        loadingBtn.value = true
         userStore.userRegister(formData.value)
             .then(res => {
-                // 成功
                 router.push({
                     path: ('/login')
                 })
@@ -76,7 +72,6 @@
                 })
             })
             .catch(err => {
-                // 失败
                 ElNotification({
                     type: 'error',
                     title: 'register failed',
@@ -98,7 +93,7 @@
     .register{
         width: 100%;
         height: 100vh;
-        background: url('@/assets/icons/undraw_register.svg') no-repeat;  // 用@的好处：文件深度改变也不会报错
+        background: url('@/assets/icons/register.svg') no-repeat;
         background-position: 10% 50%;/* 左边、右边 */
         background-size: 40%;
     }

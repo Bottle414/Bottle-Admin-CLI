@@ -1,50 +1,25 @@
 {
-    "name": "tourism-project",
+    "name": "bottle-cli",
     "version": "0.0.0",
-    "private": true,
+    "private": false,
     "type": "module",
+    "author": "Bottle414",
+    "description": "A newbie-friendly admin system scaffold",
+    "keywords": ["template", "scaffold", "CLI", "newbie-friendly"],
     "scripts": {
-      "dev": "node bin/index.js",
-      "build": "run-p type-check \"build-only {@}\" --",
-      "build:test": "vue-tsc && vite build --mode test",
-      "build:pro": "vue-tsc && vite build --mode production",
-      "preview": "vite preview",
-      "build-only": "vite build",
-      "type-check": "vue-tsc --build"
+      "dev": "node bin/index.js"
     },
     "dependencies": {
-      "@element-plus/icons-vue": "^2.3.1",
-      "@iconify/iconify": "^3.1.1",
-      "axios": "^1.8.2",
-      "echarts": "^5.6.0",
-      "echarts-liquidfill": "^3.1.0",
-      "element-plus": "^2.9.6",
       "execa": "^9.6.0",
       "fs-extra": "^11.3.0",
-      "gem": "^2.4.3",
-      "inquirer": "^12.6.3",
-      "nanoid": "^5.1.4",
-      "nprogress": "^0.2.0",
-      "pinia": "^3.0.1",
-      "sass": "^1.85.1",
-      "vue": "^3.5.13",
-      "vue-i18n": "^11.1.5",
-      "vue-router": "^4.5.0",
-      "xlsx": "^0.18.5"
+      "inquirer": "^12.6.3"
     },
     "devDependencies": {
       "@tsconfig/node22": "^22.0.0",
       "@types/fs-extra": "^11.0.4",
       "@types/node": "^22.13.9",
-      "@vitejs/plugin-vue": "^5.2.1",
-      "@vue/tsconfig": "^0.7.0",
       "npm-run-all2": "^7.0.2",
-      "typescript": "~5.8.0",
-      "unplugin-auto-import": "^19.1.1",
-      "unplugin-vue-components": "^28.4.1",
-      "vite": "^6.2.1",
-      "vite-plugin-vue-devtools": "^7.7.2",
-      "vue-tsc": "^2.2.8"
+      "typescript": "~5.8.0"
     }
   }
   
