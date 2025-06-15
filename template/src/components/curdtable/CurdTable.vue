@@ -1,11 +1,11 @@
 <template>
     <!-- 表头搜索栏 -->
-    <div v-if="$slots.filters" class="base-table__filters">
+    <div v-if="$slots.filters" class="curd-table__filters">
         <slot name="filters" />
     </div>
 
     <!-- 工具栏插槽 -->
-    <div v-if="$slots.toolbar" class="base-table__toolbar">
+    <div v-if="$slots.toolbar" class="curd-table__toolbar">
         <slot name="toolbar" />
     </div>
 
@@ -36,7 +36,7 @@
     </el-table>
 
     <!-- 分页器 -->
-    <div class="base-table__pagination">
+    <div class="curd-table__pagination">
         <slot name="pagination">
             <el-pagination
                 v-if="showPagination"
@@ -55,10 +55,10 @@
 
 <script setup lang="ts">
     import { ElTable, ElTableColumn, ElPagination } from 'element-plus'
-    import { baseTableProps } from './baseTable'
+    import { curdTableProps } from './curdTable'
     import { computed } from 'vue'
 
-    const props = defineProps(baseTableProps)
+    const props = defineProps(curdTableProps)
     const emit = defineEmits([
         'update:currentPage',
         'update:pageSize',
@@ -73,7 +73,7 @@
 </script>
 
 <style scoped>
-    .base-crud-table__filters {
+    .curd-crud-table__filters {
         margin-bottom: 12px;
     }
 </style>

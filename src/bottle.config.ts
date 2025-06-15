@@ -4,5 +4,6 @@ export interface BottleConfig{
     useI18n: boolean,
     useCharts: boolean,
     useRouter: boolean,
-    useExport: boolean
+    useExport: boolean,
+    useCommit: boolean
 }

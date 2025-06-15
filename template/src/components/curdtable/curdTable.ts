@@ -8,7 +8,7 @@ export type TableColumn = {
     sortable?: boolean
 }
 
-export const baseTableProps = {
+export const curdTableProps = {
     data: {
         type: Array as PropType<any[]>,
         default: () => []

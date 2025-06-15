@@ -58,9 +58,9 @@
 
 <script setup lang="ts">
     import { ref } from 'vue'
-    import BaseTable from '@/template/basetable/BaseTable.vue'
+    import BaseTable from '@/components/basetable/BaseTable.vue'
     import ExcelButton from '@/components/ExcelButton.vue'
-    import { userTableSchema } from '@/template/schemas/tables'
+    import { userTableSchema } from '@schemas/tables'
 
     const userList = [
         { id: 1, name: '张三', role: '管理员' },
