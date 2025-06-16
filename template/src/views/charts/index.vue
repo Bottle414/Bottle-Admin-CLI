@@ -1,45 +1,32 @@
 <template>
-    <div class='screen' ref="screen">
-        <div class="main">
-            <div class="left">
-                <Tourist/>
-                <Sex/>
-                <Age/>
-                <!-- TODO: 优化界面 -->
-            </div>
-            <div class="center">
-                <div class="top">
-                    <Map/>
-                </div>
-                <div class="bottom">
-                    <Future/>
-                </div>
-            </div>
-            <div class="right">
-                <Popular/>
-                <Comparison/>
-                <Channel/>
-            </div>
-        </div>
+    <div class="screen" ref="screen">
+        <Tourist />
+        <Sex />
+        <Age />
+        <Map />
+        <Future />
+        <Popular />
+        <Comparison />
+        <Channel />
     </div>
 </template>
 
-<script lang='ts' setup>
-    import Sex from './components/Sex.vue'
-    import Age from './components/Age.vue'
-    import Tourist from './components/Tourist.vue'
-    import Map from './components/Map.vue'
-    import Future from './components/Future.vue'
-    import Popular from './components/Popular.vue'
-    import Comparison from './components/Comparison.vue'
-    import Channel from './components/Channel.vue'
+<script lang="ts" setup>
+    import Sex from '@/components/charts/Sex.vue'
+    import Age from '@/components/charts/Age.vue'
+    import Tourist from '@/components/charts/Tourist.vue'
+    import Map from '@/components/charts/Map.vue'
+    import Future from '@/components/charts/Future.vue'
+    import Popular from '@/components/charts/Popular.vue'
+    import Comparison from '@/components/charts/Comparison.vue'
+    import Channel from '@/components/charts/Channel.vue'
     // 获取dom
     // const screen = ref()
 
     // onMounted(() => {
     //     screen.value.style.transform = `scale(${ getScale() }) translate(-50%, -50%)`
     // })
-    
+
     // function getScale(w = 1920, h = 1980){
     //     const ww = window.innerWidth / w
     //     const wh = window.innerHeight / h
@@ -90,7 +77,8 @@
         }
     }
 
-    .left, .right {
+    .left,
+    .right {
         flex: 1;
         display: flex;
         flex-direction: column;

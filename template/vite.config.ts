@@ -42,7 +42,7 @@ export default defineConfig(({ mode }) => {
             preprocessorOptions: {
                 scss: {
                     javascriptEnabled: true,
-                    additionalData: `@use "@/style/_color.scss" as myColor;
+                    additionalData: `@use "@/style/_color.scss" as *;
                         @use "@/style/_variable.scss" as variable;`
                 }
             }

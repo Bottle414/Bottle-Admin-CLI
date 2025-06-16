@@ -27,7 +27,7 @@ export const basicRoutes = [
         component: () => import('@/views/notfound/index.vue'),
         meta: {
             title: '404',
-            hidden: true
+            hidden: false
         }
     }
 ]

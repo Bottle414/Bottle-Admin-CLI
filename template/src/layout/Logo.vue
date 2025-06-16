@@ -26,7 +26,7 @@
         }
         #title {
             flex: 2fr;
-            color: myColor.$myWhite;
+            color: $myWhite;
         }
     }
 </style>

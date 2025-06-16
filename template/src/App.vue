@@ -10,6 +10,6 @@
 <style scoped lang="scss">
     h1 {
         display: inline-block;
-        color: myColor.$myBlack;
+        color: $myBlack;
     }
 </style>

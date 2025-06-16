@@ -28,7 +28,7 @@ export default {
     trademark: '品牌管理',
     sku: 'SKU管理',
     spu: 'SPU管理',
-    screen: '数据大屏',
+    charts: '图表',
   
     // 设置相关
     setting: {

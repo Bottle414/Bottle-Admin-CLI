@@ -42,6 +42,6 @@
 <style scoped lang="scss">
     span {
         font-size: 17px;
-        color: myColor.$myWhite;
+        color: $myWhite;
     }
 </style>

@@ -23,18 +23,18 @@ export const asyncRoutes = [
                 }
             },
             {
-                name: 'acl',
-                path: '/acl',
+                name: 'table',
+                path: '/table',
                 meta: {
-                    title: '权限管理',
+                    title: '表格',
                     icon: 'Lock',
                     hidden: false
                 },
                 children: [
                     {
                         name: 'user',
-                        path: '/acl/user',
-                        component: () => import('@/views/acl/user/index.vue'),
+                        path: '/table/user',
+                        component: () => import('@/views/table/user/index.vue'),
                         meta: {
                             title: '用户管理',
                             icon: 'User'
@@ -42,8 +42,8 @@ export const asyncRoutes = [
                     },
                     {
                         name: 'role',
-                        path: '/acl/role',
-                        component: () => import('@/views/acl/role/index.vue'),
+                        path: '/table/role',
+                        component: () => import('@/views/table/role/index.vue'),
                         meta: {
                             title: '角色管理',
                             icon: 'Avatar'
@@ -51,9 +51,9 @@ export const asyncRoutes = [
                     },
                     {
                         name: 'permission',
-                        path: '/acl/permission',
+                        path: '/table/permission',
                         component: () =>
-                            import('@/views/acl/permission/index.vue'),
+                            import('@/views/table/permission/index.vue'),
                         meta: {
                             title: '菜单管理',
                             icon: 'Menu'
@@ -62,62 +62,11 @@ export const asyncRoutes = [
                 ]
             },
             {
-                name: 'product',
-                path: '/product',
+                name: 'charts',
+                path: '/charts',
+                component: () => import('@/views/charts/index.vue'),
                 meta: {
-                    title: '商品管理',
-                    icon: 'Goods',
-                    hidden: false
-                },
-                children: [
-                    {
-                        name: 'trademark',
-                        path: '/trademark',
-                        component: () =>
-                            import('@/views/product/trademark/index.vue'),
-                        meta: {
-                            title: '品牌管理',
-                            icon: 'ShoppingCart'
-                        }
-                    },
-                    {
-                        name: 'attr',
-                        path: '/attr',
-                        component: () =>
-                            import('@/views/product/attr/index.vue'),
-                        meta: {
-                            title: '属性管理',
-                            icon: 'Avatar'
-                        }
-                    },
-                    {
-                        name: 'spu',
-                        path: '/spu',
-                        component: () =>
-                            import('@/views/product/spu/index.vue'),
-                        meta: {
-                            title: 'SPU管理',
-                            icon: 'ShoppingBag'
-                        }
-                    },
-                    {
-                        name: 'sku',
-                        path: '/sku',
-                        component: () =>
-                            import('@/views/product/sku/index.vue'),
-                        meta: {
-                            title: 'SKU管理',
-                            icon: 'Menu'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'screen',
-                path: '/screen',
-                component: () => import('@/views/screen/index.vue'),
-                meta: {
-                    title: '数据大屏',
+                    title: '图表',
                     icon: 'Monitor',
                     hidden: false
                 }

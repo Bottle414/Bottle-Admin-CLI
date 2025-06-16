@@ -145,11 +145,11 @@
 }
 
 .layout-sidebar .block {
-    color: myColor.$myWhite;
+    color: $myWhite;
     padding: 25px 10%;
 
     p {
-        color: myColor.$myWhite;
+        color: $myWhite;
     }
 }
 
