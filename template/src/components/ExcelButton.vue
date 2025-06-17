@@ -4,7 +4,7 @@
 
 <script lang='ts' setup>
     import exportExcel from '@/utils/excel'
-    import { logoConfig } from '@/setting'
+    import { logoConfig } from '@/schemas/setting'
     
     defineProps(['data', 'sheetType'])
 </script>

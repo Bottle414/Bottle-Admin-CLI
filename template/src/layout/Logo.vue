@@ -6,7 +6,7 @@
 </template>
 
 <script lang='ts' setup>
-    import { logoConfig } from '@/setting'
+    import { logoConfig } from '@/schemas/logo'
     import useSettingStore from '@/store/settingStore.ts'
     const settingStore = useSettingStore()
 </script>
