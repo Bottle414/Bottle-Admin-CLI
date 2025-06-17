@@ -50,13 +50,13 @@ Features are being continuously integrated...
 
 - [x] Schema tables
 
-- [ ] Add basic charts
+- [x] Add basic charts
 
 - [ ] Permission module
 
 - [ ] Publish npm package
 
-- [ ] Add router custom support
+- [x] Add router custom support
 
 - [ ] Getting-started docs
 
