@@ -3,7 +3,7 @@
         <el-menu :collapse="settingStore.fold ? true : false" class="layout-sidebar" :class="{open: settingStore.fold ? false : true }" :default-active="route.path" background-color="#333" text-color="#fff" color="#fff">
             <Logo />
             <el-scrollbar>
-                <SideMenu :menuList="userStore.menuRoutes"/>
+                <SideMenu :menuList="userStore.menuRoutes[0].children"/>
             </el-scrollbar>
         </el-menu>
 
