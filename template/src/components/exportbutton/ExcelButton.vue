@@ -7,14 +7,11 @@
 <script lang="ts" setup>
     import * as XLSX from 'xlsx'
     import { onMounted } from 'vue'
-    import { excelButtonProps } from './excelButton'
+    import { excelButtonProps, excelButtonEmits } from './excelButton'
 
     const props = defineProps(excelButtonProps)
 
-    const emit = defineEmits<{
-        (e: 'export-success', fileName: string): void
-        (e: 'export-error', error: unknown): void
-    }>()
+    const emit = defineEmits(excelButtonEmits)
 
     let t = (s: string) => s // 默认直接返回 key
 
@@ -46,7 +43,7 @@
 
         const ws = XLSX.utils.json_to_sheet(exportData)
         const wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, props.sheetName || 'Sheet1')
+        XLSX.utils.book_append_sheet(wb, ws, props.sheetName)
 
         const time = new Date().toLocaleString().replace(/[/:\s]/g, '-')
         const fileName = props.fileName || `export-${time}.xlsx`
