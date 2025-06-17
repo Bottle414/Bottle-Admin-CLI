@@ -1,25 +1,19 @@
 <template>
     <div class="screen" ref="screen">
-        <Tourist />
-        <Sex />
-        <Age />
-        <Map />
-        <Future />
-        <Popular />
-        <Comparison />
-        <Channel />
+        <Map :option="mapOption"/>
+        <Line :option="lineOption"/>
+        <Pie :option="pieOption"/>
     </div>
 </template>
 
 <script lang="ts" setup>
-    import Sex from '@/components/charts/Sex.vue'
-    import Age from '@/components/charts/Age.vue'
-    import Tourist from '@/components/charts/Tourist.vue'
     import Map from '@/components/charts/Map.vue'
-    import Future from '@/components/charts/Future.vue'
-    import Popular from '@/components/charts/Popular.vue'
-    import Comparison from '@/components/charts/Comparison.vue'
-    import Channel from '@/components/charts/Channel.vue'
+    import { mapOption } from '@/schemas/charts/map'
+    import Line from '@/components/charts/Line.vue'
+    import { lineOption } from '@/schemas/charts/line'
+    import Pie from '@/components/charts/Pie.vue'
+    import { pieOption } from '@/schemas/charts/pie'
+
     // 获取dom
     // const screen = ref()
 
