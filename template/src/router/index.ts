@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { basicRoutes } from "./basicRoutes.ts"
 import { asyncRoutes } from "./asyncRoutes.ts"
+
 export const routes = [
 	...basicRoutes,
     ...asyncRoutes,
