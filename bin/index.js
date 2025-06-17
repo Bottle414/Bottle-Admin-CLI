@@ -1,5 +1,6 @@
 import inquirer from 'inquirer'
 import { createProject } from '../src/createProject.js'
+import { execa } from 'execa'
 
 async function CLI() {
     const dependencies = []
@@ -18,7 +19,7 @@ async function CLI() {
             useDefault,
             useTS: true,
             useI18n: true,
-            useCharts: false,
+            useCharts: true,
             useRouter: true,
             useExport: true,
             usePinia: true,
@@ -86,7 +87,20 @@ async function CLI() {
     if (!continueAnswer.continue) {
         console.log('流程中止')
     } else {
-        createProject(answers.name, dependencies, imports, plugins)
+        await createProject(answers.name, dependencies, imports, plugins)
+
+        const runAnswer = await inquirer.prompt([
+            { type: 'confirm', name: 'run', message: '是否立即启动项目？'}
+        ])
+
+        if (runAnswer) {
+            await execa('npm', ['run', 'dev'], {
+                cwd: name,
+                stdio: 'inherit'
+            })
+        }else {
+            console.log(`请运行: cd ${name} && npm run dev`)
+        }
     }
 }
 

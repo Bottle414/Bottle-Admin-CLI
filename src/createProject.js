@@ -55,6 +55,6 @@ export async function createProject(name, dependencies, imports, plugins) {
     await execa('npm', ['install'], { cwd: targetDir, stdio: 'inherit' })
 
     console.log(
-        `\n🎉 项目 ${name} 创建成功！请运行: cd ${name} && npm run dev`
+        `\n🎉 项目 ${name} 依赖安装完成，创建成功！`
     )
 }
