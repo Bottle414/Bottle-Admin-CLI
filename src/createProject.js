@@ -4,13 +4,15 @@ import { fileURLToPath } from 'url'
 import { execa } from 'execa'
 
 /**
- * @param {string} name - 项目名称
+ * @param {string} answers - 项目参数
  * @param {string[]} dependencies - 要安装的依赖
  * @param {string[]} imports - 需要插入 main.ts 的 import 语句
  * @param {string[]} plugins - 需要插入的 app.use / 挂载语句
  */
 
-export async function createProject(name, dependencies, imports, plugins) {
+export async function createProject(answers, dependencies, imports, plugins) {
+
+    const { name, useI18n, useCharts, useExport } = answers
 
     const targetDir = path.resolve(process.cwd(), name)
     let __dirname
@@ -23,6 +25,47 @@ export async function createProject(name, dependencies, imports, plugins) {
 
     // 拷贝基础模板
     await fs.copy(templateDir, targetDir)
+
+    const extraRoutes = []
+    const moduleDir = path.resolve(__dirname, '../modules')
+
+    // 拷贝额外模块
+    if (useI18n) {
+        await fs.copy(path.join(moduleDir, 'locales'), path.join(targetDir, 'src'))
+    }
+
+    if (useCharts) {
+        await fs.copy(path.join(moduleDir, 'charts'), path.join(targetDir, 'src'))
+        await fs.copy(path.join(moduleDir, 'charts/views') , path.join(targetDir, 'src/views/charts'))
+
+        const routeString = `{
+            name: 'charts',
+            path: '/charts',
+            component: () => import('@/views/charts/index.vue'),
+            meta: {
+              title: '图表',
+              icon: 'Monitor',
+              hidden: false
+            }
+        }`
+          
+        extraRoutes.push(routeString)
+    }
+
+    if (useExport) {
+        await fs.copy(
+            path.join(moduleDir, 'exportbutton'),
+            path.join(targetDir, 'src/components')
+          )          
+    }
+
+    // 动态修改路由
+    const routeFile = path.resolve(targetDir, 'src/schemas/router/asyncRoutes.ts')
+    let routeContent = await fs.readFile(routeFile, 'utf-8')
+
+    routeContent = routeContent.replace('// ~extraRoutes~', extraRoutes.join(',\n'))
+
+    await fs.writeFile(routeFile, routeContent)
 
     // 动态修改 main.ts
     const mainFile = path.resolve(targetDir, 'src/main.ts')

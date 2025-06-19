@@ -87,7 +87,7 @@ async function CLI() {
     if (!continueAnswer.continue) {
         console.log('流程中止')
     } else {
-        await createProject(answers.name, dependencies, imports, plugins)
+        await createProject(answers, dependencies, imports, plugins)
 
         const runAnswer = await inquirer.prompt([
             { type: 'confirm', name: 'run', message: '是否立即启动项目？'}

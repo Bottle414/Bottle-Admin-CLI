@@ -68,16 +68,7 @@ const asyncRoutesOption = [
             }
         ]
     },
-    {
-        name: 'charts',
-        path: '/charts',
-        component: () => import('@/views/charts/index.vue'),
-        meta: {
-            title: '图表',
-            icon: 'Monitor',
-            hidden: false
-        }
-    }
+    // ~extraRoutes~
 ]
 
 export default asyncRoutesOption
