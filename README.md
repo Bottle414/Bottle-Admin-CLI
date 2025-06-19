@@ -62,9 +62,9 @@ Features are being continuously integrated...
 
 - [ ] Consider: frontend tracking
 
-- [ ] Consider: divide into modules
+- [x] Consider: divide into modules
 
-- [ ] Consider: optional module support
+- [x] Consider: optional module support
 
 - [x] Consider: CLI
 
