@@ -31,12 +31,13 @@ export async function createProject(answers, dependencies, imports, plugins) {
 
     // 拷贝额外模块
     if (useI18n) {
-        await fs.copy(path.join(moduleDir, 'locales'), path.join(targetDir, 'src'))
+        await fs.copy(path.join(moduleDir, 'locales'), path.join(targetDir, 'src/locales'))
     }
 
     if (useCharts) {
-        await fs.copy(path.join(moduleDir, 'charts'), path.join(targetDir, 'src'))
+        await fs.copy(path.join(moduleDir, 'charts/files'), path.join(targetDir, 'src/components/charts'))
         await fs.copy(path.join(moduleDir, 'charts/views') , path.join(targetDir, 'src/views/charts'))
+        await fs.copy(path.join(moduleDir, 'charts/schemas') , path.join(targetDir, 'src/schemas/charts'))
 
         const routeString = `{
             name: 'charts',
@@ -56,7 +57,7 @@ export async function createProject(answers, dependencies, imports, plugins) {
         await fs.copy(
             path.join(moduleDir, 'exportbutton'),
             path.join(targetDir, 'src/components')
-          )          
+          )
     }
 
     // 动态修改路由

@@ -1,12 +1,18 @@
 <template>
     <div class="screen" ref="screen">
-        <Map :option="mapOption"/>
-        <Line :option="lineOption"/>
-        <Pie :option="pieOption"/>
+        <Map :option="mapOption" />
+        <Line :option="lineOption" />
+        <Pie :option="pieOption" />
     </div>
 </template>
 
 <script lang="ts" setup>
+    /*
+     *  图表使用 Echarts，配置文档如下：
+     *   https://echarts.apache.org/zh/option.html#title
+     *
+     */
+
     import Map from '@/components/charts/Map.vue'
     import { mapOption } from '@/schemas/charts/map'
     import Line from '@/components/charts/Line.vue'
