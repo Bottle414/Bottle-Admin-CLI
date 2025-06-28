@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+// bin/index.js
+
 import inquirer from 'inquirer'
 import { createProject } from '../src/createProject.js'
 import { execa } from 'execa'
