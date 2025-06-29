@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+// ~import~
 
 /* Element-plus 按需导入 */
 import AutoImport from 'unplugin-auto-import/vite'
@@ -21,18 +22,9 @@ export default defineConfig(({ mode }) => {
             }),
             Components({
                 resolvers: [ElementPlusResolver()]
-            })
-        ],
-        server: {
-            proxy: {
-                // 开发环境跨域代理
-                [env.VITE_APP_BASE_API]: {
-                    target: env.VITE_SERVE, // 目标服务器
-                    changeOrigin: true, // 是否更改 `Origin`,防止跨域拦截
-                    rewrite: (path) => path.replace(/^\/api/, '') // 重写路径（去掉 `/api`）
-                }
-            }
-        },
+            }),
+            // ~mock~
+        ],// ~proxy~
         resolve: {
             alias: {
                 '@': fileURLToPath(new URL('./src', import.meta.url))

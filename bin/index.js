@@ -7,6 +7,7 @@ import { execa } from 'execa'
 
 async function CLI() {
     const dependencies = []
+    const devDependencies = []
     const imports = []
     const plugins = []
     let answers = {}
@@ -26,7 +27,8 @@ async function CLI() {
             useRouter: true,
             useExport: true,
             usePinia: true,
-            useCommit: false
+            useCommit: false,
+            useMock: true
         }
     } else {
         const restAnswers = await inquirer.prompt([
@@ -39,6 +41,7 @@ async function CLI() {
                 name: 'useExport',
                 message: '是否启用表格导出功能？'
             },
+            { type: 'confirm', name: 'useMock', message: '是否启用 Mock？' },
             { type: 'confirm', name: 'useCommit', message: '是否配置提交流水线？' }
         ])
 
@@ -49,7 +52,7 @@ async function CLI() {
         }
     }
 
-    const { useI18n, useCharts, usePinia, useRouter, useExport } = answers
+    const { useI18n, useCharts, usePinia, useRouter, useExport, useMock } = answers
 
     if (useI18n) {
         imports.push(`import i18n from './locales'`)
@@ -81,7 +84,11 @@ async function CLI() {
         dependencies.push('xlsx')
     }
 
-    console.log('接下来将要安装', dependencies)
+    if (useMock) {
+        devDependencies.push('mockjs', 'vite-plugin-mock')
+    }
+
+    console.log('接下来将要安装', dependencies, devDependencies)
 
     const continueAnswer = await inquirer.prompt([
         { type: 'confirm', name: 'continue', message: '是否继续？' }
@@ -90,18 +97,18 @@ async function CLI() {
     if (!continueAnswer.continue) {
         console.log('流程中止')
     } else {
-        await createProject(answers, dependencies, imports, plugins)
+        await createProject(answers, dependencies, devDependencies, imports, plugins)
 
         const runAnswer = await inquirer.prompt([
-            { type: 'confirm', name: 'run', message: '是否立即启动项目？'}
+            { type: 'confirm', name: 'run', message: '是否立即启动项目？' }
         ])
 
-        if (runAnswer) {
+        if (runAnswer.run) {
             await execa('npm', ['run', 'dev'], {
                 cwd: name,
                 stdio: 'inherit'
             })
-        }else {
+        } else {
             console.log(`请运行: cd ${name} && npm run dev`)
         }
     }
