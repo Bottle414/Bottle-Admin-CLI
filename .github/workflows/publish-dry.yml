@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build-and-dry-run:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,12 +21,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build
+      - name: Permision
+        run: chmod +x bin/index.js
 
-      - name: Update version
-        run: npx changeset version
-
+      - name: Show current version
+        run: node -p "require('./package.json').version"
+      
       - name: Login to npm
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
