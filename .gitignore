@@ -31,3 +31,5 @@ coverage
 
 test
 dist
+
+*.tgz*

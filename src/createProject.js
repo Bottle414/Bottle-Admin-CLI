@@ -10,9 +10,9 @@ import { execa } from 'execa'
  * @param {string[]} plugins - 需要插入的 app.use / 挂载语句
  */
 
-export async function createProject(answers, dependencies, imports, plugins) {
+export async function createProject(answers, dependencies, devDependencies, imports, plugins) {
 
-    const { name, useI18n, useCharts, useExport } = answers
+    const { name, useI18n, useCharts, useExport, useProxy, useMock } = answers
 
     const targetDir = path.resolve(process.cwd(), name)
     let __dirname
@@ -36,8 +36,8 @@ export async function createProject(answers, dependencies, imports, plugins) {
 
     if (useCharts) {
         await fs.copy(path.join(moduleDir, 'charts/files'), path.join(targetDir, 'src/components/charts'))
-        await fs.copy(path.join(moduleDir, 'charts/views') , path.join(targetDir, 'src/views/charts'))
-        await fs.copy(path.join(moduleDir, 'charts/schemas') , path.join(targetDir, 'src/schemas/charts'))
+        await fs.copy(path.join(moduleDir, 'charts/views'), path.join(targetDir, 'src/views/charts'))
+        await fs.copy(path.join(moduleDir, 'charts/schemas'), path.join(targetDir, 'src/schemas/charts'))
 
         const routeString = `{
             name: 'charts',
@@ -49,7 +49,7 @@ export async function createProject(answers, dependencies, imports, plugins) {
               hidden: false
             }
         }`
-          
+
         extraRoutes.push(routeString)
     }
 
@@ -57,7 +57,14 @@ export async function createProject(answers, dependencies, imports, plugins) {
         await fs.copy(
             path.join(moduleDir, 'exportbutton'),
             path.join(targetDir, 'src/components')
-          )
+        )
+    }
+
+    if (useMock) {
+        await fs.copy(
+            path.join(moduleDir, 'mock'),
+            path.join(targetDir, 'src/mock')
+        )
     }
 
     // 动态修改路由
@@ -77,6 +84,31 @@ export async function createProject(answers, dependencies, imports, plugins) {
 
     await fs.writeFile(mainFile, mainContent)
 
+    // 动态修改 vite.config.ts
+    const viteFile = path.resolve(targetDir, './vite.config.ts')
+    let viteContent = await fs.readFile(viteFile, 'utf-8')
+    const proxy = useProxy ? `
+    server: {
+        proxy: {
+            // 开发环境跨域代理
+            [env.VITE_APP_BASE_API]: {
+                target: env.VITE_SERVE, // 目标服务器
+                changeOrigin: true, // 是否更改 Origin, 防止跨域拦截
+                rewrite: (path) => path.replace(/^\/api/, '') // 重写路径 (去掉 '/api')
+            }
+        }
+    },` : ''
+    const mock = useMock ? `viteMockServe({
+                mockPath: './src/mock',       // mock 文件夹
+                watchFiles: true
+            }),` : ''
+
+    viteContent = viteContent.replace('// ~proxy~', proxy)
+    viteContent = viteContent.replace('// ~mock~', mock)
+    viteContent = viteContent.replace('// ~import~', useMock ? "import { viteMockServe } from 'vite-plugin-mock'" : '')
+
+    await fs.writeFile(viteFile, viteContent, 'utf-8')
+
     // 更新 package.json 依赖
     const pkgPath = path.resolve(targetDir, 'package.json')
     const pkg = await fs.readJson(pkgPath)
@@ -88,15 +120,13 @@ export async function createProject(answers, dependencies, imports, plugins) {
     pkg.type = pkg.type || 'module'
 
     pkg.dependencies = pkg.dependencies || {}
-
-    for (const dep of dependencies) {
-        pkg.dependencies[dep] = 'latest'
-    }
+    pkg.devDependencies = pkg.devDependencies || {}
 
     await fs.writeJson(pkgPath, pkg, { spaces: 2 })
 
     // 安装依赖
-    await execa('npm', ['install'], { cwd: targetDir, stdio: 'inherit' })
+    await execa('npm', ['install', ...dependencies, '--save'], { cwd: targetDir, stdio: 'inherit' })
+    await execa('npm', ['install', ...devDependencies, '--save-dev'], { cwd: targetDir, stdio: 'inherit' })
 
     console.log(
         `\n🎉 项目 ${name} 依赖安装完成，创建成功！`
