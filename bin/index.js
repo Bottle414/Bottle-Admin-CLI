@@ -4,12 +4,9 @@
 import inquirer from 'inquirer'
 import { createProject } from '../src/createProject.js'
 import { execa } from 'execa'
+import config from '../config.js'
 
 async function CLI() {
-    const dependencies = []
-    const devDependencies = []
-    const imports = []
-    const plugins = []
     let answers = {}
 
     const { name, useDefault } = await inquirer.prompt([
@@ -17,18 +14,12 @@ async function CLI() {
         { type: 'confirm', name: 'useDefault', message: '使用默认配置？', default: true }
     ])
 
+    // 是否启用默认配置项
     if (useDefault) {
         answers = {
             name,
             useDefault,
-            useTS: true,
-            useI18n: true,
-            useCharts: true,
-            useRouter: true,
-            useExport: true,
-            usePinia: true,
-            useCommit: false,
-            useMock: true
+            ...config.defaultOptions
         }
     } else {
         const { features } = await inquirer.prompt([
@@ -36,31 +27,12 @@ async function CLI() {
                 type: 'checkbox',
                 name: 'features',
                 message: '请选择要启用的功能模块(可多选)',
-                choices: [
-                    { name: 'i18n 国际化', value: 'useI18n', checked: true },
-                    { name: 'ECharts 图表', value: 'useCharts' },
-                    { name: 'Pinia 状态管理', value: 'usePinia', checked: true },
-                    { name: 'Vue-Router 路由', value: 'useRouter', checked: true },
-                    { name: '表格导出功能', value: 'useExport' },
-                    { name: 'Mock 数据', value: 'useMock' },
-                    { name: 'Node.js 后端', value: 'useServe', checked: true },
-                    { name: '开发流水线', value: 'useCommit' },
-                    { name: '--------------- 分隔线 ---------------'}
-                ],
+                choices: config.features,
             },
         ])
 
         const restAnswers = {}
-        for (const key of [
-            'useI18n',
-            'useCharts',
-            'usePinia',
-            'useRouter',
-            'useExport',
-            'useMock',
-            'useServe',
-            'useCommit',
-        ]) {
+        for (const key of config.options) {
             restAnswers[key] = features.includes(key)
         }
 
@@ -73,43 +45,12 @@ async function CLI() {
         console.log(answers);
     }
 
-    const { useI18n, useCharts, usePinia, useRouter, useExport, useMock } = answers
+    // 添加模块依赖、导入、安装
+    const { deps, devDeps, imports, plugins } = resolveDeps(
+        answers, config
+    )
 
-    if (useI18n) {
-        imports.push(`import i18n from './locales'`)
-        plugins.push(`app.use(i18n)`)
-        dependencies.push('vue-i18n')
-    } else {
-        await fs.remove(path.resolve(targetDir, 'src/locales'))
-    }
-
-    if (useCharts) {
-        imports.push(`import * as echarts from 'echarts'`)
-        plugins.push(`app.config.globalProperties.$echarts = echarts`)
-        dependencies.push('echarts')
-    }
-
-    if (usePinia) {
-        imports.push(`import pinia from './store'`)
-        plugins.push(`app.use(pinia)`)
-        dependencies.push('pinia')
-    }
-
-    if (useRouter) {
-        imports.push(`import router from './router'`)
-        plugins.push(`app.use(router)`)
-        dependencies.push('vue-router')
-    }
-
-    if (useExport) {
-        dependencies.push('xlsx')
-    }
-
-    if (useMock) {
-        devDependencies.push('mockjs', 'vite-plugin-mock')
-    }
-
-    console.log('接下来将要安装 dependencies: ', dependencies,'devDependencies: ', devDependencies)
+    console.log('接下来将要安装 dependencies: ', deps, 'devDependencies: ', devDeps)
 
     const continueAnswer = await inquirer.prompt([
         { type: 'confirm', name: 'continue', message: '是否继续？' }
@@ -118,8 +59,10 @@ async function CLI() {
     if (!continueAnswer.continue) {
         console.log('流程中止')
     } else {
-        await createProject(answers, dependencies, devDependencies, imports, plugins)
+        // 创建项目
+        await createProject(answers, deps, devDeps, imports, plugins)
 
+        // 立即启动
         const runAnswer = await inquirer.prompt([
             { type: 'confirm', name: 'run', message: '是否立即启动项目？' }
         ])
@@ -133,6 +76,26 @@ async function CLI() {
             console.log(`请运行: cd ${name} && npm run dev`)
         }
     }
+}
+
+// 添加模块依赖、导入、安装
+function resolveDeps(answers, config) {
+    const deps = []
+    const devDeps = []
+    const imports = []
+    const plugins = []
+
+    for (const [key, value] of Object.entries(answers)) {
+        if (value) {
+            // 存在相关配置，则添加
+            config.dependencies[key]?.forEach(dep => deps.push(dep))
+            config.devDependencies[key]?.forEach(dep => devDeps.push(dep))
+            config.imports[key] && imports.push(config.imports[key])
+            config.plugins[key] && plugins.push(config.plugins[key])
+        }
+    }
+
+    return { deps, devDeps, imports, plugins }
 }
 
 CLI()
