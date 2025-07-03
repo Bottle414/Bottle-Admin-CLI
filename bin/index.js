@@ -14,7 +14,7 @@ async function CLI() {
 
     const { name, useDefault } = await inquirer.prompt([
         { type: 'input', name: 'name', message: '项目名称:' },
-        { type: 'confirm', name: 'useDefault', message: '使用默认配置？' }
+        { type: 'confirm', name: 'useDefault', message: '使用默认配置？', default: true }
     ])
 
     if (useDefault) {
@@ -31,25 +31,46 @@ async function CLI() {
             useMock: true
         }
     } else {
-        const restAnswers = await inquirer.prompt([
-            { type: 'confirm', name: 'useI18n', message: '是否启用国际化？' },
-            { type: 'confirm', name: 'useCharts', message: '是否启用 ECharts？' },
-            { type: 'confirm', name: 'usePinia', message: '是否启用 Pinia？' },
-            { type: 'confirm', name: 'useRouter', message: '是否启用动态路由？' },
+        const { features } = await inquirer.prompt([
             {
-                type: 'confirm',
-                name: 'useExport',
-                message: '是否启用表格导出功能？'
+                type: 'checkbox',
+                name: 'features',
+                message: '请选择要启用的功能模块(可多选)',
+                choices: [
+                    { name: 'i18n 国际化', value: 'useI18n', checked: true },
+                    { name: 'ECharts 图表', value: 'useCharts' },
+                    { name: 'Pinia 状态管理', value: 'usePinia', checked: true },
+                    { name: 'Vue-Router 路由', value: 'useRouter', checked: true },
+                    { name: '表格导出功能', value: 'useExport' },
+                    { name: 'Mock 数据', value: 'useMock' },
+                    { name: 'Node.js 后端', value: 'useServe', checked: true },
+                    { name: '开发流水线', value: 'useCommit' },
+                    { name: '--------------- 分隔线 ---------------'}
+                ],
             },
-            { type: 'confirm', name: 'useMock', message: '是否启用 Mock？' },
-            { type: 'confirm', name: 'useCommit', message: '是否配置提交流水线？' }
         ])
+
+        const restAnswers = {}
+        for (const key of [
+            'useI18n',
+            'useCharts',
+            'usePinia',
+            'useRouter',
+            'useExport',
+            'useMock',
+            'useServe',
+            'useCommit',
+        ]) {
+            restAnswers[key] = features.includes(key)
+        }
 
         answers = {
             name,
             useDefault,
             ...restAnswers
         }
+
+        console.log(answers);
     }
 
     const { useI18n, useCharts, usePinia, useRouter, useExport, useMock } = answers
@@ -88,7 +109,7 @@ async function CLI() {
         devDependencies.push('mockjs', 'vite-plugin-mock')
     }
 
-    console.log('接下来将要安装', dependencies, devDependencies)
+    console.log('接下来将要安装 dependencies: ', dependencies,'devDependencies: ', devDependencies)
 
     const continueAnswer = await inquirer.prompt([
         { type: 'confirm', name: 'continue', message: '是否继续？' }
