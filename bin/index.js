@@ -6,6 +6,17 @@ import { createProject } from '../src/createProject.js'
 import { execa } from 'execa'
 import config from '../config.js'
 
+// commander 相关
+import { program } from 'commander'
+import { cliHelp } from '../lib/core/help.js'
+import { cliCommander } from '../lib/core/commander.js'
+
+cliHelp(program)
+cliCommander(program)
+
+program.parse(program.argv)
+
+// 交互式命令
 async function CLI() {
     let answers = {}
 
